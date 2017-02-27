@@ -1,0 +1,23 @@
+{
+  "name": "sos1617-12",
+  "version": "0.0.0",
+  "description": "Express server for F02",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SOS1617/SOS1617-12.git"
+  },
+  "author": "@jomaher",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SOS1617/SOS1617-12/issues"
+  },
+  "homepage": "https://github.com/SOS1617/SOS1617-12#readme",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
+}
