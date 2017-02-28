@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/SOS1617/SOS1617-12#readme",
   "dependencies": {
+    "dateformat": "^2.0.0",
     "express": "^4.14.1"
   }
 }
