@@ -185,20 +185,18 @@ app.put(BASE_API_PATH + "/free-software-stats", function(request, response) {
 //PUT over a single resource
 app.put(BASE_API_PATH + "free-software-stats/:university/:year", function(request, response) {
     var updatedStat = request.body;
-    var university = request.params.university;
-    var year = request.params.year;
     if (!updatedStat) {
         console.log("WARNING: New PUT request to /free-software-stats/ without stat, sending 400...");
         response.sendStatus(400); // bad request
     }
     else {
-        console.log("INFO: New PUT request to /free-software-stats/" + university + "/" + year + " with data " + JSON.stringify(updatedStat, 2, null));
+        console.log("INFO: New PUT request to /free-software-stats/" + updatedStat.university + "/" + updatedStat.year + " with data " + JSON.stringify(updatedStat, 2, null));
         if (!updatedStat.university || !updatedStat.year || !updatedStat.province || !updatedStat.diffusion || !updatedStat.ranking) {
             console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         }
         else {
-            dbfs.find({"university": university, "year": year}).toArray(function(err, statsBeforeInsertion) {
+            dbfs.find({"university": updatedStat.university, "year": updatedStat.year}).toArray(function(err, statsBeforeInsertion) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
@@ -206,20 +204,13 @@ app.put(BASE_API_PATH + "free-software-stats/:university/:year", function(reques
                 else {
                    
                     if (statsBeforeInsertion.length > 0) {
-                        dbfs.updateOne(
-                            {"university": university,"year": year},
-                            {$set:{
-                                "province": updatedStat.province,
-                                "diffusion": updatedStat.diffusion,
-                                "ranking": updatedStat.ranking
-                            }
-                                
-                            });
-                        console.log("INFO: Modifying stat with university " + university + " with data " + JSON.stringify(updatedStat, 2, null));
-                        response.send(updatedStat); // return the updated contact
+                        dbfs.updateOne({"university": updatedStat.university, "year": updatedStat.year},
+                        {$set:{"province": updatedStat.province, "diffusion": updatedStat.diffusion, "ranking": updatedStat.ranking}});
+                        console.log("INFO: Modifying stat with university " + updatedStat.university + " with data " + JSON.stringify(updatedStat, 2, null));
+                        response.send(updatedStat); // return the updated stat
                     }
                     else {
-                        console.log("WARNING: There are not any stat with university " + university);
+                        console.log("WARNING: There are not any stat with university " + updatedStat.university);
                         response.sendStatus(404); // not found
                     }
                 }
