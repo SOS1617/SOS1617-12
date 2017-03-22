@@ -203,7 +203,7 @@ app.put(BASE_API_PATH + "free-software-stats/:university/:year", function(reques
                 else {
                    
                     if (statsBeforeInsertion.length > 0) {
-                        dbfs.update({"university": updatedStat.university, "year": updatedStat.year},updatedStat);
+                        dbfs.updateOne({"university": updatedStat.university, "year": updatedStat.year},updatedStat);
                         console.log("INFO: Modifying stat with university " + updatedStat.university + " with data " + JSON.stringify(updatedStat, 2, null));
                         response.send(updatedStat); // return the updated contact
                     }
