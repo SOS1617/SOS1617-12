@@ -16,8 +16,7 @@ var app = express();
 app.use(bodyParser.json()); //use default json enconding/decoding
 app.use(helmet()); //improve security
 
-<<<<<<< HEAD
-=======
+
 ///////////////////API FREE SOFTWARE STATS (www.portalprogramas.com)////////////
 
 var mdbfsURL = "mongodb://test:test@ds127988.mlab.com:27988/sandbox";
@@ -283,10 +282,7 @@ app.delete(BASE_API_PATH + "/free-software-stats/:university/:year", function(re
     }
 });
 
-////////////////////////////////////////////////////////////////////////////////
 
-
->>>>>>> 26abef8877a2b3cd730adfe273f76ac25d87b8ac
 app.use("/",express.static(path.join(__dirname, "public")));
 
 app.get("/time", (req, res) => {
