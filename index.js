@@ -203,9 +203,10 @@ app.put(BASE_API_PATH + "free-software-stats/:university/:year", function(reques
                 else {
                    
                     if (statsBeforeInsertion.length > 0) {
-                        dbfs.updateOne({"university": updatedStat.university, "year": updatedStat.year},updatedStat);
+                        dbfs.updateOne({"university": updatedStat.university, "year": updatedStat.year},
+                        {$set:{"province": updatedStat.province, "diffusion": updatedStat.diffusion, "ranking": updatedStat.ranking}});
                         console.log("INFO: Modifying stat with university " + updatedStat.university + " with data " + JSON.stringify(updatedStat, 2, null));
-                        response.send(updatedStat); // return the updated contact
+                        response.send(updatedStat); // return the updated stat
                     }
                     else {
                         console.log("WARNING: There are not any stat with university " + updatedStat.university);
