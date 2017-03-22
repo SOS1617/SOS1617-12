@@ -705,7 +705,7 @@ app.put(BASE_API_PATH + "/academic-rankings", function(request, response) {
     response.sendStatus(405); // method not allowed
 });
 
-//NO FUNCIONA
+
 //PUT over a single resource
 app.put(BASE_API_PATH + "/academic-rankings/:university/:year", function(request, response) {
     var university = request.params.university;

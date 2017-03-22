@@ -73,7 +73,7 @@ DELETE a un recurso (p.e. “/towns/seville”) borra ese recurso
 curl -v -XDELETE -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/academic-rankings/Universidad%20De%20Granada/2015'
 
 PUT a un recurso (p.e. “/towns/seville”) actualiza ese recurso 
-curl -v -XPUT -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": "2016", "province": "Granada", "world-position": "100", "country-position": "99" }' 'https://sos1617-12.herokuapp.com/api/v1/academic-rankings/Universidad%20De%20Granada/2016'
+curl -v -XPUT -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": "2015", "province": "Granada", "world-position": "100", "country-position": "99" }' 'https://sos1617-12.herokuapp.com/api/v1/academic-rankings/Universidad%20De%20Granada/2015'
 
 POST a un recurso (p.e. “/towns/seville”) debe dar un error de método no permitido.
 curl -v -XPOST -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": "2015", "province": "Granada", "world-position": "100", "country-position": "1" }' 'https://sos1617-12.herokuapp.com/api/v1/academic-rankings/Universidad%20De%20Granada/2015'
