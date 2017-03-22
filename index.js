@@ -39,12 +39,6 @@ MongoClientES.connect(mdbURLes,{native_parser:true},function (err,database){
     });
 });
 
-// Base GET
-app.get("/", function (request, response) {
-    console.log("INFO: Redirecting to /economics");
-    response.redirect(301, BASE_API_PATH + "/economics");
-});
-
 //loadInitialData
 app.get(BASE_API_PATH + "/loadInitialData", function (request, response) {
     dbes.find({}).toArray((err,results) => {
