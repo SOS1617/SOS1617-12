@@ -19,10 +19,12 @@ app.use(helmet()); //improve security
 
 ///////////////////API ECONOMICS STATS//////////////////////////////////////////
 
+var MongoClientES = require('mongodb').MongoClient;
+
 var mdbURLes = "mongodb://adrviljur:adrviljur@ds139370.mlab.com:39370/sandboxdb-adrviljur";                //dirección de la bd de mongodb
 var dbes;         //para seleccionar luego la coleccion a usar
 var economics;
-MongoClient.connect(mdbURLes,{native_parser:true},function (err,database){
+MongoClientES.connect(mdbURLes,{native_parser:true},function (err,database){
     if (err){
         console.log("CAN NOT CONNECT TO DB: "+err);
         process.exit(1);
@@ -301,12 +303,12 @@ MongoClient.connect(mdbfsURL, {
 
     dbfs = database.collection("free-software-stats");
     //Start server
-    app.listen(port, () => {
-        console.log("Server initialized on port " + port);
-    }).on("error", (e) => {
-        console.log("Server can not be started: " + e);
-        process.exit(1);
-    });
+    // app.listen(port, () => {
+    //     console.log("Server initialized on port " + port);
+    // }).on("error", (e) => {
+    //     console.log("Server can not be started: " + e);
+    //     process.exit(1);
+    // });
 });
 
 //Load Initial Data
