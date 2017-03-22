@@ -38,7 +38,7 @@ MongoClientES.connect(mdbURLes,{native_parser:true},function (err,database){
         process.exit(1);
     });
 });
-
+//Borado
 //loadInitialData
 app.get(BASE_API_PATH + "/loadInitialData", function (request, response) {
     dbes.find({}).toArray((err,results) => {
