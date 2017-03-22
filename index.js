@@ -454,7 +454,7 @@ app.put(BASE_API_PATH + "/free-software-stats", function(request, response) {
 
 //NO FUNCIONA
 //PUT over a single resource
-app.put(BASE_API_PATH + "free-software-stats/:university/:year", function(request, response) {
+app.put(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
     var updatedStat = request.body;
     if (!updatedStat) {
         console.log("WARNING: New PUT request to /free-software-stats/ without stat, sending 400...");
@@ -479,6 +479,7 @@ app.put(BASE_API_PATH + "free-software-stats/:university/:year", function(reques
                         {$set:{"province": updatedStat.province, "diffusion": updatedStat.diffusion, "ranking": updatedStat.ranking}});
                         console.log("INFO: Modifying stat with university " + updatedStat.university + " with data " + JSON.stringify(updatedStat, 2, null));
                         response.send(updatedStat); // return the updated stat
+                        response.sendStatus(201);
                     }
                     else {
                         console.log("WARNING: There are not any stat with university " + updatedStat.university);
@@ -706,7 +707,7 @@ app.put(BASE_API_PATH + "/academic-rankings", function(request, response) {
 
 //NO FUNCIONA
 //PUT over a single resource
-app.put(BASE_API_PATH + "academic-rankings/:university/:year", function(request, response) {
+app.put(BASE_API_PATH + "/academic-rankings/:university/:year", function(request, response) {
     var university = request.params.university;
     var year = request.params.year;
     var updatedStat = request.body;
