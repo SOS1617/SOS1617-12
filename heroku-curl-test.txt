@@ -61,28 +61,28 @@ curl -v -XGET -H 'Content-type: application/json'  'https://sos1617-12.herokuapp
 /////////////////////// API academic-rankings-stats ///////////////////////////////
 
 GET a la ruta base (p.e. “/towns”) devuelve una lista con todos los recursos
-curl -v -XGET -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/acedemic-rankings'
+curl -v -XGET -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/academic-rankings'
 
 POST a la ruta base (p.e. “/towns”) crea un nuevo recurso
-curl -v -XPOST -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": "2015", "province": "Granada", "world-position": "100", "country-position": "1" }' 'https://sos1617-12.herokuapp.com/api/v1/acedemic-rankings'
+curl -v -XPOST -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": "2015", "province": "Granada", "world-position": "100", "country-position": "1" }' 'https://sos1617-12.herokuapp.com/api/v1/academic-rankings'
 
 GET a un recurso (p.e. “/towns/seville”) devuelve ese recurso 
-curl -v -XGET -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/acedemic-rankings/Universidad%20De%20Granada/2015'
+curl -v -XGET -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/academic-rankings/Universidad%20De%20Granada/2015'
 
 DELETE a un recurso (p.e. “/towns/seville”) borra ese recurso
-curl -v -XDELETE -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/acedemic-rankings/Universidad%20De%20Granada/2015'
+curl -v -XDELETE -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/academic-rankings/Universidad%20De%20Granada/2015'
 
 PUT a un recurso (p.e. “/towns/seville”) actualiza ese recurso 
-curl -v -XPUT -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": "2016", "province": "Granada", "world-position": "100", "country-position": "99" }' 'https://sos1617-12.herokuapp.com/api/v1/acedemic-rankings/Universidad%20De%20Granada/2016'
+curl -v -XPUT -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": "2016", "province": "Granada", "world-position": "100", "country-position": "99" }' 'https://sos1617-12.herokuapp.com/api/v1/academic-rankings/Universidad%20De%20Granada/2016'
 
 POST a un recurso (p.e. “/towns/seville”) debe dar un error de método no permitido.
-curl -v -XPOST -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": "2015", "province": "Granada", "world-position": "100", "country-position": "1" }' 'https://sos1617-12.herokuapp.com/api/v1/acedemic-rankings/Universidad%20De%20Granada/2015'
+curl -v -XPOST -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": "2015", "province": "Granada", "world-position": "100", "country-position": "1" }' 'https://sos1617-12.herokuapp.com/api/v1/academic-rankings/Universidad%20De%20Granada/2015'
 
 PUT a la ruta base (p.e. “/towns”) debe dar un error de método no permitido.
-curl -v -XPUT -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": "2015", "province": "Granada", "world-position": "100", "country-position": "99" }' 'https://sos1617-12.herokuapp.com/api/v1/acedemic-rankings'
+curl -v -XPUT -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": "2015", "province": "Granada", "world-position": "100", "country-position": "99" }' 'https://sos1617-12.herokuapp.com/api/v1/academic-rankings'
 
 DELETE a la ruta base (p.e. “/towns”) borra todos los recursos
-curl -v -XDELETE -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/acedemic-rankings'
+curl -v -XDELETE -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/academic-rankings'
 
 loadInitialData
-curl -v -XGET -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/acedemic-rankings/loadInitialData'
+curl -v -XGET -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/academic-rankings/loadInitialData'
