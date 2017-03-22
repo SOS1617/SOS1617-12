@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/SOS1617/SOS1617-12#readme",
   "dependencies": {
+    "body-parser": "^1.17.1",
     "dateformat": "^2.0.0",
-    "express": "^4.14.1"
+    "express": "^4.15.2",
+    "helmet": "^3.5.0",
+    "mongodb": "^2.2.25"
   }
 }
