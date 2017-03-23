@@ -303,7 +303,7 @@ MongoClient.connect(mdbfsURL, {
     }
 
     dbfs = database.collection("free-software-stats");
-    //Start server
+    //Start server here
     // app.listen(port, () => {
     //     console.log("Server initialized on port " + port);
     // }).on("error", (e) => {
@@ -452,7 +452,6 @@ app.put(BASE_API_PATH + "/free-software-stats", function(request, response) {
     response.sendStatus(405); // method not allowed
 });
 
-//NO FUNCIONA
 //PUT over a single resource
 app.put(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
     var updatedStat = request.body;
@@ -491,6 +490,7 @@ app.put(BASE_API_PATH + "/free-software-stats/:university/:year", function(reque
     }
 });
 
+//Fix 404
 //DELETE over a collection
 app.delete(BASE_API_PATH + "/free-software-stats", function(request, response) {
     console.log("INFO: New DELETE request to /free-software-stats");
