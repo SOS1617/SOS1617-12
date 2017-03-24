@@ -19,6 +19,7 @@ app.use(helmet()); //improve security
 
 ///////////////////API ECONOMICS STATS//////////////////////////////////////////
 
+
 var MongoClientES = require('mongodb').MongoClient;
 
 var mdbURLes = "mongodb://adrviljur:adrviljur@ds139370.mlab.com:39370/sandboxdb-adrviljur";                //dirección de la bd de mongodb
@@ -39,16 +40,9 @@ MongoClientES.connect(mdbURLes,{native_parser:true},function (err,database){
         process.exit(1);
     });
 });
-
-// Base GET
-// app.get("/", function (request, response) {
-//     console.log("INFO: Redirecting to /economics");
-//     response.redirect(301, BASE_API_PATH + "/economics");
-// });
-
-
+//Borado
 //loadInitialData
-app.get(BASE_API_PATH + "/loadInitialData", function (request, response) {
+app.get(BASE_API_PATH + "/economics/loadInitialData", function (request, response) {
     dbes.find({}).toArray((err,results) => {
         if(err){
             console.log("ERROR:"+err);
@@ -117,12 +111,12 @@ app.get(BASE_API_PATH + "/economics", function (request, response) {
     });
     
 // GET a single resource //NOFUNCA
-app.get(BASE_API_PATH + "/economics/:province/:year", function (request, response) {
+app.get(BASE_API_PATH + "/economics/:province", function (request, response) {
     var province = request.params.province;
     var year = request.params.year;
     
     console.log("INFO: New request to /economics/"+province+"/"+year);
-    dbes.find({"province": province, "year": year}).toArray((err,results) => {
+    dbes.find({"province": province}).toArray((err,results) => {
         if(err){
             console.log("ERROR:"+err);
         }    
@@ -191,7 +185,7 @@ app.put(BASE_API_PATH + "/economics/", function(request, response) {
 
 //NO FUNCIONA
 //PUT over a single resource
-app.put(BASE_API_PATH + "/economics/:province/:year", function(request, response) {
+app.put(BASE_API_PATH + "/economics/:province/", function(request, response) {
     var updatedStat = request.body;
     if (!updatedStat) {
         console.log("WARNING: New PUT request to /economics/ without stat, sending 400...");
@@ -204,7 +198,7 @@ app.put(BASE_API_PATH + "/economics/:province/:year", function(request, response
             response.sendStatus(422); // unprocessable entity
         }
         else {
-            dbes.find({"province": updatedStat.province, "year": updatedStat.year}).toArray(function(err, statsBeforeInsertion) {
+            dbes.find({"province": updatedStat.province}).toArray(function(err, statsBeforeInsertion) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
@@ -212,8 +206,8 @@ app.put(BASE_API_PATH + "/economics/:province/:year", function(request, response
                 else {
                    
                     if (statsBeforeInsertion.length > 0) {
-                        dbes.updateOne({"province": updatedStat.province, "year": updatedStat.year},
-                        {$set:{"expensivepeu": updatedStat.expensivepeu, "expensiveid": updatedStat.expensiveid, "employersid": updatedStat.employersid}});
+                        dbes.updateOne({"province": updatedStat.province},
+                        {$set:{"year": updatedStat.year, "expensivepeu": updatedStat.expensivepeu, "expensiveid": updatedStat.expensiveid, "employersid": updatedStat.employersid}});
                         console.log("INFO: Modifying stat with province " + updatedStat.province + " with data " + JSON.stringify(updatedStat, 2, null));
                         response.send(updatedStat); // return the updated stat
                     }
@@ -252,16 +246,16 @@ app.delete(BASE_API_PATH + "/economics", function(request, response) {
 
 
 //DELETE over a single resource
-app.delete(BASE_API_PATH + "/economics/:province/:year", function(request, response) {
+app.delete(BASE_API_PATH + "/economics/:province", function(request, response) {
     var province = request.params.province;
     var year = request.params.year;
-    if (!province || !year) {
+    if (!province) {
         console.log("WARNING: New DELETE request to /economics/:province/:year without province or year, sending 400...");
         response.sendStatus(400); // bad request
     }
     else {
         console.log("INFO: New DELETE request to /economics/" + province + "/" +year);
-        dbes.deleteOne({"province": province,"year": year}, {}, function(err, numRemoved) {
+        dbes.deleteOne({"province": province}, {}, function(err, numRemoved) {
             if (err) {
                 console.error('WARNING: Error removing data from DB');
                 response.sendStatus(500); // internal server error
