@@ -283,7 +283,7 @@ app.delete(BASE_API_PATH + "/economics/:province", function(request, response) {
 
 ///////////////////API FREE SOFTWARE STATS (www.portalprogramas.com)////////////
 
-var fs = require("./fs-stats.js")
+var fs = require("./fs-stats.js");
 //Load Initial Data
 app.get(BASE_API_PATH + "/free-software-stats/loadInitialData", fs.loadInitialData);
 
