@@ -24,6 +24,7 @@ var MongoClientES = require('mongodb').MongoClient;
 var mdbURLes = "mongodb://adrviljur:adrviljur@ds139370.mlab.com:39370/sandboxdb-adrviljur";                //dirección de la bd de mongodb
 var dbes;         //para seleccionar luego la coleccion a usar
 var economics;
+
 MongoClientES.connect(mdbURLes,{native_parser:true},function (err,database){
     if (err){
         console.log("CAN NOT CONNECT TO DB: "+err);
