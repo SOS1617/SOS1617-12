@@ -341,11 +341,11 @@ app.get(BASE_API_PATH + "/free-software-stats/loadInitialData", function(request
             "ranking": "7"
         }];
         dbfs.insert(initialStats);
-        response.send(201);
+        response.sendStatus(201);
     }
     else {
         console.log('INFO: DB has ' + stats.length + ' stats ');
-        response.send(200);
+        response.sendStatus(200);
     }
 });
 });
@@ -489,16 +489,14 @@ app.put(BASE_API_PATH + "/free-software-stats/:university/:year", function(reque
 //DELETE over a collection
 app.delete(BASE_API_PATH + "/free-software-stats", function(request, response) {
     console.log("INFO: New DELETE request to /free-software-stats");
-    dbfs.remove({}, {
-        multi: true
-    }, function(err, numRemoved) {
+    dbfs.deleteMany({}, function(err, num) {
         if (err) {
             console.error('WARNING: Error removing data from DB');
             response.sendStatus(500); // internal server error
         }
         else {
-            if (numRemoved > 0) {
-                console.log("INFO: All the stats (" + numRemoved + ") have been succesfully deleted, sending 204...");
+            if (num.deletedCount > 0) {
+                console.log("INFO: All the stats (" + num.deletedCount + ") have been succesfully deleted, sending 204...");
                 response.sendStatus(204); // no content
             }
             else {
