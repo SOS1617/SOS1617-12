@@ -592,11 +592,11 @@ app.get(BASE_API_PATH + "/academic-rankings/loadInitialData", function(request, 
             "country-position": 15
         }];
         dbar.insert(initialStats);
-        response.send(201);
+        response.sendStatus(201);
     }
     else {
         console.log('INFO: DB has ' + stats.length + ' stats ');
-        response.send(200);
+        response.sendStatus(200);
     }
 });
 });
@@ -740,26 +740,23 @@ app.put(BASE_API_PATH + "/academic-rankings/:university/:year", function(request
 //DELETE over a collection
 app.delete(BASE_API_PATH + "/academic-rankings", function(request, response) {
     console.log("INFO: New DELETE request to /academic-rankings");
-    dbar.remove({}, {
-        multi: true
-    }, function(err, numRemoved) {
-        if (err) {
+    dbar.remove({}, false, function(err, result){
+        if (err){
             console.error('WARNING: Error removing data from DB');
-            response.sendStatus(500); // internal server error
+            response.sendStatus(500);
         }
-        else {
-            if (numRemoved.deletedCount > 0) {
-                console.log("INFO: All the stats (" + numRemoved.deletedCount + ") have been succesfully deleted, sending 204...");
-                response.sendStatus(204); // no content
+        result = JSON.parse(result);
+            if (result.n > 0) {
+                console.log("INFO: All the stats (" + result.n + ") have been succesfully deleted, sending 204...");
+                response.sendStatus(204);
             }
             else {
                 console.log("WARNING: There are no rankings to delete");
                 response.sendStatus(404); // not found
             }
         }
-    });
+    );
 });
-
 
 //DELETE over a single resource
 app.delete(BASE_API_PATH + "/academic-rankings/:university/:year", function(request, response) {
@@ -771,15 +768,17 @@ app.delete(BASE_API_PATH + "/academic-rankings/:university/:year", function(requ
     }
     else {
         console.log("INFO: New DELETE request to /academic-rankings/" + university + "/" +year);
-        dbar.deleteOne({"university": university,"year": year}, {}, function(err, numRemoved) {
+        dbar.remove({"university": university,"year": year}, {}, function(err, result) {
             if (err) {
                 console.error('WARNING: Error removing data from DB');
                 response.sendStatus(500); // internal server error
             }
             else {
-                console.log("INFO: Stats removed: " + numRemoved.deletedCount);
-                if (numRemoved.deletedCount === 1) {
-                    console.log("INFO: The ranking with university " + university + " has been succesfully deleted, sending 204...");
+                result = JSON.parse(result);
+                console.log("INFO: Stats removed: " + result.n);
+                if (result.n === 1) {
+                    console.log("INFO: The ranking with university " + university
+                    + " from year " + year + " has been succesfully deleted, sending 204...");
                     response.sendStatus(204); // no content
                 }
                 else {
