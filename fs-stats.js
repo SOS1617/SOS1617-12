@@ -113,6 +113,35 @@ module.exports.getSingleResource = function(request, response) {
     }
 };
 
+// GET a year or university
+module.exports.getStat = function(request, response) {
+    var resource = request.params.resource;
+    if (!resource) {
+        console.log("WARNING: New GET request to /free-software-stats/ without year or university, sending 400...");
+        response.sendStatus(400); // bad request
+    }
+    else {
+        console.log("INFO: New GET request to /free-software-stats/" + resource);
+        dbfs.find({ "$or" : [ {"year": resource}, {"university": resource} ] }).toArray(function(err, filteredStats) {
+            if (err) {
+                console.error('WARNING: Error getting data from DB');
+                response.sendStatus(500); // internal server error
+            }
+            else {
+                if (filteredStats.length > 0) {
+                    var fs = filteredStats; //since we expect to have exactly ONE stat with this name
+                    console.log("INFO: Sending stats: " + JSON.stringify(fs, 2, null));
+                    response.send(fs);
+                }
+                else {
+                    console.log("WARNING: There are not stats");
+                    response.sendStatus(404); // not found
+                }
+            }
+        });
+    }
+};
+
 //POST over a collection
 module.exports.postCollection = function(request, response) {
     var newStat = request.body;
@@ -147,7 +176,7 @@ module.exports.postCollection = function(request, response) {
             });
         }
     }
-}
+};
 
 
 //POST over a single resource
@@ -205,14 +234,14 @@ module.exports.putSingleResource = function(request, response) {
 //DELETE over a collection
 module.exports.deleteCollection = function(request, response) {
     console.log("INFO: New DELETE request to /free-software-stats");
-    dbfs.deleteMany({}, function(err, num) {
+    dbfs.deleteMany({}, function(err, numRemoved) {
         if (err) {
             console.error('WARNING: Error removing data from DB');
             response.sendStatus(500); // internal server error
         }
         else {
-            if (num.deletedCount > 0) {
-                console.log("INFO: All the stats (" + num.deletedCount + ") have been succesfully deleted, sending 204...");
+            if (numRemoved.deletedCount > 0) {
+                console.log("INFO: All the stats (" + numRemoved.deletedCount + ") have been succesfully deleted, sending 204...");
                 response.sendStatus(204); // no content
             }
             else {
@@ -254,4 +283,31 @@ module.exports.deleteSingleResource = function(request, response) {
     }
 };
 
-///////////////////////////////////////////////////////////////////////////
+//DELETE over a year or university
+module.exports.deleteResource = function(request, response) {
+    var resource = request.params.resource;
+    if (!resource) {
+        console.log("WARNING: New DELETE request to /free-software-stats/:university/:year without university or year, sending 400...");
+        response.sendStatus(400); // bad request
+    }
+    else {
+        console.log("INFO: New DELETE request to /free-software-stats/" + resource);
+        dbfs.deleteMany({ "$or" : [ {"year": resource}, {"university": resource} ] }, {}, function(err, numRemoved) {
+            if (err) {
+                console.error('WARNING: Error removing data from DB');
+                response.sendStatus(500); // internal server error
+            }
+            else {
+                console.log("INFO: Stats removed: " + numRemoved.deletedCount);
+                if (numRemoved.deletedCount > 0) {
+                    console.log("INFO: All the stats whit " + resource + " has been succesfully deleted, sending 204...");
+                    response.sendStatus(204); // no content
+                }
+                else {
+                    console.log("WARNING: There are no stats to delete");
+                    response.sendStatus(404); // not found
+                }
+            }
+        });
+    }
+};

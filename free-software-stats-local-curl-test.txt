@@ -24,3 +24,16 @@ curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api
 
 loadInitialData
 curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/free-software-stats/loadInitialData'
+
+//////////////////////////////////////////////////////////////////////
+GET a year
+curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/free-software-stats/2015'
+
+GET a university
+curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/free-software-stats/Universidad%20De%20Granada/'
+
+DELETE over a year
+curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api/v1/free-software-stats/2016'
+
+DELETE over a university
+curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api/v1/free-software-stats/Universidad%20De%20Sevilla'

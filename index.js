@@ -293,6 +293,10 @@ app.get(BASE_API_PATH + "/free-software-stats", fs.getCollection);
 // GET a single resource
 app.get(BASE_API_PATH + "/free-software-stats/:university/:year", fs.getSingleResource);
 
+
+// GET a year or university
+app.get(BASE_API_PATH + "/free-software-stats/:resource", fs.getStat);
+
 //POST over a collection
 app.post(BASE_API_PATH + "/free-software-stats", fs.postCollection);
 
@@ -312,6 +316,9 @@ app.delete(BASE_API_PATH + "/free-software-stats", fs.deleteCollection);
 
 //DELETE over a single resource
 app.delete(BASE_API_PATH + "/free-software-stats/:university/:year", fs.deleteSingleResource);
+
+//DELETE over a year or university
+app.delete(BASE_API_PATH + "/free-software-stats/:resource", fs.deleteResource);
 
 ///////////////////////////////////////////////////////////////////////////
 
