@@ -1,5 +1,5 @@
 var MongoClientAR = require('mongodb').MongoClient;
-var mdbesURLAR = "mongodb://sos1617-12:academic@ds137530.mlab.com:37530/economics-stats";
+var mdbesURLAR = "mongodb://adrviljur:adrviljur@ds137530.mlab.com:37530/economics-stats";
 var BASE_API_PATH = "/api/v1";
 var dbes;
 
