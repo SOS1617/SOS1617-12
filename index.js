@@ -81,6 +81,6 @@ app.get("/time", (req, res) => {
     res.send("<html><body><h1>" + '"' + dateFormat("dS mmmm 'of' yyyy, HH:MM:ss") + '"' + "</h1></body><html>");
 });
 
-
+app.listen(port);
 
 console.log("--------------------------------------");
