@@ -31,22 +31,22 @@ module.exports.register_AR_api = function(app) {
 
                 var initialStats = [{
                     "university": "Universidad De Sevilla",
-                    "year": "2016",
+                    "year": 2016,
                     "province": "Sevilla",
-                    "world-position": 401,
-                    "country-position": 15
+                    "world_position": 401,
+                    "country_position": 15
                 }, {
                     "university": "Universidad De Granada",
-                    "year": "2016",
+                    "year": 2016,
                     "province": "Granada",
-                    "world-position": 401,
-                    "country-position": 15
+                    "world_position": 401,
+                    "country_position": 15
                 }, {
                     "university": "Universidad De Sevilla",
-                    "year": "2015",
+                    "year": 2015,
                     "province": "Sevilla",
-                    "world-position": 401,
-                    "country-position": 15
+                    "world_position": 401,
+                    "country_position": 15
                 }];
                 dbar.insert(initialStats);
                 response.sendStatus(201);
@@ -77,7 +77,7 @@ module.exports.register_AR_api = function(app) {
     // GET a single resource
     app.get(BASE_API_PATH + "/academic-rankings/:university/:year", function(request, response) {
         var university = request.params.university;
-        var year = request.params.year;
+        var year = Number(request.params.year);
         if (!university || !year) {
             console.log("WARNING: New GET request to /free-software-stats/ without name or year, sending 400...");
             response.sendStatus(400); // bad request
@@ -116,7 +116,12 @@ module.exports.register_AR_api = function(app) {
         }
         else {
             console.log("INFO: New POST request to /academic-rankings with body: " + JSON.stringify(newStat, 2, null));
-            if (!newStat.university || !newStat.year || !newStat.province) {
+            if (!newStat.university 
+                || !newStat.year 
+                || !newStat.province
+                || !newStat.country_position
+                || !newStat.world_position
+                ) {
                 console.log("WARNING: The stat " + JSON.stringify(newStat, 2, null) + " is not well-formed, sending 422...");
                 response.sendStatus(422); // unprocessable entity
             }
@@ -165,7 +170,7 @@ module.exports.register_AR_api = function(app) {
     //PUT over a single resource
     app.put(BASE_API_PATH + "/academic-rankings/:university/:year", function(request, response) {
         var university = request.params.university;
-        var year = request.params.year;
+        var year = Number(request.params.year);
         var updatedStat = request.body;
         if (!updatedStat) {
             console.log("WARNING: New PUT request to /academic-rankings/ without stat, sending 400...");
@@ -194,8 +199,8 @@ module.exports.register_AR_api = function(app) {
                             }, {
                                 $set: {
                                     "province": updatedStat.province,
-                                    "world-position": updatedStat.worldposition,
-                                    "country-position": updatedStat.worldposition
+                                    "world_position": updatedStat.world_position,
+                                    "country_position": updatedStat.country_position
                                 }
                             });
                             console.log("INFO: Modifying stat with university " + updatedStat.university + " with data " + JSON.stringify(updatedStat, 2, null));
@@ -236,7 +241,7 @@ module.exports.register_AR_api = function(app) {
     //DELETE over a single resource
     app.delete(BASE_API_PATH + "/academic-rankings/:university/:year", function(request, response) {
         var university = request.params.university;
-        var year = request.params.year;
+        var year = Number(request.params.year);
         if (!university || !year) {
             console.log("WARNING: New DELETE request to /academic-rankings/:university/:year without university or year, sending 400...");
             response.sendStatus(400); // bad request
