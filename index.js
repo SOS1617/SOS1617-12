@@ -19,7 +19,7 @@ app.use(helmet()); //improve security
 
 ///////////////////API ECONOMICS STATS//////////////////////////////////////////
 
-var es = require('./es-stats');
+var es = require('./e-stats');
 
 es.register_AR_api(app);
 
