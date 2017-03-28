@@ -153,7 +153,7 @@ module.exports.postCollection = function(request, response) {
         console.log("INFO: New POST request to /free-software-stats with body: " + JSON.stringify(newStat, 2, null));
         if (!newStat.university || !newStat.year || !newStat.province || !newStat.ranking || !newStat.diffusion) {
             console.log("WARNING: The stat " + JSON.stringify(newStat, 2, null) + " is not well-formed, sending 422...");
-            response.sendStatus(400); // unprocessable entity--> new bad request
+            response.sendStatus(400); // unprocessable entity 422 --> new bad request
         }
         else {
             dbfs.find({"university": newStat.university, "year": newStat.year}).toArray(function(err, statsBeforeInsertion) {
@@ -204,7 +204,7 @@ module.exports.putSingleResource = function(request, response) {
         console.log("INFO: New PUT request to /free-software-stats/" + updatedStat.university + "/" + updatedStat.year + " with data " + JSON.stringify(updatedStat, 2, null));
         if (!updatedStat.university || !updatedStat.year || !updatedStat.province || !updatedStat.diffusion || !updatedStat.ranking) {
             console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) + " is not well-formed, sending 422...");
-            response.sendStatus(422); // unprocessable entity
+            response.sendStatus(400); // unprocessable entity 422 --> new 400
         }
         else {
             dbfs.find({"university": updatedStat.university, "year": updatedStat.year}).toArray(function(err, statsBeforeInsertion) {
@@ -219,7 +219,7 @@ module.exports.putSingleResource = function(request, response) {
                         {$set:{"province": updatedStat.province, "diffusion": updatedStat.diffusion, "ranking": updatedStat.ranking}});
                         console.log("INFO: Modifying stat with university " + updatedStat.university + " with data " + JSON.stringify(updatedStat, 2, null));
                         response.send(updatedStat); // return the updated stat
-                        response.sendStatus(201);
+                        //no devolver aqui el codigo de estado, peta el servidor
                     }
                     else {
                         console.log("WARNING: There are not any stat with university " + updatedStat.university);
