@@ -153,7 +153,7 @@ module.exports.postCollection = function(request, response) {
         console.log("INFO: New POST request to /free-software-stats with body: " + JSON.stringify(newStat, 2, null));
         if (!newStat.university || !newStat.year || !newStat.province || !newStat.ranking || !newStat.diffusion) {
             console.log("WARNING: The stat " + JSON.stringify(newStat, 2, null) + " is not well-formed, sending 422...");
-            response.sendStatus(422); // unprocessable entity
+            response.sendStatus(400); // unprocessable entity--> new bad request
         }
         else {
             dbfs.find({"university": newStat.university, "year": newStat.year}).toArray(function(err, statsBeforeInsertion) {
@@ -195,8 +195,6 @@ module.exports.putCollection = function(request, response) {
 
 //PUT over a single resource
 module.exports.putSingleResource = function(request, response) {
-//    var university = request.params.university;
-//    var year = request.params.year;
     var updatedStat = request.body;
     if (!updatedStat) {
         console.log("WARNING: New PUT request to /free-software-stats/ without stat, sending 400...");
@@ -232,6 +230,7 @@ module.exports.putSingleResource = function(request, response) {
         }
     }
 };
+
 
 //DELETE over a collection
 module.exports.deleteCollection = function(request, response) {
