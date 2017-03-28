@@ -15,7 +15,9 @@ var app = express();
 app.use(bodyParser.json()); //use default json enconding/decoding
 app.use(helmet()); //improve security
 
-
+app.get(BASE_API_PATH +"/tests", (req,res) => {
+      res.sendFile(path.join(__dirname,"public/tests.html"));                       // Otra manera
+}); 
 
 ///////////////////API ECONOMICS STATS//////////////////////////////////////////
 
