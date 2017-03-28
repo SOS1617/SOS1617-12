@@ -16,6 +16,15 @@ module.exports.register_AR_api = function(app) {
         dbes = database.collection("economics-stats");
     });
 
+
+    function comprobarAPIKEY(apikey){
+        if (apikey != 123456789){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     //Load Initial Data
     app.get(BASE_API_PATH + "/economics-stats/loadInitialData", function(request, response) {
         dbes.find({}).toArray(function(err, stats) {
@@ -70,17 +79,33 @@ module.exports.register_AR_api = function(app) {
     // GET a collection
     app.get(BASE_API_PATH + "/economics-stats", function(request, response) {
         console.log("INFO: New GET request to /economics-stats");
-
-        dbes.find({}).toArray(function(err, stats) {
-            if (err) {
-                console.error('WARNING: Error getting data from DB');
-                response.sendStatus(500); // internal server error
-            }
-            else {
-                console.log("INFO: Sending stats: " + JSON.stringify(stats, 2, null));
-                response.send(stats);
-            }
-        });
+        
+        // Comprobación de APIKEY
+        if (request.query.apikey == null){
+            response.sendStatus(401);
+            console.log("INFO: APIKEY unprovided");
+        }
+        else{
+            var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
+            if (!comprobar){
+                console.log("INFO: Invalid APIKEY");
+                response.sendStatus(403);
+            }else{
+                console.log("INFO: APIKEY access granted");
+        //  Fin de la comprobación de APIKEY
+        //  El código normal de la petición GET está dentro de este else que se ejecuta si comprobar==true. Si no se mete aqui, salta expcepción
+                    dbes.find({}).toArray(function(err, stats) {
+                        if (err) {
+                            console.error('WARNING: Error getting data from DB');
+                            response.sendStatus(500); // internal server error
+                        }
+                        else {
+                            console.log("INFO: Sending stats: " + JSON.stringify(stats, 2, null));
+                            response.send(stats);
+                        }
+                    }
+        
+        );}}
     });
 
     // GET a single resource
@@ -168,7 +193,6 @@ module.exports.register_AR_api = function(app) {
         console.log("WARNING: New PUT request to /economics-stats, sending 405...");
         response.sendStatus(405); // method not allowed
     });
-
 
     //PUT over a single resource
     app.put(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {

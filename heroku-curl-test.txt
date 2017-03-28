@@ -13,13 +13,13 @@ DELETE a un recurso
 curl -v -XDELETE -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/economics-stats/Sevilla/2009'
 
 PUT a un recurso
-curl -v -XPUT -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": 2009, "expensive_peu": 999999, "expensive_id": 99999, "employers_id": 9999 }' 'https://sos1617-12.herokuapp.com/api/v1/economics-stats/Sevilla/2009'
+curl -v -XPUT -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": 2009, "expensive_peu": 9, "expensive_id": 99999, "employers_id": 9999 }' 'https://sos1617-12.herokuapp.com/api/v1/economics-stats/Sevilla/2009'
 
 POST a un recurso  debe dar un error de método no permitido.
-curl -v -XPOST -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": 2009, "expensive_peu": 999999, "expensive_id": 99999, "employers_id": 9999 }' 'https://sos1617-12.herokuapp.com/api/v1/economics-stats/Sevilla/2009'
+curl -v -XPOST -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": 2009, "expensive_peu": 9, "expensive_id": 99999, "employers_id": 9999 }' 'https://sos1617-12.herokuapp.com/api/v1/economics-stats/Sevilla/2009'
 
 PUT a la ruta base debe dar un error de método no permitido.
-curl -v -XPUT -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": 2009, "expensive_peu": 999999, "expensive_id": 99999, "employers_id": 9999 }' 'https://sos1617-12.herokuapp.com/api/v1/economics-stats'
+curl -v -XPUT -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": 2009, "expensive_peu": 9, "expensive_id": 99999, "employers_id": 9999 }' 'https://sos1617-12.herokuapp.com/api/v1/economics-stats'
 
 DELETE a la ruta base
 curl -v -XDELETE -H 'Content-type: application/json'  'https://sos1617-12.herokuapp.com/api/v1/economic-statss'
