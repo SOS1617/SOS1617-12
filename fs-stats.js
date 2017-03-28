@@ -195,10 +195,16 @@ module.exports.putCollection = function(request, response) {
 
 //PUT over a single resource
 module.exports.putSingleResource = function(request, response) {
+    var university = request.params.university;
+    var year = request.params.year;
     var updatedStat = request.body;
     if (!updatedStat) {
         console.log("WARNING: New PUT request to /free-software-stats/ without stat, sending 400...");
         response.sendStatus(400); // bad request
+    }
+    if (university !== updatedStat.university || year !== updatedStat.year){
+            console.log("WARNING: New PUT request to /economics-stats/ don´t match URL and body...");
+            response.sendStatus(400); // bad request
     }
     else {
         console.log("INFO: New PUT request to /free-software-stats/" + updatedStat.university + "/" + updatedStat.year + " with data " + JSON.stringify(updatedStat, 2, null));
