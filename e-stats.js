@@ -32,30 +32,30 @@ module.exports.register_AR_api = function(app) {
                 var initialStats = [{
                 "province": "Sevilla",
                 "year": 2009,
-                "expensivepeu": 1831040,
-                "expensiveid": 1726765,
-                "employersid": 24767
+                "expensive_peu": 1831040,
+                "expensive_id": 1726765,
+                "employers_id": 24767
             },
             {
                 "province": "Valencia",
                 "year": 2008,
-                "expensivepeu": 216369,
-                "expensiveid": 226156,
-                "employersid": 3577
+                "expensive_peu": 216369,
+                "expensive_id": 226156,
+                "employers_id": 3577
             },
             {
                 "province": "Madrid",
                 "year": 2007,
-                "expensivepeu": 1646351,
-                "expensiveid": 3584130,
-                "employersid": 49973
+                "expensive_peu": 1646351,
+                "expensive_id": 3584130,
+                "employers_id": 49973
             },
             {
                 "province": "Barcelona",
                 "year": 2008,
-                "expensivepeu": 541125,
-                "expensiveid": 41522,
-                "employersid": 8521
+                "expensive_peu": 541125,
+                "expensive_id": 41522,
+                "employers_id": 8521
             }];
                 dbes.insert(initialStats);
                 response.sendStatus(201);
@@ -205,9 +205,9 @@ module.exports.register_AR_api = function(app) {
                                 "year": year
                             }, {
                                 $set: {
-                                    "expensive-peu": updatedStat.expensive_peu,
-                                    "expensive-id": updatedStat.expensive_id,
-                                    "employers-id": updatedStat.employers_id
+                                    "expensive_peu": updatedStat.expensive_peu,
+                                    "expensive_id": updatedStat.expensive_id,
+                                    "employers_id": updatedStat.employers_id
                                 }
                             });
                             console.log("INFO: Modifying stat with province " + updatedStat.province + " with data " + JSON.stringify(updatedStat, 2, null));
