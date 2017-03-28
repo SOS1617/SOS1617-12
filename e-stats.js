@@ -155,7 +155,6 @@ module.exports.register_AR_api = function(app) {
         }
     });
 
-
     //POST over a single resource
     app.post(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
         var province = request.params.province;
@@ -178,6 +177,10 @@ module.exports.register_AR_api = function(app) {
         var updatedStat = request.body;
         if (!updatedStat) {
             console.log("WARNING: New PUT request to /economics-stats/ without stat, sending 400...");
+            response.sendStatus(400); // bad request
+        }
+        if (province !== updatedStat.province || year !== updatedStat.year){
+            console.log("WARNING: New PUT request to /economics-stats/ don´t match URL and body...");
             response.sendStatus(400); // bad request
         }
         else {
