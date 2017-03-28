@@ -16,6 +16,8 @@ module.exports.register_AR_api = function(app) {
         dbes = database.collection("economics-stats");
     });
 
+    
+
     //Load Initial Data
     app.get(BASE_API_PATH + "/economics-stats/loadInitialData", function(request, response) {
         dbes.find({}).toArray(function(err, stats) {
@@ -168,7 +170,6 @@ module.exports.register_AR_api = function(app) {
         console.log("WARNING: New PUT request to /economics-stats, sending 405...");
         response.sendStatus(405); // method not allowed
     });
-
 
     //PUT over a single resource
     app.put(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
