@@ -86,7 +86,7 @@ module.exports.register_AR_api = function(app) {
     // GET a single resource
     app.get(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
         var province = request.params.province;
-        var year = request.params.year;
+        var year = parseInt(request.params.year);
         if (!province || !year) {
             console.log("WARNING: New GET request to /economics-stats/ without province or year, sending 400...");
             response.sendStatus(400); // bad request
@@ -159,7 +159,7 @@ module.exports.register_AR_api = function(app) {
     //POST over a single resource
     app.post(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
         var province = request.params.province;
-        var year = request.params.year;
+        var year = parseInt(request.params.year);
         console.log("WARNING: New POST request to /economics-stats/" + province + "/" + year + ", sending 405...");
         response.sendStatus(405); // method not allowed
     });
@@ -174,7 +174,7 @@ module.exports.register_AR_api = function(app) {
     //PUT over a single resource
     app.put(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
         var province = request.params.province;
-        var year = request.params.year;
+        var year = parseInt(request.params.year);
         var updatedStat = request.body;
         if (!updatedStat) {
             console.log("WARNING: New PUT request to /economics-stats/ without stat, sending 400...");
@@ -245,7 +245,7 @@ module.exports.register_AR_api = function(app) {
     //DELETE over a single resource
     app.delete(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
         var province = request.params.province;
-        var year = request.params.year;
+        var year = parseInt(request.params.year);
         if (!province || !year) {
             console.log("WARNING: New DELETE request to /economics-stats/:province/:year without province or year, sending 400...");
             response.sendStatus(400); // bad request
@@ -277,5 +277,5 @@ module.exports.register_AR_api = function(app) {
         }
     });
     
-    console.log("Registered API academic-ranikings-stats");
+    console.log("Registered API economics-stats");
 };
