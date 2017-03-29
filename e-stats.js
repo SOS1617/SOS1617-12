@@ -81,16 +81,16 @@ module.exports.register_AR_api = function(app) {
         console.log("INFO: New GET request to /economics-stats");
         
         // Comprobación de APIKEY
-        if (request.query.apikey == null){
-            response.sendStatus(401);
-            console.log("INFO: APIKEY unprovided");
-        }
-        else{
-            var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
-            if (!comprobar){
-                console.log("INFO: Invalid APIKEY");
-                response.sendStatus(403);
-            }else{
+//        if (request.query.apikey == null){
+//            response.sendStatus(401);
+//            console.log("INFO: APIKEY unprovided");
+//        }
+//        else{
+//            var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
+//            if (!comprobar){
+//                console.log("INFO: Invalid APIKEY");
+//                response.sendStatus(403);
+//            }else{
                 console.log("INFO: APIKEY access granted");
         //  Fin de la comprobación de APIKEY
         //  El código normal de la petición GET está dentro de este else que se ejecuta si comprobar==true. Si no se mete aqui, salta expcepción
@@ -105,7 +105,7 @@ module.exports.register_AR_api = function(app) {
                         }
                     }
         
-        );}}
+        );
     });
 
     // GET a single resource
