@@ -112,57 +112,57 @@ module.exports.register_AR_api = function(app) {
             });
         }
     });
-    
+
     //GET over a filtered collection
     app.get(BASE_API_PATH + "/academic-rankings/:param0", function(request, response) {
         var param0 = request.params.param0;
         console.log("INFO: New GET request to /free-software-stats/" + param0);
-            if (Number(param0)) {
-                var year = Number(param0);
-                dbar.find({
-                    "year": year
-                }).toArray(function(err, filteredStats) {
-                    if (err) {
-                        console.error('WARNING: Error getting data from DB');
-                        response.sendStatus(500); // internal server error
+        if (Number(param0)) {
+            var year = Number(param0);
+            dbar.find({
+                "year": year
+            }).toArray(function(err, filteredStats) {
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    response.sendStatus(500); // internal server error
+                }
+                else {
+                    if (filteredStats.length > 0) {
+                        console.log("INFO: Sending stats: " + JSON.stringify(filteredStats, 2, null));
+                        response.send(filteredStats);
                     }
                     else {
-                        if (filteredStats.length > 0) {
-                            console.log("INFO: Sending stats: " + JSON.stringify(filteredStats, 2, null));
-                            response.send(filteredStats);
-                        }
-                        else {
-                            console.log("WARNING: There are not stats");
-                            response.sendStatus(404); // not found
-                        }
+                        console.log("WARNING: There are not stats");
+                        response.sendStatus(404); // not found
                     }
+                }
 
-                });
-            }
-            else {
-                var university = param0;
-                dbar.find({
-                    "university": university
-                }).toArray(function(err, filteredStats) {
-                    if (err) {
-                        console.error('WARNING: Error getting data from DB');
-                        response.sendStatus(500); // internal server error
+            });
+        }
+        else {
+            var university = param0;
+            dbar.find({
+                "university": university
+            }).toArray(function(err, filteredStats) {
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    response.sendStatus(500); // internal server error
+                }
+                else {
+                    if (filteredStats.length > 0) {
+                        console.log("INFO: Sending stats: " + JSON.stringify(filteredStats, 2, null));
+                        response.send(filteredStats);
                     }
                     else {
-                        if (filteredStats.length > 0) {
-                            console.log("INFO: Sending stats: " + JSON.stringify(filteredStats, 2, null));
-                            response.send(filteredStats);
-                        }
-                        else {
-                            console.log("WARNING: There are not stats");
-                            response.sendStatus(404); // not found
-                        }
+                        console.log("WARNING: There are not stats");
+                        response.sendStatus(404); // not found
                     }
+                }
 
-                });
-            }
+            });
+        }
     });
-    
+
     //POST over a collection
     app.post(BASE_API_PATH + "/academic-rankings", function(request, response) {
         var newStat = request.body;
@@ -232,6 +232,10 @@ module.exports.register_AR_api = function(app) {
             console.log("WARNING: New PUT request to /academic-rankings/ without stat, sending 400...");
             response.sendStatus(400); // bad request
         }
+        if (university !== updatedStat.university || year !== updatedStat.year) {
+            console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) + " is not well-formed, sending 400...");
+            response.sendStatus(400); // bad request
+        }
         else {
             console.log("INFO: New PUT request to /academic-rankings/" + updatedStat.university + "/" + updatedStat.year + " with data " + JSON.stringify(updatedStat, 2, null));
             if (!university || !year) {
@@ -248,6 +252,11 @@ module.exports.register_AR_api = function(app) {
                         response.sendStatus(500); // internal server error
                     }
                     else {
+                        if (statsBeforeInsertion._id !== updatedStat._id) {
+                            console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) +
+                                " has not equal id than aupdated stat, sending 400...");
+                            response.sendStatus(400); // bad request
+                        }
                         if (statsBeforeInsertion.length > 0) {
                             dbar.updateOne({
                                 "university": university,
