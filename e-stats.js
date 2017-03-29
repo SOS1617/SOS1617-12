@@ -152,7 +152,7 @@ module.exports.register_AR_api = function(app) {
             console.log("INFO: New POST request to /economics-stats with body: " + JSON.stringify(newStat, 2, null));
             if (!newStat.province || !newStat.year) {
                 console.log("WARNING: The stat " + JSON.stringify(newStat, 2, null) + " is not well-formed, sending 422...");
-                response.sendStatus(422); // unprocessable entity
+                response.sendStatus(400); // bad request
             }
             else {
                 dbes.find({
