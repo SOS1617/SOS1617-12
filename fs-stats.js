@@ -152,7 +152,7 @@ module.exports.postCollection = function(request, response) {
     else {
         console.log("INFO: New POST request to /free-software-stats with body: " + JSON.stringify(newStat, 2, null));
         if (!newStat.university || !newStat.year || !newStat.province || !newStat.ranking || !newStat.diffusion) {
-            console.log("WARNING: The stat " + JSON.stringify(newStat, 2, null) + " is not well-formed, sending 422...");
+            console.log("WARNING: The stat " + JSON.stringify(newStat, 2, null) + " is not well-formed, sending 400...");
             response.sendStatus(400); // unprocessable entity 422 --> new bad request
         }
         else {
@@ -203,7 +203,7 @@ module.exports.putSingleResource = function(request, response) {
     else {
         console.log("INFO: New PUT request to /free-software-stats/" + updatedStat.university + "/" + updatedStat.year + " with data " + JSON.stringify(updatedStat, 2, null));
         if (!updatedStat.university || !updatedStat.year || !updatedStat.province || !updatedStat.diffusion || !updatedStat.ranking) {
-            console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) + " is not well-formed, sending 422...");
+            console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) + " is not well-formed, sending 400...");
             response.sendStatus(400); // unprocessable entity 422 --> new 400
         }
         else {
