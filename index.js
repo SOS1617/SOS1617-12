@@ -15,9 +15,9 @@ var app = express();
 app.use(bodyParser.json()); //use default json enconding/decoding
 app.use(helmet()); //improve security
 
-app.get(BASE_API_PATH +"/tests", (req,res) => {
-      res.sendFile(path.join(__dirname,"public/tests.html"));                       // Otra manera
-}); 
+app.get(BASE_API_PATH + "/tests", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/tests.html")); // Otra manera
+});
 
 ///////////////////API ECONOMICS STATS//////////////////////////////////////////
 
@@ -77,12 +77,16 @@ ars.register_AR_api(app);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.use("/",express.static(path.join(__dirname, "public")));
+app.use("/", express.static(path.join(__dirname, "public")));
 
 app.get("/time", (req, res) => {
     res.send("<html><body><h1>" + '"' + dateFormat("dS mmmm 'of' yyyy, HH:MM:ss") + '"' + "</h1></body><html>");
 });
 
-app.listen(port);
-
+app.listen(port, () => {
+    console.log("Server initialized on port " + port);
+}).on("error", (e) => {
+    console.log("Server can not be started: " + e);
+    process.exit(1);
+});
 console.log("--------------------------------------");
