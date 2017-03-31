@@ -85,11 +85,11 @@ module.exports.register_AR_api = function(app) {
         var university = request.params.university;
         var year = Number(request.params.year);
         if (!university && !year) {
-            console.log("WARNING: New GET request to /free-software-stats/ without name or year, sending 400...");
+            console.log("WARNING: New GET request to /academic-rankings-stats/ without name or year, sending 400...");
             response.sendStatus(400); // bad request
         }
         else {
-            console.log("INFO: New GET request to /free-software-stats/" + university + "/" + year);
+            console.log("INFO: New GET request to /academic-rankings-stats/" + university + "/" + year);
             dbar.find({
                 "university": university,
                 "year": year
@@ -116,7 +116,7 @@ module.exports.register_AR_api = function(app) {
     //GET over a filtered collection
     app.get(BASE_API_PATH + "/academic-rankings-stats/:param0", function(request, response) {
         var param0 = request.params.param0;
-        console.log("INFO: New GET request to /free-software-stats/" + param0);
+        console.log("INFO: New GET request to /academic-rankings-stats/" + param0);
         if (Number(param0)) {
             var year = Number(param0);
             dbar.find({
@@ -331,6 +331,90 @@ module.exports.register_AR_api = function(app) {
                     }
                     else {
                         console.log("WARNING: There are no rankings to delete");
+                        response.sendStatus(404); // not found
+                    }
+                }
+            });
+        }
+    });
+
+    //DELETE over a filtered collection
+    app.get(BASE_API_PATH + "/academic-rankings-stats/:param0", function(request, response) {
+        var param0 = request.params.param0;
+        console.log("INFO: New DELETE request to /academic-rankings-stats/" + param0);
+        if (Number(param0)) {
+            var year = Number(param0);
+            dbar.find({
+                "year": year
+            }).toArray(function(err, filteredStats) {
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    response.sendStatus(500); // internal server error
+                }
+                else {
+                    if (filteredStats.length > 0) {
+                        console.log("INFO: Removing stats: " + JSON.stringify(filteredStats, 2, null));
+                        dbar.remove({
+                            "year": year
+                        }, true, function(err, result) {
+                            if (err) {
+                                console.error('WARNING: Error removing data from DB');
+                                response.sendStatus(500); //internal server error
+                            }
+                            else {
+                                result = JSON.parse(result);
+                                if (result.n > 0) {
+                                    console.log("INFO: removed " + result.n + "stats.");
+                                    response.Status(204); //no content
+                                }
+                                else {
+                                    console.log("WARNING: There are no rankings to delete");
+                                    response.sendStatus(404); // not found
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        console.log("WARNING: There are not stats");
+                        response.sendStatus(404); // not found
+                    }
+                }
+            });
+        }
+        else {
+            var university = param0;
+            dbar.find({
+                "university": university
+            }).toArray(function(err, filteredStats) {
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    response.sendStatus(500); // internal server error
+                }
+                else {
+                    if (filteredStats.length > 0) {
+                        console.log("INFO: Removing stats: " + JSON.stringify(filteredStats, 2, null));
+                        dbar.remove({
+                            "university": university
+                        }, true, function(err, result) {
+                            if (err) {
+                                console.error('WARNING: Error removing data from DB');
+                                response.sendStatus(500); //internal server error
+                            }
+                            else {
+                                result = JSON.parse(result);
+                                if (result.n > 0) {
+                                    console.log("INFO: removed " + result.n + "stats.");
+                                    response.Status(204); //no content
+                                }
+                                else {
+                                    console.log("WARNING: There are no rankings to delete");
+                                    response.sendStatus(404); // not found
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        console.log("WARNING: There are not stats");
                         response.sendStatus(404); // not found
                     }
                 }
