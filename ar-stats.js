@@ -17,7 +17,7 @@ module.exports.register_AR_api = function(app) {
     });
 
     //Load Initial Data
-    app.get(BASE_API_PATH + "/academic-rankings/loadInitialData", function(request, response) {
+    app.get(BASE_API_PATH + "/academic-rankings-stats/loadInitialData", function(request, response) {
         dbar.find({}).toArray(function(err, stats) {
             console.log('INFO: Initialiting DB...');
 
@@ -65,8 +65,8 @@ module.exports.register_AR_api = function(app) {
     });
 
     // GET a collection
-    app.get(BASE_API_PATH + "/academic-rankings", function(request, response) {
-        console.log("INFO: New GET request to /academic-rankings");
+    app.get(BASE_API_PATH + "/academic-rankings-stats", function(request, response) {
+        console.log("INFO: New GET request to /academic-rankings-stats");
 
         dbar.find({}).toArray(function(err, stats) {
             if (err) {
@@ -81,7 +81,7 @@ module.exports.register_AR_api = function(app) {
     });
 
     // GET a single resource
-    app.get(BASE_API_PATH + "/academic-rankings/:university/:year", function(request, response) {
+    app.get(BASE_API_PATH + "/academic-rankings-stats/:university/:year", function(request, response) {
         var university = request.params.university;
         var year = Number(request.params.year);
         if (!university && !year) {
@@ -114,7 +114,7 @@ module.exports.register_AR_api = function(app) {
     });
 
     //GET over a filtered collection
-    app.get(BASE_API_PATH + "/academic-rankings/:param0", function(request, response) {
+    app.get(BASE_API_PATH + "/academic-rankings-stats/:param0", function(request, response) {
         var param0 = request.params.param0;
         console.log("INFO: New GET request to /free-software-stats/" + param0);
         if (Number(param0)) {
@@ -164,14 +164,14 @@ module.exports.register_AR_api = function(app) {
     });
 
     //POST over a collection
-    app.post(BASE_API_PATH + "/academic-rankings", function(request, response) {
+    app.post(BASE_API_PATH + "/academic-rankings-stats", function(request, response) {
         var newStat = request.body;
         if (!newStat) {
-            console.log("WARNING: New POST request to /academic-rankings/ without stat, sending 400...");
+            console.log("WARNING: New POST request to /academic-rankings-stats/ without stat, sending 400...");
             response.sendStatus(400); // bad request
         }
         else {
-            console.log("INFO: New POST request to /academic-rankings with body: " + JSON.stringify(newStat, 2, null));
+            console.log("INFO: New POST request to /academic-rankings-stats with body: " + JSON.stringify(newStat, 2, null));
             if (!newStat.university ||
                 !newStat.year ||
                 !newStat.province ||
@@ -209,27 +209,27 @@ module.exports.register_AR_api = function(app) {
 
 
     //POST over a single resource
-    app.post(BASE_API_PATH + "/academic-rankings/:university/:year", function(request, response) {
+    app.post(BASE_API_PATH + "/academic-rankings-stats/:university/:year", function(request, response) {
         var university = request.params.university;
         var year = request.params.year;
-        console.log("WARNING: New POST request to /academic-rankings/" + university + "/" + year + ", sending 405...");
+        console.log("WARNING: New POST request to /academic-rankings-stats/" + university + "/" + year + ", sending 405...");
         response.sendStatus(405); // method not allowed
     });
 
     //PUT over a collection
-    app.put(BASE_API_PATH + "/academic-rankings", function(request, response) {
-        console.log("WARNING: New PUT request to /academic-rankings, sending 405...");
+    app.put(BASE_API_PATH + "/academic-rankings-stats", function(request, response) {
+        console.log("WARNING: New PUT request to /academic-rankings-stats, sending 405...");
         response.sendStatus(405); // method not allowed
     });
 
 
     //PUT over a single resource
-    app.put(BASE_API_PATH + "/academic-rankings/:university/:year", function(request, response) {
+    app.put(BASE_API_PATH + "/academic-rankings-stats/:university/:year", function(request, response) {
         var university = request.params.university;
         var year = Number(request.params.year);
         var updatedStat = request.body;
         if (!updatedStat) {
-            console.log("WARNING: New PUT request to /academic-rankings/ without stat, sending 400...");
+            console.log("WARNING: New PUT request to /academic-rankings-stats/ without stat, sending 400...");
             response.sendStatus(400); // bad request
         }
         if (university !== updatedStat.university || year !== updatedStat.year) {
@@ -237,7 +237,7 @@ module.exports.register_AR_api = function(app) {
             response.sendStatus(400); // bad request
         }
         else {
-            console.log("INFO: New PUT request to /academic-rankings/" + updatedStat.university + "/" + updatedStat.year + " with data " + JSON.stringify(updatedStat, 2, null));
+            console.log("INFO: New PUT request to /academic-rankings-stats/" + updatedStat.university + "/" + updatedStat.year + " with data " + JSON.stringify(updatedStat, 2, null));
             if (!university || !year) {
                 console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) + " is not well-formed, sending 422...");
                 response.sendStatus(422); // unprocessable entity
@@ -282,8 +282,8 @@ module.exports.register_AR_api = function(app) {
     });
 
     //DELETE over a collection
-    app.delete(BASE_API_PATH + "/academic-rankings", function(request, response) {
-        console.log("INFO: New DELETE request to /academic-rankings");
+    app.delete(BASE_API_PATH + "/academic-rankings-stats", function(request, response) {
+        console.log("INFO: New DELETE request to /academic-rankings-stats");
         dbar.remove({}, false, function(err, result) {
             if (err) {
                 console.error('WARNING: Error removing data from DB');
@@ -304,15 +304,15 @@ module.exports.register_AR_api = function(app) {
     });
 
     //DELETE over a single resource
-    app.delete(BASE_API_PATH + "/academic-rankings/:university/:year", function(request, response) {
+    app.delete(BASE_API_PATH + "/academic-rankings-stats/:university/:year", function(request, response) {
         var university = request.params.university;
         var year = Number(request.params.year);
         if (!university || !year) {
-            console.log("WARNING: New DELETE request to /academic-rankings/:university/:year without university or year, sending 400...");
+            console.log("WARNING: New DELETE request to /academic-rankings-stats/:university/:year without university or year, sending 400...");
             response.sendStatus(400); // bad request
         }
         else {
-            console.log("INFO: New DELETE request to /academic-rankings/" + university + "/" + year);
+            console.log("INFO: New DELETE request to /academic-rankings-stats/" + university + "/" + year);
             dbar.remove({
                 "university": university,
                 "year": year
