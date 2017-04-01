@@ -339,7 +339,7 @@ module.exports.register_AR_api = function(app) {
     });
 
     //DELETE over a filtered collection
-    app.get(BASE_API_PATH + "/academic-rankings-stats/:param0", function(request, response) {
+    app.delete(BASE_API_PATH + "/academic-rankings-stats/:param0", function(request, response) {
         var param0 = request.params.param0;
         console.log("INFO: New DELETE request to /academic-rankings-stats/" + param0);
         if (Number(param0)) {
@@ -364,8 +364,8 @@ module.exports.register_AR_api = function(app) {
                             else {
                                 result = JSON.parse(result);
                                 if (result.n > 0) {
-                                    console.log("INFO: removed " + result.n + "stats.");
-                                    response.Status(204); //no content
+                                    console.log("INFO: removed " + result.n + " stats.");
+                                    response.sendStatus(204); //no content
                                 }
                                 else {
                                     console.log("WARNING: There are no rankings to delete");
@@ -403,8 +403,8 @@ module.exports.register_AR_api = function(app) {
                             else {
                                 result = JSON.parse(result);
                                 if (result.n > 0) {
-                                    console.log("INFO: removed " + result.n + "stats.");
-                                    response.Status(204); //no content
+                                    console.log("INFO: removed " + result.n + " stats.");
+                                    response.sendStatus(204); //no content
                                 }
                                 else {
                                     console.log("WARNING: There are no rankings to delete");
