@@ -8,6 +8,8 @@ var BASE_API_PATH = "/api/v1";
 
 var dbfs;
 
+var apikey_fs = 1234;
+
 module.exports.register_fs_api = function(app) {
 
     MongoClientFS.connect(mdbfsURL, {
@@ -30,6 +32,15 @@ module.exports.register_fs_api = function(app) {
 
     //Load Initial Data
     app.get(BASE_API_PATH + "/free-software-stats/loadInitialData", function(request, response) {
+        if (!request.headers.apikey) {
+            console.log("INFO: Unauthorized, sending 401");
+            response.sendStatus(401);
+        }
+        else if (request.headers.apikey != apikey_fs) {
+            console.log("INFO: Invalid apikey, sending 403");
+            response.sendStatus(403);
+        }
+        else{
         dbfs.find({}).toArray(function(err, stats) {
             console.log('INFO: Initialiting DB...');
 
@@ -54,7 +65,7 @@ module.exports.register_fs_api = function(app) {
                     "province": "Granada",
                     "diffusion": 93.4,
                     "ranking": 2
-                },{
+                }, {
                     "university": "Universidad De Granada",
                     "year": 2016,
                     "province": "Granada",
@@ -69,26 +80,47 @@ module.exports.register_fs_api = function(app) {
                 response.sendStatus(200);
             }
         });
-    });
+    }});
 
     // GET a collection
     app.get(BASE_API_PATH + "/free-software-stats", function(request, response) {
-        console.log("INFO: New GET request to /free-software-stats");
+        if (!request.headers.apikey) {
+            console.log("INFO: Unauthorized, sending 401");
+            response.sendStatus(401);
+        }
+        else if (request.headers.apikey != apikey_fs) {
+            console.log("INFO: Invalid apikey, sending 403");
+            response.sendStatus(403);
+        }
+        else {
 
-        dbfs.find({}).toArray(function(err, stats) {
-            if (err) {
-                console.error('WARNING: Error getting data from DB');
-                response.sendStatus(500); // internal server error
-            }
-            else {
-                console.log("INFO: Sending stats: " + JSON.stringify(stats, 2, null));
-                response.send(stats);
-            }
-        });
+
+            console.log("INFO: New GET request to /free-software-stats");
+
+            dbfs.find({}).toArray(function(err, stats) {
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    response.sendStatus(500); // internal server error
+                }
+                else {
+                    console.log("INFO: Sending stats: " + JSON.stringify(stats, 2, null));
+                    response.send(stats);
+                }
+            });
+        }
     });
 
     // GET a single resource
     app.get(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
+        if (!request.headers.apikey) {
+            console.log("INFO: Unauthorized, sending 401");
+            response.sendStatus(401);
+        }
+        else if (request.headers.apikey != apikey_fs) {
+            console.log("INFO: Invalid apikey, sending 403");
+            response.sendStatus(403);
+        }
+        else {
         var university = request.params.university;
         var year = Number(request.params.year);
         if (!university || !year) {
@@ -118,10 +150,19 @@ module.exports.register_fs_api = function(app) {
                 }
             });
         }
-    });
+    }});
 
     // GET a year or university
     app.get(BASE_API_PATH + "/free-software-stats/:resource", function(request, response) {
+        if (!request.headers.apikey) {
+            console.log("INFO: Unauthorized, sending 401");
+            response.sendStatus(401);
+        }
+        else if (request.headers.apikey != apikey_fs) {
+            console.log("INFO: Invalid apikey, sending 403");
+            response.sendStatus(403);
+        }
+        else {
         var resource = request.params.resource;
         if (!resource) {
             console.log("WARNING: New GET request to /free-software-stats/ without year or university, sending 400...");
@@ -153,7 +194,7 @@ module.exports.register_fs_api = function(app) {
                 }
             });
         }
-    });
+    }});
 
     //POST over a collection
     app.post(BASE_API_PATH + "/free-software-stats", function(request, response) {
@@ -197,20 +238,47 @@ module.exports.register_fs_api = function(app) {
 
     //POST over a single resource
     app.post(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
+        if (!request.headers.apikey) {
+            console.log("INFO: Unauthorized, sending 401");
+            response.sendStatus(401);
+        }
+        else if (request.headers.apikey != apikey_fs) {
+            console.log("INFO: Invalid apikey, sending 403");
+            response.sendStatus(403);
+        }
+        else {
         var university = request.params.university;
         var year = Number(request.params.year);
         console.log("WARNING: New POST request to /free-software-stats/" + university + "/" + year + ", sending 405...");
         response.sendStatus(405); // method not allowed
-    });
+    }});
 
     //PUT over a collection
     app.put(BASE_API_PATH + "/free-software-stats", function(request, response) {
+        if (!request.headers.apikey) {
+            console.log("INFO: Unauthorized, sending 401");
+            response.sendStatus(401);
+        }
+        else if (request.headers.apikey != apikey_fs) {
+            console.log("INFO: Invalid apikey, sending 403");
+            response.sendStatus(403);
+        }
+        else {
         console.log("WARNING: New PUT request to /free-software-stats, sending 405...");
         response.sendStatus(405); // method not allowed
-    });
+    }});
 
     //PUT over a single resource
     app.put(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
+        if (!request.headers.apikey) {
+            console.log("INFO: Unauthorized, sending 401");
+            response.sendStatus(401);
+        }
+        else if (request.headers.apikey != apikey_fs) {
+            console.log("INFO: Invalid apikey, sending 403");
+            response.sendStatus(403);
+        }
+        else {
         var updatedStat = request.body;
         if (!updatedStat) {
             console.log("WARNING: New PUT request to /free-software-stats/ without stat, sending 400...");
@@ -256,11 +324,20 @@ module.exports.register_fs_api = function(app) {
                 });
             }
         }
-    });
+   } });
 
 
     //DELETE over a collection
     app.delete(BASE_API_PATH + "/free-software-stats", function(request, response) {
+        if (!request.headers.apikey) {
+            console.log("INFO: Unauthorized, sending 401");
+            response.sendStatus(401);
+        }
+        else if (request.headers.apikey != apikey_fs) {
+            console.log("INFO: Invalid apikey, sending 403");
+            response.sendStatus(403);
+        }
+        else {
         console.log("INFO: New DELETE request to /free-software-stats");
         dbfs.deleteMany({}, function(err, numRemoved) {
             if (err) {
@@ -278,11 +355,20 @@ module.exports.register_fs_api = function(app) {
                 }
             }
         });
-    });
+    }});
 
 
     //DELETE over a single resource
     app.delete(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
+        if (!request.headers.apikey) {
+            console.log("INFO: Unauthorized, sending 401");
+            response.sendStatus(401);
+        }
+        else if (request.headers.apikey != apikey_fs) {
+            console.log("INFO: Invalid apikey, sending 403");
+            response.sendStatus(403);
+        }
+        else {
         var university = request.params.university;
         var year = Number(request.params.year);
         if (!university || !year) {
@@ -312,10 +398,19 @@ module.exports.register_fs_api = function(app) {
                 }
             });
         }
-    });
+   } });
 
     //DELETE over a year or university
     app.delete(BASE_API_PATH + "/free-software-stats/:resource", function(request, response) {
+        if (!request.headers.apikey) {
+            console.log("INFO: Unauthorized, sending 401");
+            response.sendStatus(401);
+        }
+        else if (request.headers.apikey != apikey_fs) {
+            console.log("INFO: Invalid apikey, sending 403");
+            response.sendStatus(403);
+        }
+        else {
         var resource = request.params.resource;
         if (!resource) {
             console.log("WARNING: New DELETE request to /free-software-stats/:university/:year without university or year, sending 400...");
@@ -347,7 +442,7 @@ module.exports.register_fs_api = function(app) {
                 }
             });
         }
-    });
-    
+   } });
+
     console.log("Registered API free-software-stats");
 };
