@@ -247,39 +247,49 @@ module.exports.register_fs_api = function(app) {
 
     //POST over a collection
     app.post(BASE_API_PATH + "/free-software-stats", function(request, response) {
-        var newStat = request.body;
-        if (!newStat) {
-            console.log("WARNING: New POST request to /free-software-stats/ without stat, sending 400...");
-            response.sendStatus(400); // bad request
+        if (!request.headers.apikey) {
+            console.log("INFO: Unauthorized, sending 401");
+            response.sendStatus(401);
+        }
+        else if (request.headers.apikey != apikey_fs) {
+            console.log("INFO: Invalid apikey, sending 403");
+            response.sendStatus(403);
         }
         else {
-            console.log("INFO: New POST request to /free-software-stats with body: " + JSON.stringify(newStat, 2, null));
-            if (!newStat.university || !newStat.year || !newStat.province || !newStat.ranking || !newStat.diffusion) {
-                console.log("WARNING: The stat " + JSON.stringify(newStat, 2, null) + " is not well-formed, sending 400...");
-                response.sendStatus(400); // unprocessable entity 422 --> new bad request
+            var newStat = request.body;
+            if (!newStat) {
+                console.log("WARNING: New POST request to /free-software-stats/ without stat, sending 400...");
+                response.sendStatus(400); // bad request
             }
             else {
-                dbfs.find({
-                    "university": newStat.university,
-                    "year": Number(newStat.year)
-                }).toArray(function(err, statsBeforeInsertion) {
-                    if (err) {
-                        console.error('WARNING: Error getting data from DB');
-                        response.sendStatus(500); // internal server error
-                    }
-                    else {
-
-                        if (statsBeforeInsertion.length > 0) {
-                            console.log("WARNING: The stat " + JSON.stringify(newStat, 2, null) + " already extis, sending 409...");
-                            response.sendStatus(409); // conflict
+                console.log("INFO: New POST request to /free-software-stats with body: " + JSON.stringify(newStat, 2, null));
+                if (!newStat.university || !newStat.year || !newStat.province || !newStat.ranking || !newStat.diffusion) {
+                    console.log("WARNING: The stat " + JSON.stringify(newStat, 2, null) + " is not well-formed, sending 400...");
+                    response.sendStatus(400); // unprocessable entity 422 --> new bad request
+                }
+                else {
+                    dbfs.find({
+                        "university": newStat.university,
+                        "year": Number(newStat.year)
+                    }).toArray(function(err, statsBeforeInsertion) {
+                        if (err) {
+                            console.error('WARNING: Error getting data from DB');
+                            response.sendStatus(500); // internal server error
                         }
                         else {
-                            console.log("INFO: Adding stat " + JSON.stringify(newStat, 2, null));
-                            dbfs.insert(newStat);
-                            response.sendStatus(201); // created
+
+                            if (statsBeforeInsertion.length > 0) {
+                                console.log("WARNING: The stat " + JSON.stringify(newStat, 2, null) + " already extis, sending 409...");
+                                response.sendStatus(409); // conflict
+                            }
+                            else {
+                                console.log("INFO: Adding stat " + JSON.stringify(newStat, 2, null));
+                                dbfs.insert(newStat);
+                                response.sendStatus(201); // created
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
     });
