@@ -1,11 +1,15 @@
 GET a la ruta base (p.e. “/towns”) devuelve una lista con todos los recursos
-curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/free-software-stats'
+curl -v -XGET -H 'Content-type: application/json' --header 'apikey:1234' 'http://localhost:8080/api/v1/free-software-stats'
 
 POST a la ruta base (p.e. “/towns”) crea un nuevo recurso
-curl -v -XPOST -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": 2015, "province": "Granada", "diffusion": 100, "ranking": 1 }' 'http://localhost:8080/api/v1/free-software-stats'
+curl -v -XPOST -H 'Content-type: application/json' -d '{ "university": "Universidad De Granada", "year": 2015, "province": "Granada", "diffusion": 100, "ranking": 1 }' --header 'apikey:1234' 'http://localhost:8080/api/v1/free-software-stats'
 
 GET a un recurso (p.e. “/towns/seville”) devuelve ese recurso 
-curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/free-software-stats/Universidad%20De%20Granada/2015'
+curl -v -XGET -H 'Content-type: application/json' --header 'apikey:1234' 'http://localhost:8080/api/v1/free-software-stats/Universidad%20De%20Granada/2015'
+
+Paginacion
+curl -v -XGET -H 'Content-type: application/json' --header 'apikey:1234' 'http://localhost:8080/api/v1/free-software-stats?offset=1&limit=2'
+
 
 DELETE a un recurso (p.e. “/towns/seville”) borra ese recurso
 curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api/v1/free-software-stats/Universidad%20De%20Granada/2015'
