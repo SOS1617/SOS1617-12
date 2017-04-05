@@ -46,6 +46,27 @@ module.exports.register_AR_api = function(app) {
                 "employers_id": 24767
             },
             {
+                "province": "Sevilla",
+                "year": 2008,
+                "expensive_peu": 1831040,
+                "expensive_id": 1726765,
+                "employers_id": 24767
+            },
+            {
+                "province": "Sevilla",
+                "year": 2007,
+                "expensive_peu": 1831040,
+                "expensive_id": 1726765,
+                "employers_id": 24767
+            },
+            {
+                "province": "Sevilla",
+                "year": 2006,
+                "expensive_peu": 1831040,
+                "expensive_id": 1726765,
+                "employers_id": 24767
+            },
+            {
                 "province": "Valencia",
                 "year": 2008,
                 "expensive_peu": 216369,
@@ -76,11 +97,11 @@ module.exports.register_AR_api = function(app) {
         });
     });
 
-    // GET a collection
+    //GET a collection
     app.get(BASE_API_PATH + "/economics-stats", function(request, response) {
         console.log("INFO: New GET request to /economics-stats");
         
-    // Comprobación de APIKEY
+        // Comprobación de APIKEY
         if (request.query.apikey == null){
             response.sendStatus(401);
             console.log("INFO: APIKEY unprovided");
@@ -95,21 +116,67 @@ module.exports.register_AR_api = function(app) {
         }}
             console.log("INFO: APIKEY access granted");
         //  Fin de la comprobación de APIKEY
-        //  El código normal de la petición GET está dentro de este else que se ejecuta si comprobar==true. Si no se mete aqui, salta expcepción
-                    dbes.find({}).toArray(function(err, stats) {
-                        if (err) {
-                            console.error('WARNING: Error getting data from DB');
-                            response.sendStatus(500); // internal server error
+
+        qlimit = 0;
+        qoffset = 0;
+        var oquery = {};
+        if (Object.keys(request.query).length > 1) {
+            var query = request.query;
+            var qprovince = query.province;
+            var qlimit = Number(query.limit);
+            var qoffset = Number(query.offset);
+            if (!qprovince && !(query.limit && query.offset) && !(query.from && query.to)) {
+                console.log("WARNING: new GET recived to /economics-stats whth incorrect query. Sending 400");
+                response.sendStatus(400); // Bad request
+                return;
+            }
+            else {
+                if (qprovince) oquery.province = qprovince;
+                console.log("QUERY: " + JSON.stringify(oquery));
+                if (query.from && query.to) {
+                    oquery.$and = [{
+                        "year": {
+                            "$gte": Number(query.from)
                         }
-                        else {
-                            console.log("INFO: Sending stats: " + JSON.stringify(stats, 2, null));
-                            response.send(stats);
+                    }, {
+                        "year": {
+                            "$lte": Number(query.to)
                         }
-                    });
+                    }];
+                }
+            }
+        }
+
+        dbes.find(oquery).limit(qlimit).skip(qoffset).toArray(function(err, stats) {
+            if (err) {
+                console.error('WARNING: Error getting data from DB');
+                response.sendStatus(500); // internal server error
+            }
+            else {
+                console.log("INFO: Sending stats: " + JSON.stringify(stats, 2, null));
+                response.send(stats);
+            }
+        });
     });
 
-    // GET a single resource
+    //GET a single resource
     app.get(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
+                // Comprobación de APIKEY
+                if (request.query.apikey == null){
+                    response.sendStatus(401);
+                    console.log("INFO: APIKEY unprovided");
+                    return;
+                }
+                else{
+                    var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
+                    if (!comprobar){
+                        console.log("INFO: Invalid APIKEY");
+                        response.sendStatus(403);
+                        return;
+                }}
+                    console.log("INFO: APIKEY access granted");
+                //  Fin de la comprobación de APIKEY
+
         var province = request.params.province;
         var year = parseInt(request.params.year);
         if (!province || !year) {
@@ -140,9 +207,83 @@ module.exports.register_AR_api = function(app) {
             });
         }
     });
+    
+    //GET some searched resources
+    app.get(BASE_API_PATH + "/economics-stats/:province", function(request, response) {
+         // Comprobación de APIKEY
+        if (request.query.apikey == null){
+            response.sendStatus(401);
+            console.log("INFO: APIKEY unprovided");
+            return;
+        }
+        else{
+            var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
+            if (!comprobar){
+                console.log("INFO: Invalid APIKEY");
+                response.sendStatus(403);
+                return;
+        }}
+            console.log("INFO: APIKEY access granted");
+        //  Fin de la comprobación de APIKEY
+        
+        if(!request.params.province){
+             console.log("WARNING: New GET request to /economics-stats/ without province sending 400...");
+            response.sendStatus(400); // bad request
+        }
+            var oquery = {
+                    "province": request.params.province
+                };
+                if (request.query.from && request.query.to) {
+                    oquery.$and = [{
+                        "year": {
+                            "$gte": Number(request.query.from)
+                        }
+                    }, {
+                        "year": {
+                            "$lte": Number(request.query.to)
+                        }
+                    }];
+                }
+                dbes.find(oquery).toArray(function(err, filteredStats) {
+                    if (err) {
+                        console.error('WARNING: Error getting data from DB');
+                        response.sendStatus(500); // internal server error
+                    }
+                    else {
+                        if (filteredStats.length > 0) {
+                            console.log("INFO: Sending stats: " + JSON.stringify(filteredStats, 2, null));
+                            response.send(filteredStats);
+                        }
+                        else {
+                            console.log("WARNING: There are not stats. Query: " + JSON.stringify(oquery));
+                            response.sendStatus(404); // not found
+                        }
+                    }
+
+                });
+                
+    });
+    
+    
 
     //POST over a collection
     app.post(BASE_API_PATH + "/economics-stats", function(request, response) {
+                // Comprobación de APIKEY
+                if (request.query.apikey == null){
+                    response.sendStatus(401);
+                    console.log("INFO: APIKEY unprovided");
+                    return;
+                }
+                else{
+                    var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
+                    if (!comprobar){
+                        console.log("INFO: Invalid APIKEY");
+                        response.sendStatus(403);
+                        return;
+                }}
+                    console.log("INFO: APIKEY access granted");
+                 //  Fin de la comprobación de APIKEY
+
         var newStat = request.body;
         if (!newStat) {
             console.log("WARNING: New POST request to /economics-stats/ without stat, sending 400...");
@@ -182,6 +323,22 @@ module.exports.register_AR_api = function(app) {
 
     //POST over a single resource
     app.post(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
+                // Comprobación de APIKEY
+                     if (request.query.apikey == null){
+                     response.sendStatus(401);
+                     console.log("INFO: APIKEY unprovided");
+                     return;
+                    }
+                    else{
+                        var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
+                        if (!comprobar){
+                            console.log("INFO: Invalid APIKEY");
+                            response.sendStatus(403);
+                            return;
+                    }}
+                        console.log("INFO: APIKEY access granted");
+                //  Fin de la comprobación de APIKEY
+
         var province = request.params.province;
         var year = parseInt(request.params.year);
         console.log("WARNING: New POST request to /economics-stats/" + province + "/" + year + ", sending 405...");
@@ -190,12 +347,44 @@ module.exports.register_AR_api = function(app) {
 
     //PUT over a collection
     app.put(BASE_API_PATH + "/economics-stats", function(request, response) {
+                // Comprobación de APIKEY
+                if (request.query.apikey == null){
+                    response.sendStatus(401);
+                    console.log("INFO: APIKEY unprovided");
+                    return;
+                }
+                else{
+                    var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
+                    if (!comprobar){
+                        console.log("INFO: Invalid APIKEY");
+                        response.sendStatus(403);
+                        return;
+                }}
+                    console.log("INFO: APIKEY access granted");
+                 //  Fin de la comprobación de APIKEY
+
         console.log("WARNING: New PUT request to /economics-stats, sending 405...");
         response.sendStatus(405); // method not allowed
     });
 
     //PUT over a single resource
     app.put(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
+                     // Comprobación de APIKEY
+                    if (request.query.apikey == null){
+                        response.sendStatus(401);
+                        console.log("INFO: APIKEY unprovided");
+                        return;
+                    }
+                    else{
+                        var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
+                        if (!comprobar){
+                            console.log("INFO: Invalid APIKEY");
+                            response.sendStatus(403);
+                            return;
+                    }}
+                        console.log("INFO: APIKEY access granted");
+                    //  Fin de la comprobación de APIKEY
+
         var province = request.params.province;
         var year = parseInt(request.params.year);
         var updatedStat = request.body;
@@ -249,6 +438,22 @@ module.exports.register_AR_api = function(app) {
 
     //DELETE over a collection
     app.delete(BASE_API_PATH + "/economics-stats", function(request, response) {
+                 // Comprobación de APIKEY
+                    if (request.query.apikey == null){
+                        response.sendStatus(401);
+                        console.log("INFO: APIKEY unprovided");
+                        return;
+                    }
+                    else{
+                        var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
+                        if (!comprobar){
+                            console.log("INFO: Invalid APIKEY");
+                            response.sendStatus(403);
+                            return;
+                    }}
+                        console.log("INFO: APIKEY access granted");
+                     //  Fin de la comprobación de APIKEY
+
         console.log("INFO: New DELETE request to /economics-stats");
         dbes.remove({}, false, function(err, result) {
             if (err) {
@@ -271,6 +476,22 @@ module.exports.register_AR_api = function(app) {
 
     //DELETE over a single resource
     app.delete(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
+                    // Comprobación de APIKEY
+                        if (request.query.apikey == null){
+                            response.sendStatus(401);
+                            console.log("INFO: APIKEY unprovided");
+                            return;
+                        }
+                        else{
+                            var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
+                            if (!comprobar){
+                                console.log("INFO: Invalid APIKEY");
+                                response.sendStatus(403);
+                                return;
+                        }}
+                            console.log("INFO: APIKEY access granted");
+                    //  Fin de la comprobación de APIKEY
+
         var province = request.params.province;
         var year = parseInt(request.params.year);
         if (!province || !year) {
