@@ -67,7 +67,7 @@ module.exports.register_fs_api = function(app) {
                         "ranking": 2
                     }, {
                         "university": "Universidad De Sevilla",
-                        "year": 2016,
+                        "year": 2015,
                         "province": "Seville",
                         "diffusion": 35.65,
                         "ranking": 7
