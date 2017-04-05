@@ -54,11 +54,11 @@ module.exports.register_fs_api = function(app) {
                     "province": "Granada",
                     "diffusion": 93.4,
                     "ranking": 2
-                }, {
-                    "university": "Universidad De Sevilla",
-                    "year": 2015,
-                    "province": "Sevilla",
-                    "diffusion": 34.65,
+                },{
+                    "university": "Universidad De Granada",
+                    "year": 2016,
+                    "province": "Granada",
+                    "diffusion": 35.65,
                     "ranking": 7
                 }];
                 dbfs.insert(initialStats);
