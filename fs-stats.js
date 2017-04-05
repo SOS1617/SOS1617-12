@@ -90,7 +90,7 @@ module.exports.register_fs_api = function(app) {
     // GET a single resource
     app.get(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
         var university = request.params.university;
-        var year = request.params.year;
+        var year = Number(request.params.year);
         if (!university || !year) {
             console.log("WARNING: New GET request to /free-software-stats/ without name or year, sending 400...");
             response.sendStatus(400); // bad request
@@ -131,7 +131,7 @@ module.exports.register_fs_api = function(app) {
             console.log("INFO: New GET request to /free-software-stats/" + resource);
             dbfs.find({
                 "$or": [{
-                    "year": resource
+                    "year": Number(resource)
                 }, {
                     "university": resource
                 }]
@@ -171,7 +171,7 @@ module.exports.register_fs_api = function(app) {
             else {
                 dbfs.find({
                     "university": newStat.university,
-                    "year": newStat.year
+                    "year": Number(newStat.year)
                 }).toArray(function(err, statsBeforeInsertion) {
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
@@ -198,7 +198,7 @@ module.exports.register_fs_api = function(app) {
     //POST over a single resource
     app.post(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
         var university = request.params.university;
-        var year = request.params.year;
+        var year = Number(request.params.year);
         console.log("WARNING: New POST request to /free-software-stats/" + university + "/" + year + ", sending 405...");
         response.sendStatus(405); // method not allowed
     });
@@ -225,7 +225,7 @@ module.exports.register_fs_api = function(app) {
             else {
                 dbfs.find({
                     "university": updatedStat.university,
-                    "year": updatedStat.year
+                    "year": Number(updatedStat.year)
                 }).toArray(function(err, statsBeforeInsertion) {
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
@@ -236,7 +236,7 @@ module.exports.register_fs_api = function(app) {
                         if (statsBeforeInsertion.length > 0) {
                             dbfs.updateOne({
                                 "university": updatedStat.university,
-                                "year": updatedStat.year
+                                "year": Number(updatedStat.year)
                             }, {
                                 $set: {
                                     "province": updatedStat.province,
@@ -284,7 +284,7 @@ module.exports.register_fs_api = function(app) {
     //DELETE over a single resource
     app.delete(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
         var university = request.params.university;
-        var year = request.params.year;
+        var year = Number(request.params.year);
         if (!university || !year) {
             console.log("WARNING: New DELETE request to /free-software-stats/:university/:year without university or year, sending 400...");
             response.sendStatus(400); // bad request
@@ -325,7 +325,7 @@ module.exports.register_fs_api = function(app) {
             console.log("INFO: New DELETE request to /free-software-stats/" + resource);
             dbfs.deleteMany({
                 "$or": [{
-                    "year": resource
+                    "year": Number(resource)
                 }, {
                     "university": resource
                 }]
