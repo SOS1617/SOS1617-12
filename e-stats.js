@@ -80,18 +80,20 @@ module.exports.register_AR_api = function(app) {
     app.get(BASE_API_PATH + "/economics-stats", function(request, response) {
         console.log("INFO: New GET request to /economics-stats");
         
-        // Comprobación de APIKEY
-//        if (request.query.apikey == null){
-//            response.sendStatus(401);
-//            console.log("INFO: APIKEY unprovided");
-//        }
-//        else{
-//            var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
-//            if (!comprobar){
-//                console.log("INFO: Invalid APIKEY");
-//                response.sendStatus(403);
-//            }else{
-                console.log("INFO: APIKEY access granted");
+    // Comprobación de APIKEY
+        if (request.query.apikey == null){
+            response.sendStatus(401);
+            console.log("INFO: APIKEY unprovided");
+            return;
+        }
+        else{
+            var comprobar = comprobarAPIKEY(parseInt(request.query.apikey));
+            if (!comprobar){
+                console.log("INFO: Invalid APIKEY");
+                response.sendStatus(403);
+                return;
+        }}
+            console.log("INFO: APIKEY access granted");
         //  Fin de la comprobación de APIKEY
         //  El código normal de la petición GET está dentro de este else que se ejecuta si comprobar==true. Si no se mete aqui, salta expcepción
                     dbes.find({}).toArray(function(err, stats) {
@@ -103,9 +105,7 @@ module.exports.register_AR_api = function(app) {
                             console.log("INFO: Sending stats: " + JSON.stringify(stats, 2, null));
                             response.send(stats);
                         }
-                    }
-        
-        );
+                    });
     });
 
     // GET a single resource
