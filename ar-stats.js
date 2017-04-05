@@ -111,7 +111,7 @@ module.exports.register_AR_api = function(app) {
             var qprovince = query.province;
             var qlimit = Number(query.limit);
             var qoffset = Number(query.offset);
-            if (!qprovince && !(query.limit && query.offset)) {
+            if (!qprovince && !(query.limit && query.offset) && !(query.from && query.to)) {
                 console.log("WARNING: new GET recived to /academic-rankings-stats whth incorrect query. Sending 400");
                 response.sendStatus(400); // Bad request
                 return;
@@ -119,6 +119,17 @@ module.exports.register_AR_api = function(app) {
             else {
                 if (qprovince) oquery.province = qprovince;
                 console.log("QUERY: " + JSON.stringify(oquery));
+                if (query.from && query.to) {
+                    oquery.$and = [{
+                        "year": {
+                            "$gte": Number(query.from)
+                        }
+                    }, {
+                        "year": {
+                            "$lte": Number(query.to)
+                        }
+                    }];
+                }
             }
         }
 
