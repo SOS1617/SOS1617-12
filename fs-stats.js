@@ -32,11 +32,11 @@ module.exports.register_fs_api = function(app) {
 
     //Load Initial Data
     app.get(BASE_API_PATH + "/free-software-stats/loadInitialData", function(request, response) {
-        if (!request.headers.apikey) {
+        if (!request.query.apikey) {
             console.log("INFO: Unauthorized, sending 401");
             response.sendStatus(401);
         }
-        else if (request.headers.apikey != apikey_fs) {
+        else if (request.query.apikey != apikey_fs) {
             console.log("INFO: Invalid apikey, sending 403");
             response.sendStatus(403);
         }
@@ -85,11 +85,11 @@ module.exports.register_fs_api = function(app) {
 
     // GET a collection
     app.get(BASE_API_PATH + "/free-software-stats", function(request, response) {
-        if (!request.headers.apikey) {
+        if (!request.query.apikey) {
             console.log("INFO: Unauthorized, sending 401");
             response.sendStatus(401);
         }
-        else if (request.headers.apikey != apikey_fs) {
+        else if (request.query.apikey != apikey_fs) {
             console.log("INFO: Invalid apikey, sending 403");
             response.sendStatus(403);
         }
@@ -159,11 +159,11 @@ module.exports.register_fs_api = function(app) {
 
     // GET a single resource
     app.get(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
-        if (!request.headers.apikey) {
+        if (!request.query.apikey) {
             console.log("INFO: Unauthorized, sending 401");
             response.sendStatus(401);
         }
-        else if (request.headers.apikey != apikey_fs) {
+        else if (request.query.apikey != apikey_fs) {
             console.log("INFO: Invalid apikey, sending 403");
             response.sendStatus(403);
         }
@@ -202,11 +202,11 @@ module.exports.register_fs_api = function(app) {
 
     // GET a year or university
     app.get(BASE_API_PATH + "/free-software-stats/:resource", function(request, response) {
-        if (!request.headers.apikey) {
+        if (!request.query.apikey) {
             console.log("INFO: Unauthorized, sending 401");
             response.sendStatus(401);
         }
-        else if (request.headers.apikey != apikey_fs) {
+        else if (request.query.apikey != apikey_fs) {
             console.log("INFO: Invalid apikey, sending 403");
             response.sendStatus(403);
         }
@@ -247,11 +247,11 @@ module.exports.register_fs_api = function(app) {
 
     //POST over a collection
     app.post(BASE_API_PATH + "/free-software-stats", function(request, response) {
-        if (!request.headers.apikey) {
+        if (!request.query.apikey) {
             console.log("INFO: Unauthorized, sending 401");
             response.sendStatus(401);
         }
-        else if (request.headers.apikey != apikey_fs) {
+        else if (request.query.apikey != apikey_fs) {
             console.log("INFO: Invalid apikey, sending 403");
             response.sendStatus(403);
         }
@@ -297,11 +297,11 @@ module.exports.register_fs_api = function(app) {
 
     //POST over a single resource
     app.post(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
-        if (!request.headers.apikey) {
+        if (!request.query.apikey) {
             console.log("INFO: Unauthorized, sending 401");
             response.sendStatus(401);
         }
-        else if (request.headers.apikey != apikey_fs) {
+        else if (request.query.apikey != apikey_fs) {
             console.log("INFO: Invalid apikey, sending 403");
             response.sendStatus(403);
         }
@@ -315,11 +315,11 @@ module.exports.register_fs_api = function(app) {
 
     //PUT over a collection
     app.put(BASE_API_PATH + "/free-software-stats", function(request, response) {
-        if (!request.headers.apikey) {
+        if (!request.query.apikey) {
             console.log("INFO: Unauthorized, sending 401");
             response.sendStatus(401);
         }
-        else if (request.headers.apikey != apikey_fs) {
+        else if (request.query.apikey != apikey_fs) {
             console.log("INFO: Invalid apikey, sending 403");
             response.sendStatus(403);
         }
@@ -331,11 +331,11 @@ module.exports.register_fs_api = function(app) {
 
     //PUT over a single resource
     app.put(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
-        if (!request.headers.apikey) {
+        if (!request.query.apikey) {
             console.log("INFO: Unauthorized, sending 401");
             response.sendStatus(401);
         }
-        else if (request.headers.apikey != apikey_fs) {
+        else if (request.query.apikey != apikey_fs) {
             console.log("INFO: Invalid apikey, sending 403");
             response.sendStatus(403);
         }
@@ -391,11 +391,11 @@ module.exports.register_fs_api = function(app) {
 
     //DELETE over a collection
     app.delete(BASE_API_PATH + "/free-software-stats", function(request, response) {
-        if (!request.headers.apikey) {
+        if (!request.query.apikey) {
             console.log("INFO: Unauthorized, sending 401");
             response.sendStatus(401);
         }
-        else if (request.headers.apikey != apikey_fs) {
+        else if (request.query.apikey != apikey_fs) {
             console.log("INFO: Invalid apikey, sending 403");
             response.sendStatus(403);
         }
@@ -423,11 +423,11 @@ module.exports.register_fs_api = function(app) {
 
     //DELETE over a single resource
     app.delete(BASE_API_PATH + "/free-software-stats/:university/:year", function(request, response) {
-        if (!request.headers.apikey) {
+        if (!request.query.apikey) {
             console.log("INFO: Unauthorized, sending 401");
             response.sendStatus(401);
         }
-        else if (request.headers.apikey != apikey_fs) {
+        else if (request.query.apikey != apikey_fs) {
             console.log("INFO: Invalid apikey, sending 403");
             response.sendStatus(403);
         }
@@ -466,11 +466,11 @@ module.exports.register_fs_api = function(app) {
 
     //DELETE over a year or university
     app.delete(BASE_API_PATH + "/free-software-stats/:resource", function(request, response) {
-        if (!request.headers.apikey) {
+        if (!request.query.apikey) {
             console.log("INFO: Unauthorized, sending 401");
             response.sendStatus(401);
         }
-        else if (request.headers.apikey != apikey_fs) {
+        else if (request.query.apikey != apikey_fs) {
             console.log("INFO: Invalid apikey, sending 403");
             response.sendStatus(403);
         }
