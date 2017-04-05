@@ -157,9 +157,9 @@ module.exports.register_AR_api = function(app) {
             console.log("WARNING: New GET request to /academic-rankings-stats/ without name or year, sending 400...");
             response.sendStatus(400); // bad request
         }
-        else if (Object.keys(request.query).length > 0) {
+        else if (Object.keys(request.query).length > 1) {
             console.log("WARNING: New GET request to /academic-rankings-stats/" + university + "/" + year +
-                "with a query. Sending 400 Bad request");
+                " with a query. Sending 400 Bad request");
             response.sendStatus(400); // bad request
         }
         else {
