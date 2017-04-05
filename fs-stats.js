@@ -124,7 +124,7 @@ module.exports.register_fs_api = function(app) {
                 }
                 else {
 
-                    console.log("INFO: New GET request to /free-software-stats with offset: "+offset+" and limit :"+limit);
+                    console.log("INFO: New GET request to /free-software-stats with offset: " + offset + " and limit :" + limit);
                     dbfs.find({}).limit(limit).skip(offset).toArray(function(err, stats) {
                         if (err) {
                             console.error('WARNING: Error getting data from DB');
@@ -341,8 +341,14 @@ module.exports.register_fs_api = function(app) {
         }
         else {
             var updatedStat = request.body;
+            var university = request.params.university;
+            var year = Number(request.params.year);
             if (!updatedStat) {
                 console.log("WARNING: New PUT request to /free-software-stats/ without stat, sending 400...");
+                response.sendStatus(400); // bad request
+            }
+            else if (university !== updatedStat.university || year !== updatedStat.year) {
+                console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) + " is not well-formed, sending 400...");
                 response.sendStatus(400); // bad request
             }
             else {
@@ -510,6 +516,6 @@ module.exports.register_fs_api = function(app) {
     });
 
     console.log("Registered API free-software-stats");
-    
+
 
 };
