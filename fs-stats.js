@@ -102,6 +102,7 @@ module.exports.register_fs_api = function(app) {
                 limit = Number(request.query.limit);
                 var province = request.query.province;
                 if (province) {
+                    console.log("INFO: New GET request to /free-software-stats with province " + province);
                     dbfs.find({
                         province
                     }).limit(limit).skip(offset).toArray(function(err, stats) {
@@ -123,8 +124,7 @@ module.exports.register_fs_api = function(app) {
                 }
                 else {
 
-                    console.log("INFO: New GET request to /free-software-stats");
-
+                    console.log("INFO: New GET request to /free-software-stats with offset: "+offset+" and limit :"+limit);
                     dbfs.find({}).limit(limit).skip(offset).toArray(function(err, stats) {
                         if (err) {
                             console.error('WARNING: Error getting data from DB');
