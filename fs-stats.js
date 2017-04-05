@@ -510,4 +510,22 @@ module.exports.register_fs_api = function(app) {
     });
 
     console.log("Registered API free-software-stats");
+    
+    
+    //Apaño para el index
+    app.get(BASE_API_PATH + "/free-software-stats-index", function(request, response) {
+    console.log("INFO: New GET request to /free-software-stats");
+    
+    dbfs.find({}).toArray(function(err, stats) {
+        if (err) {
+            console.error('WARNING: Error getting data from DB');
+            response.sendStatus(500); // internal server error
+        }
+        else {
+            console.log("INFO: Sending stats: " + JSON.stringify(stats, 2, null));
+            response.send(stats);
+        }
+    });
+});
+    
 };
