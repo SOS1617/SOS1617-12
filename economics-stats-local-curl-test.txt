@@ -1,26 +1,32 @@
 GET a la ruta base
-curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economics'
+curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economics-stats?apikey=123456789'
 
 POST a la ruta base
-curl -v -XPOST -H 'Content-type: application/json' -d '{ "province": "Granada", "year": "2006", "expensivepeu": 2544125, "expensiveid": 25336, "employersid": 5412 }' 'http://localhost:8080/api/v1/economics'
+curl -v -XPOST -H 'Content-type: application/json' -d '{ "province": "Granada", "year": 2006, "expensive_peu": 2544125, "expensive_id": 25336, "employers_id": 5412 }' 'http://localhost:8080/api/v1/economics-stats?apikey=123456789
 
 GET a un recurso 
-curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economics/Sevilla/2009'
+curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economics-stats/Sevilla/2009?apikey=123456789'
 
 DELETE a un recurso
-curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economics/Sevilla/2009'
+curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economics-stats/Sevilla/2009?apikey=123456789'
 
 PUT a un recurso
-curl -v -XPUT -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": "2009", "expensivepeu": 999999, "expensiveid": 99999, "employersid": 9999 }' 'http://localhost:8080/api/v1/economics/Sevilla/2009'
+curl -v -XPUT -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": 2009, "expensive_peu": 999999, "expensive_id": 99999, "employers_id": 9999 }' 'http://localhost:8080/api/v1/economics-stats/Sevilla/2009?apikey=123456789'
 
 POST a un recurso  debe dar un error de método no permitido.
-curl -v -XPOST -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": "2009", "expensivepeu": 999999, "expensiveid": 99999, "employersid": 9999 }' 'http://localhost:8080/api/v1/economics/Sevilla/2009'
+curl -v -XPOST -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": 2009, "expensive_peu": 999999, "expensive_id": 99999, "employers_id": 9999 }' 'http://localhost:8080/api/v1/economics-stats/Sevilla/2009?apikey=123456789'
 
 PUT a la ruta base debe dar un error de método no permitido.
-curl -v -XPUT -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": "2009", "expensivepeu": 999999, "expensiveid": 99999, "employersid": 9999 }' 'http://localhost:8080/api/v1/economics'
+curl -v -XPUT -H 'Content-type: application/json' -d '{ "province": "Sevilla", "year": 2009, "expensive_peu": 999999, "expensive_id": 99999, "employers_id": 9999 }' 'http://localhost:8080/api/v1/economics-stats?apikey=123456789'
 
 DELETE a la ruta base
-curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economics'
+curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economic-statss'
 
 loadInitialData
-curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economics/loadInitialData'
+curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economics-stats/loadInitialData'
+
+Paginacion
+curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economics-stats?apikey=123456789&limit=2&offset=3'
+
+Busqueda
+curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/economics-stats/Sevilla?apikey=123456789&from=2005&to=2008'
