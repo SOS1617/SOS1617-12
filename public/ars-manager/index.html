@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="AcademicRankingsStatsManager">
+<head>
+<meta charset="UTF-8">
+<title>Academic Rankings Stats Manager</title>
+<link rel="stylesheet"
+	href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+<script type="text/javascript"
+	src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript"
+	src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="../bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="ars-manager-app.js"></script>
+<script type="text/javascript" src="ars-ctrl.js"></script>
+</head>
+<body>
+	<header>
+		<div class="container">
+			<h2>Academic Rankings Stats Manager</h2>
+		</div>
+	</header>
+	<div ng-controller="ARSCtrl" class="container">
+		<table class=table>
+			<thead>
+				<tr>
+					<th>University</th>
+					<th>Year</th>
+					<th>Province</th>
+					<th>Country position</th>
+					<th>World position</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="stat in stats">
+					<td>{{stat.university}}</td>
+					<td>{{stat.year}}</td>
+					<td>{{stat.province}}</td>
+					<td align="center">{{stat.country_position}}</td>
+					<td align="center">{{stat.world_position}}</td>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
