@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="AcademicRankingsStatsManager">
+<head>
+<meta charset="UTF-8">
+<title>Academic Rankings Stats Manager</title>
+<link rel="stylesheet"
+	href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="ars-manager.css">
+<script type="text/javascript"
+	src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript"
+	src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="../bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="ars-manager-app.js"></script>
+<script type="text/javascript" src="ars-ctrl.js"></script>
+</head>
+<body ng-controller="ARSCtrl">
+	<header>
+		<div class="container">
+			<h2><strong>Academic Rankings Stats Manager</strong></h2>
+			<hr>
+		</div>
+	</header>
+	<div class="container panel">
+		<form class="form-inline">
+			<p class="form-control-static"><strong>View</strong></p>
+			<label>
+				<select id="rpp-select" ng-model="rpp" class="form-control" ng-change="rePage();">
+					<option value="0" selected>All</option>
+					<option>2</option>
+					<option>10</option>
+					<option>20</option>
+					<option>50</option>					
+				</select>
+				results per page.
+			</label>
+		</form>
+	</div>
+	<div class="container">
+		<table class=table>
+			<thead>
+				<tr>
+					<th></th>
+					<th>University</th>
+					<th class="text-center">Year</th>
+					<th>Province</th>
+					<th class="text-center">Country position</th>
+					<th class="text-center">World position</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="stat in stats">
+					<td></td>
+					<td>{{stat.university}}</td>
+					<td class="text-center">{{stat.year}}</td>
+					<td>{{stat.province}}</td>
+					<td class="text-center">{{stat.country_position}}</td>
+					<td class="text-center">{{stat.world_position}}</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr><td colspan="8">&nbsp</td></tr>	
+				<tr>
+					<td><h4><span class="label label-success">New:</span></h4></td>
+					<td><input class="form-control" ng-model="newStat.university"></td>
+					<td class="text-center"><input class="form-control" ng-model="newStat.year"></td>
+					<td><input class="form-control" ng-model="newStat.province"></td>
+					<td class="text-center"><input class="form-control" ng-model="newStat.country_position"></td>
+					<td class="text-center"><input class="form-control" ng-model="newStat.world_position"></td>
+					<td><button class="btn btn-primary">Add</button></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="container text-center">
+			<nav ng-hide="pages.length <= 1" aria-label="Page navigation">
+				<ul class="pagination" id="page-nav">
+					<li id="navPagPrev" ng-disabled="page == 1" ng-click="setPage(page - 1)"><span>&laquo</span></li>
+					<li id="navPag{{pag.np}}" ng-class="{active: pag.np == page}" ng-repeat="pag in pages" ng-click="setPage(pag.np)"><span>{{pag.np}}</span></li>
+					<li id="navPagNext" ng-disabled="page == pages.length" ng-click="setPage(page + 1)"><span>&raquo</span></li>
+				</ul>
+			</nav>
+	</div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#rpp-select").change();
+	});
+</script>
+</html>
