@@ -2,7 +2,7 @@
  * Controller of Academic Rankings Stats Manager
  */
 
-/*global angular*/
+/* global angular */
 
 angular
 .module("AcademicRankingsStatsManager")
@@ -13,6 +13,7 @@ angular
 	$scope.page = 1;
 	$scope.rpp = 0;
 	$scope.pages = [];
+	$scope.apikey ="";
 
 
 	// Refresh the resources list
@@ -64,6 +65,9 @@ angular
 
 	// Add a resource
 	$scope.addStat = function(){
+		$scope.newStat.year = Number($scope.newStat.year);
+		$scope.newStat.world_position = Number($scope.newStat.world_position);
+		$scope.newStat.country_position = Number($scope.newStat.country_position);
 		$http
 		.post("/api/v1/academic-rankings-stats?apikey=018d375e", $scope.newStat)
 		.then(function(response){
@@ -101,6 +105,53 @@ angular
 			errorModalShow(settings);
 		});
 	}
+	
+	// Delete a resource
+/*
+ * $scope.deleteStatWarning = function(uni, year){ var settings = {title: "<h1>Warning</h1>",
+ * text: "<p>You are about to permanently delete the resource corresponding to
+ * the " + "<strong>" + uni + " " + year + "</strong>.<br>" + "This action
+ * can not be undone.</p>" + "<p><strong>Are you sure you want to delete it?</strong></p>",
+ * footer: "<button class='btn btn-success' " + "ng-click='deleteStat(\"" + uni +
+ * "\", " + year + ");' " + "data-dismiss='modal'>" + "<span class='glyphicon
+ * glyphicon-ok'></span>" + "Delete</button>" + "<button class='btn
+ * btn-danger' data-dismiss='modal'>" + "<span class='glyphicon
+ * glyphicon-remove'></span>" + "Cancel</button>" }
+ * warningModalShow(settings); }
+ */	
+	$scope.deleteStat = function(uni, year){
+		$http
+		.delete("/api/v1/academic-rankings-stats/" + uni + "/" + year + "?apikey=018d375e")
+		.then(function(response){
+			var settings = {title: "Deleted", 
+					text: "The statistic of the " + uni +
+					" of the year " + year +
+			" has benn successfully deleted."};
+			console.log("Stat deleted. " + response);
+			successModalShow(settings);
+			$scope.rePage();
+			});
+		console.log("Stat deleted");
+	}
+	
+	// Edit a resource
+	$scope.editStat = function(uni, year, obj){
+		obj.year = Number($scope.newStat.year);
+		obj.newStat.world_position = Number(obj.world_position);
+		obj.newStat.country_position = Number(obj.country_position);
+		$http
+		.put("/api/v1/academic-rankings-stats/" + uni + "/" + year + "?apikey=018d375e", obj)
+		.then(function(response){
+			var settings = {title: "Edited", 
+					text: "The statistic of the " + uni +
+					" of the year " + year +
+			" has benn successfully modified."};
+			console.log("Stat edited. " + response.statusText);
+			successModalShow(settings);
+			$scope.rePage();
+			});
+	}
+	
 
 	function errorModalShow(settings){
 		$("#errorTitle").html(settings.title);
@@ -116,9 +167,10 @@ angular
 		setTimeout(function(){$("#successModal").modal("hide");}, 4000);
 	}
 	
-	function succesModalShow(settings){
-		$("#warningTitle").text(settings.title);
-		$("#warningText").text(settings.text);
+	function warningModalShow(settings){
+		$("#warningTitle").html(settings.title);
+		$("#warningText").html(settings.text);
+		$("#warningFooter").html(settings.footer);
 		$("#warningModal").modal();
 	}
 

@@ -9,6 +9,6 @@ ul.pagination > li {
 	cursor: pointer;
 }
 
-#errorModal {
-	
+.glyphicon-trash {
+	color: #ff0000;
 }

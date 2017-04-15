@@ -64,8 +64,10 @@
 					<td>{{stat.province}}</td>
 					<td class="text-center">{{stat.country_position}}</td>
 					<td class="text-center">{{stat.world_position}}</td>
-					<td></td>
-					<td></td>
+					<td data-toggle="tooltip" title="Click for edit" data-placement="left"></td>
+					<td data-toggle="tooltip" title="Delete the resource." data-placement="right">
+						<span class="glyphicon glyphicon-trash" ng-click="deleteStat(stat.university,stat.year)"></span>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="8">&nbsp</td>
@@ -144,12 +146,12 @@
 					<button type="" class="close" data-dismiss="modal">
 						<span>&times</span>
 					</button>
-					<h3 id="warningTitle" class="modal-title">Error !!</h3>
+					<div id="warningTitle" class="modal-title">Error !!</div>
 				</div>
 				<div class="modal-body">
 					<div id="warningText"></div>
 				</div>
-				<div class="modal-footer"></div>
+				<div id="warningFooter" class="modal-footer"></div>
 			</div>
 		</div>
 	</div>
@@ -157,8 +159,10 @@
 </body>
 
 <script type="text/javascript">
+
 	$(document).ready(function(){
 		$("#rpp-select").change();
+		$('[data-toggle="tooltip"]').tooltip();
 	});
 </script>
 </html>
