@@ -41,6 +41,9 @@
 			</select> results per page.
 			</label>
 		</form>
+		<button type="button" class="btn btn-danger pull-right" ng-click="deleteAll()">
+			Remove <strong>All</strong> resources
+		</button>
 	</div>
 	<div class="container">
 		<table class=table>
@@ -70,7 +73,7 @@
 					ng-click="startEdit(stat)"></a>
 					</td>
 					<td data-toggle="tooltip" title="Delete the resource." data-placement="right">
-						<span class="glyphicon glyphicon-trash" ng-click="deleteStat(stat.university,stat.year)"></span>
+						<span class="glyphicon glyphicon-trash" ng-click="deleteStatWarning(stat.university,stat.year)"></span>
 					</td>
 				</tr>
 				<tr>
@@ -90,8 +93,10 @@
 						ng-model="newStat.world_position"></td>
 					<td><button class="btn btn-primary" ng-click="addStat()">
 					<span class="glyphicon glyphicon-ok"></span>
-					Add</button></td>
-					<td></td>
+					</button></td>
+					<td><button class="btn btn-danger">
+					<span class="glyphicon glyphicon-remove"></span>
+					</button></td>
 				</tr>
 				<tr id="editPanel" class="hidden">
 					<td><h4>
@@ -108,8 +113,11 @@
 					<td><button class="btn btn-primary" ng-click="editStat()" 
 					onclick="$('#editPanel').addClass('hidden');">
 					<span class="glyphicon glyphicon-ok"></span>
-					Confirm</button></td>
-					<td></td>
+					</button></td>
+					<td><button class="btn btn-danger" 
+					onclick="$('#editPanel').addClass('hidden');">
+					<span class="glyphicon glyphicon-remove"></span>
+					</button></td>
 				</tr>
 			</tbody>
 		</table>
@@ -162,7 +170,7 @@
 		</div>
 	</div>
 
-	<!-- MODAL DIALOG FOR WARNING -->
+	<!-- MODAL DIALOG FOR DELETING A RESOURCE WARNING -->
 	<div id="warningModal" class="modal fade" tabindex="-1" role="alert">
 		<div class="modal-dialog">
 			<div class="modal-content alert-warning">
@@ -170,12 +178,48 @@
 					<button type="" class="close" data-dismiss="modal">
 						<span>&times</span>
 					</button>
-					<div id="warningTitle" class="modal-title">Error !!</div>
+					<div id="warningTitle" class="modal-title"></div>
 				</div>
 				<div class="modal-body">
 					<div id="warningText"></div>
 				</div>
-				<div id="warningFooter" class="modal-footer"></div>
+				<div id="warningFooter" class="modal-footer">
+				<button id='deleteBtn' class='btn btn-success' 						 
+						data-dismiss='modal'><span class='glyphicon glyphicon-ok'></span>
+						Delete</button>
+				<button class='btn btn-danger' data-dismiss='modal'>
+				<span class='glyphicon glyphicon-remove'></span>Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- MODAL DIALOG FOR DELETING ALL WARNING -->
+	<div id="warningAllModal" class="modal fade" tabindex="-1" role="alert">
+		<div class="modal-dialog">
+			<div class="modal-content alert-warning">
+				<div class="modal-header">
+					<button type="" class="close" data-dismiss="modal">
+						<span>&times</span>
+					</button>
+					<div id="warningAllTitle" class="modal-title">
+						<h2><strong>WARNING!!</strong> Removing all resources.</h2>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div id="warningAllText">
+						<p>You are about to permanently delete <strong>All</strong> resources.<br>
+						This action <strong>can not be undone</strong>.</p>
+						<p><strong>Are you sure you want to delete it?</strong></p>
+					</div>
+				</div>
+				<div id="warningAllFooter" class="modal-footer">
+				<button id='deleteAllBtn' class='btn btn-success'						 
+						data-dismiss='modal'><span class='glyphicon glyphicon-ok'></span>
+						Delete</button>
+				<button class='btn btn-danger' data-dismiss='modal'>
+				<span class='glyphicon glyphicon-remove'></span>Cancel</button>
+				</div>
 			</div>
 		</div>
 	</div>

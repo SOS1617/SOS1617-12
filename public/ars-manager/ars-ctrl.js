@@ -107,32 +107,44 @@ angular
 	}
 	
 	// Delete a resource
-/*
- * $scope.deleteStatWarning = function(uni, year){ var settings = {title: "<h1>Warning</h1>",
- * text: "<p>You are about to permanently delete the resource corresponding to
- * the " + "<strong>" + uni + " " + year + "</strong>.<br>" + "This action
- * can not be undone.</p>" + "<p><strong>Are you sure you want to delete it?</strong></p>",
- * footer: "<button class='btn btn-success' " + "ng-click='deleteStat(\"" + uni +
- * "\", " + year + ");' " + "data-dismiss='modal'>" + "<span class='glyphicon
- * glyphicon-ok'></span>" + "Delete</button>" + "<button class='btn
- * btn-danger' data-dismiss='modal'>" + "<span class='glyphicon
- * glyphicon-remove'></span>" + "Cancel</button>" }
- * warningModalShow(settings); }
- */	
-	$scope.deleteStat = function(uni, year){
-		$http
-		.delete("/api/v1/academic-rankings-stats/" + uni + "/" + year + "?apikey=018d375e")
-		.then(function(response){
-			var settings = {title: "Deleted", 
-					text: "The statistic of the " + uni +
-					" of the year " + year +
-			" has benn successfully deleted."};
-			console.log("Stat deleted. " + response);
-			successModalShow(settings);
-			$scope.rePage();
+	$scope.deleteStatWarning = function(uni, year){
+		var settings = {title: "<h1>Warning</h1>",
+				text: "<p>You are about to permanently delete the resource corresponding to the " + 
+				"<strong>" + uni + " " + year + "</strong>.<br>" + "This action can not be undone.</p>" + 
+				"<p><strong>Are you sure you want to delete it?</strong></p>" }
+		$("#deleteBtn").click(function(){
+			$http
+			.delete("/api/v1/academic-rankings-stats/" + uni + "/" + year + "?apikey=018d375e")
+			.then(function(response){
+				var settings = {title: "Deleted", 
+						text: "The statistic of the " + uni +
+						" of the year " + year +
+				" has benn successfully deleted."};
+				console.log("Stat deleted. ");
+				successModalShow(settings);
+				$scope.rePage();
 			});
-		console.log("Stat deleted");
+			console.log("Deleting stat: " + uni + " - " + year);
+		});
+		warningModalShow(settings); }
+	
+	// Delete All resources
+	$scope.deleteAll = function(){
+		$("#deleteAllBtn").click(function(){
+			$http
+			.delete("/api/v1/academic-rankings-stats?apikey=018d375e")
+			.then(function(response){
+				var settings = {title: "Database has been emptied !!", 
+						text: "All the resources has benn successfully deleted."};
+				console.log("All stats deleted.");
+				successModalShow(settings);
+				$scope.rePage();
+			});
+			console.log("Deleting all stats.");
+		});
+		$("#warningAllModal").modal();
 	}
+ 	
 	
 	// Edit a resource
 	$scope.startEdit = function(stat){
@@ -198,13 +210,12 @@ angular
 		$("#successTitle").text(settings.title);
 		$("#successText").text(settings.text);
 		$("#successModal").modal();
-		setTimeout(function(){$("#successModal").modal("hide");}, 4000);
+		setTimeout(function(){$("#successModal").modal("hide");}, 3000);
 	}
 	
 	function warningModalShow(settings){
 		$("#warningTitle").html(settings.title);
 		$("#warningText").html(settings.text);
-		$("#warningFooter").html(settings.footer);
 		$("#warningModal").modal();
 	}
 
