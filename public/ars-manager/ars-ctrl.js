@@ -135,20 +135,54 @@ angular
 	}
 	
 	// Edit a resource
-	$scope.editStat = function(uni, year, obj){
-		obj.year = Number($scope.newStat.year);
-		obj.newStat.world_position = Number(obj.world_position);
-		obj.newStat.country_position = Number(obj.country_position);
+	$scope.startEdit = function(stat){
+		$scope.editingStat = stat;
+		console.log("Editing the resource: " + stat.university + " " + stat.year);
+	}
+	
+	$scope.editStat = function(){
+		$scope.editingStat.year = Number($scope.editingStat.year);
+		$scope.editingStat.world_position = Number($scope.editingStat.world_position);
+		$scope.editingStat.country_position = Number($scope.editingStat.country_position);
+		console.log("Edited stat= " + JSON.stringify($scope.editingStat));
 		$http
-		.put("/api/v1/academic-rankings-stats/" + uni + "/" + year + "?apikey=018d375e", obj)
+		.put("/api/v1/academic-rankings-stats/" + $scope.editingStat.university + "/" + $scope.editingStat.year + "?apikey=018d375e", $scope.editingStat)
 		.then(function(response){
 			var settings = {title: "Edited", 
-					text: "The statistic of the " + uni +
-					" of the year " + year +
+					text: "The statistic of the " + $scope.editingStat.university +
+					" of the year " + $scope.editingStat.year +
 			" has benn successfully modified."};
 			console.log("Stat edited. " + response.statusText);
 			successModalShow(settings);
 			$scope.rePage();
+			}, function(response){
+				var settings = {};
+				switch (response.status){
+				case 403:
+					settings.title = "Error! Forbiden apikey.";
+					settings.text = "The resource could not be edited because an incorrect apikey was introduced.";
+					break;
+				case 400:
+					settings.title = "Unauthorized! No apikey provided.";
+					settings.text = "The resource could not be edited because no edited data was porvided.";
+					break;
+				case 401:
+					settings.title = "Unauthorized! No apikey provided.";
+					settings.text = "The resource could not be edited because no apikey was introduced.";
+					break;
+				case 422:
+					settings.title = "Error! Unprocesable entity.";
+					settings.text = "The resource could not be edited because some data has not been established.";
+					break;
+				case 404:
+					settings.title = "Error! Not Found.";
+					settings.text = "The resource could not be edited because <strong>the resource not exist</strong>.";
+					break;
+				default:
+					settings.title = "Error! Unknown";
+				settings.text = "The resource could not be edited for an unknomn error."
+				}
+				errorModalShow(settings);
 			});
 	}
 	

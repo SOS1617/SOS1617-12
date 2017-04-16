@@ -29,7 +29,7 @@
 	<div class="container panel">
 		<form class="form-inline">
 			<p class="form-control-static">
-				<strong>View</strong>
+				<strong>Show</strong>
 			</p>
 			<label> <select id="rpp-select" ng-model="rpp"
 				class="form-control" ng-change="rePage();">
@@ -64,7 +64,11 @@
 					<td>{{stat.province}}</td>
 					<td class="text-center">{{stat.country_position}}</td>
 					<td class="text-center">{{stat.world_position}}</td>
-					<td data-toggle="tooltip" title="Click for edit" data-placement="left"></td>
+					<td data-toggle="tooltip" title="Click for edit" data-placement="left">
+					<a href="#editPanel" class="glyphicon glyphicon-edit" 
+					onclick="$('#editPanel').removeClass('hidden');" 
+					ng-click="startEdit(stat)"></a>
+					</td>
 					<td data-toggle="tooltip" title="Delete the resource." data-placement="right">
 						<span class="glyphicon glyphicon-trash" ng-click="deleteStat(stat.university,stat.year)"></span>
 					</td>
@@ -84,7 +88,27 @@
 						ng-model="newStat.country_position"></td>
 					<td class="text-center"><input class="form-control"
 						ng-model="newStat.world_position"></td>
-					<td><button class="btn btn-primary" ng-click="addStat()">Add</button></td>
+					<td><button class="btn btn-primary" ng-click="addStat()">
+					<span class="glyphicon glyphicon-ok"></span>
+					Add</button></td>
+					<td></td>
+				</tr>
+				<tr id="editPanel" class="hidden">
+					<td><h4>
+							<span class="label label-success">Edit:</span>
+						</h4></td>
+					<td><input class="form-control" ng-model="editingStat.university" readonly></td>
+					<td class="text-center"><input class="form-control"
+						ng-model="editingStat.year" readonly></td>
+					<td><input class="form-control" ng-model="editingStat.province"></td>
+					<td class="text-center"><input class="form-control"
+						ng-model="editingStat.country_position"></td>
+					<td class="text-center"><input class="form-control"
+						ng-model="editingStat.world_position"></td>
+					<td><button class="btn btn-primary" ng-click="editStat()" 
+					onclick="$('#editPanel').addClass('hidden');">
+					<span class="glyphicon glyphicon-ok"></span>
+					Confirm</button></td>
 					<td></td>
 				</tr>
 			</tbody>
