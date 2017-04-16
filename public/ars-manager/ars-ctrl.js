@@ -84,9 +84,11 @@ angular
 
 	// Add a resource
 	$scope.addStat = function(){
-		$scope.newStat.year = Number($scope.newStat.year);
-		$scope.newStat.world_position = Number($scope.newStat.world_position);
-		$scope.newStat.country_position = Number($scope.newStat.country_position);
+		if ($scope.newStat){
+			$scope.newStat.year = Number($scope.newStat.year);
+			$scope.newStat.world_position = Number($scope.newStat.world_position);
+			$scope.newStat.country_position = Number($scope.newStat.country_position);
+		}
 		$http
 		.post("/api/v1/academic-rankings-stats?apikey=" + $scope.apikey + "", $scope.newStat)
 		.then(function(response){
@@ -122,6 +124,7 @@ angular
 			settings.text = "Tehe new resource could not be created for an unknomn error."
 			}
 			errorModalShow(settings);
+			$scope.newStat = {};
 		});
 	}
 	

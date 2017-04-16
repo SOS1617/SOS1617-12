@@ -20,29 +20,31 @@
 <body ng-controller="ARSCtrl">
 	<header>
 		<div class="container">
-			<h2>
+			<h1>
 				<strong>Academic Rankings Stats Manager</strong>
-			</h2>
+			</h1>
 			<hr>
 		</div>
 	</header>
 	<div class="container">
 		<div class="panel panel-default">
-		<div class="panel-body form-inline">
-		<label class="">
-			<p class="form-control-static">apikey: </p>
-			<input type="text" class="form-control" ng-model="apikey" ng-change="rePage()" size="8">
-		</label>
-		<button type="button" class="btn btn-danger pull-right" ng-click="deleteAll()">
-			Remove <strong>All</strong> resources
-		</button>
-		<button type="button" class="btn btn-success pull-right" style="margin-right: 10px;" 
-		onclick="$('#newPanel').removeClass('hidden');">
-			Add new resource
-		</button>
+			<div class="panel-body form-inline">
+				<label class="">
+					<p class="form-control-static">Set apikey:</p> <input type="text"
+					class="form-control" ng-model="apikey" ng-change="rePage()"
+					size="8">
+				</label>
+				<button type="button" class="btn btn-danger pull-right"
+					ng-click="deleteAll()">
+					Remove <strong>All</strong> resources
+				</button>
+				<button type="button" class="btn btn-success pull-right"
+					style="margin-right: 10px;"
+					data-toggle="modal" data-target="#addModal">Add new
+					resource</button>
+			</div>
 		</div>
-		</div>
-				<form class="form-inline">
+		<form class="form-inline">
 			<p class="form-control-static">
 				<strong>Show</strong>
 			</p>
@@ -56,13 +58,12 @@
 			</select> results per page.
 			</label>
 		</form>
-		
+
 	</div>
 	<div class="container">
 		<table class=table>
 			<thead>
 				<tr>
-					<th></th>
 					<th>University</th>
 					<th class="text-center">Year</th>
 					<th>Province</th>
@@ -74,63 +75,23 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="stat in stats">
-					<td></td>
 					<td>{{stat.university}}</td>
 					<td class="text-center">{{stat.year}}</td>
 					<td>{{stat.province}}</td>
 					<td class="text-center">{{stat.country_position}}</td>
 					<td class="text-center">{{stat.world_position}}</td>
-					<td data-toggle="tooltip" title="Click for edit" data-placement="left">
-					<a href="#editPanel" class="glyphicon glyphicon-edit" 
-					onclick="$('#editPanel').removeClass('hidden');" 
-					ng-click="startEdit(stat)"></a>
-					</td>
-					<td data-toggle="tooltip" title="Delete the resource." data-placement="right">
-						<span class="glyphicon glyphicon-trash" ng-click="deleteStatWarning(stat.university,stat.year)"></span>
-					</td>
+					<td data-toggle="tooltip" title="Click for edit"
+						data-placement="left">
+						<span class="glyphicon glyphicon-edit text-primary"
+						ng-click="startEdit(stat)"
+						data-toggle="modal" data-target="#editModal"></span></td>
+					<td data-toggle="tooltip" title="Delete the resource."
+						data-placement="right"><span
+						class="glyphicon glyphicon-trash"
+						ng-click="deleteStatWarning(stat.university,stat.year)"></span></td>
 				</tr>
 				<tr>
 					<td colspan="8">&nbsp</td>
-				</tr>
-				<tr id="newPanel" class="hidden">
-					<td><h4>
-							<span class="label label-success">New:</span>
-						</h4></td>
-					<td><input class="form-control" ng-model="newStat.university"></td>
-					<td class="text-center"><input class="form-control"
-						ng-model="newStat.year"></td>
-					<td><input class="form-control" ng-model="newStat.province"></td>
-					<td class="text-center"><input class="form-control"
-						ng-model="newStat.country_position"></td>
-					<td class="text-center"><input class="form-control"
-						ng-model="newStat.world_position"></td>
-					<td><button class="btn btn-primary" ng-click="addStat()">
-					<span class="glyphicon glyphicon-ok"></span>
-					</button></td>
-					<td><button class="btn btn-danger">
-					<span class="glyphicon glyphicon-remove"></span>
-					</button></td>
-				</tr>
-				<tr id="editPanel" class="hidden">
-					<td><h4>
-							<span class="label label-success">Edit:</span>
-						</h4></td>
-					<td><input class="form-control" ng-model="editingStat.university" readonly></td>
-					<td class="text-center"><input class="form-control"
-						ng-model="editingStat.year" readonly></td>
-					<td><input class="form-control" ng-model="editingStat.province"></td>
-					<td class="text-center"><input class="form-control"
-						ng-model="editingStat.country_position"></td>
-					<td class="text-center"><input class="form-control"
-						ng-model="editingStat.world_position"></td>
-					<td><button class="btn btn-primary" ng-click="editStat()" 
-					onclick="$('#editPanel').addClass('hidden');">
-					<span class="glyphicon glyphicon-ok"></span>
-					</button></td>
-					<td><button class="btn btn-danger" 
-					onclick="$('#editPanel').addClass('hidden');">
-					<span class="glyphicon glyphicon-remove"></span>
-					</button></td>
 				</tr>
 			</tbody>
 		</table>
@@ -188,7 +149,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content alert-warning">
 				<div class="modal-header">
-					<button type="" class="close" data-dismiss="modal">
+					<button type="button" class="close" data-dismiss="modal">
 						<span>&times</span>
 					</button>
 					<div id="warningTitle" class="modal-title"></div>
@@ -197,11 +158,12 @@
 					<div id="warningText"></div>
 				</div>
 				<div id="warningFooter" class="modal-footer">
-				<button id='deleteBtn' class='btn btn-success' 						 
-						data-dismiss='modal'><span class='glyphicon glyphicon-ok'></span>
-						Delete</button>
-				<button class='btn btn-danger' data-dismiss='modal'>
-				<span class='glyphicon glyphicon-remove'></span>Cancel</button>
+					<button id='deleteBtn' class='btn btn-success' data-dismiss='modal'>
+						<span class='glyphicon glyphicon-ok'></span> Delete
+					</button>
+					<button class='btn btn-danger' data-dismiss='modal'>
+						<span class='glyphicon glyphicon-remove'></span>Cancel
+					</button>
 				</div>
 			</div>
 		</div>
@@ -216,22 +178,138 @@
 						<span>&times</span>
 					</button>
 					<div id="warningAllTitle" class="modal-title">
-						<h2><strong>WARNING!!</strong> Removing all resources.</h2>
+						<h2>
+							<strong>WARNING!!</strong> Removing all resources.
+						</h2>
 					</div>
 				</div>
 				<div class="modal-body">
 					<div id="warningAllText">
-						<p>You are about to permanently delete <strong>All</strong> resources.<br>
-						This action <strong>can not be undone</strong>.</p>
-						<p><strong>Are you sure you want to delete it?</strong></p>
+						<p>
+							You are about to permanently delete <strong>All</strong>
+							resources.<br> This action <strong>can not be
+								undone</strong>.
+						</p>
+						<p>
+							<strong>Are you sure you want to delete it?</strong>
+						</p>
 					</div>
 				</div>
 				<div id="warningAllFooter" class="modal-footer">
-				<button id='deleteAllBtn' class='btn btn-success'						 
-						data-dismiss='modal'><span class='glyphicon glyphicon-ok'></span>
-						Delete</button>
-				<button class='btn btn-danger' data-dismiss='modal'>
-				<span class='glyphicon glyphicon-remove'></span>Cancel</button>
+					<button id='deleteAllBtn' class='btn btn-success'
+						data-dismiss='modal'>
+						<span class='glyphicon glyphicon-ok'></span> Delete
+					</button>
+					<button class='btn btn-danger' data-dismiss='modal'>
+						<span class='glyphicon glyphicon-remove'></span>Cancel
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- MODAL DIALOG FOR ADD A RESOURCE -->
+	<div id="addModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="modal-title">
+						<h3>
+							<strong>Add new resorce</strong>
+						</h3>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div>
+						<table class=table>
+							<thead>
+								<tr>
+									<th>University</th>
+									<th class="text-center">Year</th>
+									<th>Province</th>
+									<th class="text-center">Country position</th>
+									<th class="text-center">World position</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><input class="form-control"
+										ng-model="newStat.university"></td>
+									<td class="text-center"><input class="form-control"
+										ng-model="newStat.year"></td>
+									<td><input class="form-control"
+										ng-model="newStat.province"></td>
+									<td class="text-center"><input class="form-control"
+										ng-model="newStat.country_position"></td>
+									<td class="text-center"><input class="form-control"
+										ng-model="newStat.world_position"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" ng-click="addStat()" data-dismiss="modal">
+						<span class="glyphicon glyphicon-ok"></span>
+						Add
+					</button>
+					<button class="btn btn-danger" data-dismiss="modal">
+						<span class="glyphicon glyphicon-remove"></span>
+						Cancel
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- MODAL DIALOG FOR EDIT A RESOURCE -->
+	<div id="editModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="modal-title">
+						<h3>
+							<strong>Edit the resource</strong>
+						</h3>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div>
+						<table class=table>
+							<thead>
+								<tr>
+									<th>University</th>
+									<th class="text-center">Year</th>
+									<th>Province</th>
+									<th class="text-center">Country position</th>
+									<th class="text-center">World position</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><input class="form-control"
+										ng-model="editingStat.university" readonly></td>
+									<td class="text-center"><input class="form-control"
+										ng-model="editingStat.year" readonly></td>
+									<td><input class="form-control"
+										ng-model="editingStat.province"></td>
+									<td class="text-center"><input class="form-control"
+										ng-model="editingStat.country_position"></td>
+									<td class="text-center"><input class="form-control"
+										ng-model="editingStat.world_position"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" ng-click="editStat()"
+						data-dismiss="modal">
+						<span class="glyphicon glyphicon-ok"></span> Done
+					</button>
+					<button class="btn btn-danger" data-dismiss="modal">
+						<span class="glyphicon glyphicon-remove"></span> Cancel
+					</button>
 				</div>
 			</div>
 		</div>
@@ -240,7 +318,6 @@
 </body>
 
 <script type="text/javascript">
-
 	$(document).ready(function(){
 		$("#rpp-select").change();
 		$('[data-toggle="tooltip"]').tooltip();
