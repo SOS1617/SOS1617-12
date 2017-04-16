@@ -74,7 +74,43 @@ module.exports.register_AR_api = function(app) {
                     "province": "Granada",
                     "world_position": 436,
                     "country_position": 19
-                }];
+                }, {
+                    "university": "Universidad de Valencia",
+                    "year": 2016,
+                    "province": "Valencia",
+                    "country_position": 12,
+                    "world_position": 386
+                  }, {
+                    "university": "Universidad de Valencia",
+                    "year": 2015,
+                    "province": "Valencia",
+                    "country_position": 15,
+                    "world_position": 405
+                  }, {
+                    "university": "Universidad Pablo de Olavide",
+                    "year": 2015,
+                    "province": "Sevilla",
+                    "country_position": 25,
+                    "world_position": 502
+                  }, {
+                    "university": "Universidad Pablo de Olavide",
+                    "year": 2016,
+                    "province": "Sevilla",
+                    "country_position": 28,
+                    "world_position": 515
+                  }, {
+                    "university": "Universidad Complutense de Madrid",
+                    "year": 2015,
+                    "province": "Madrid",
+                    "country_position": 4,
+                    "world_position": 320
+                  }, {
+                    "university": "Universidad Complutense de Madrid",
+                    "year": 2016,
+                    "province": "Madrid",
+                    "country_position": 6,
+                    "world_position": 342
+                  }];
                 dbar.insert(initialStats);
                 response.sendStatus(201);
             }
@@ -440,10 +476,11 @@ module.exports.register_AR_api = function(app) {
                         response.sendStatus(500); // internal server error
                     }
                     else {
-                        if (statsBeforeInsertion._id !== updatedStat._id) {
+                        if (statsBeforeInsertion[0]._id != updatedStat._id) {
                             console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) +
-                                " has not equal id than aupdated stat, sending 400...");
+                                " has not equal id than updated stat, sending 400...");
                             response.sendStatus(400); // bad request
+                            return;
                         }
                         if (statsBeforeInsertion.length > 0) {
                             dbar.updateOne({

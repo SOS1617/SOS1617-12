@@ -8,3 +8,7 @@
 ul.pagination > li {
 	cursor: pointer;
 }
+
+.glyphicon-trash {
+	color: #ff0000;
+}
