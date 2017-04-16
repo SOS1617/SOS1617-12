@@ -14,12 +14,57 @@ angular
 	$scope.rpp = 0;
 	$scope.pages = [];
 	$scope.apikey ="018d375e";
+	
+	$scope.provinceSearch = null;
+	$scope.yearFrom = null;
+	$scope.yearTo = null;
+	
+	$scope.minYear = "2010";
+	$scope.maxYear = "2017";
+	
+	function getQuery(withPag){
+		var query = [];
 
+		if ($scope.provinceSearch){
+			query.push("province=" + $scope.provinceSearch);
+		}
+		if ($scope.yearFrom && $scope.yearTo){
+			query.push("from=" + $scope.yearFrom);
+			query.push("to=" + $scope.yearTo);
+		}
+		if ($scope.rpp > 0 && withPag){
+			query.push("offset=" + $scope.offset + "&limit=" + $scope.rpp);
+		}
+		return "?" + query.join("&");
+	}
+	
+	function getAvailables(){
+		$scope.aviProvinces = [];
+		$scope.aviYears = [];
+		var searchResults = [];
+		$http.
+			get("/api/v1/academic-rankings-stats?apikey=" + $scope.apikey)
+			.then(function(response){
+				searchResults = response.data;
+				
+				$scope.aviProvinces = searchResults.map((current)=>{
+					return current.province;
+				}).filter((a,b,c)=>{return c.indexOf(a,b+1) < 0;}).sort();
+				
+				$scope.aviYears = searchResults.map((current)=>{
+					return current.year;
+				}).filter((a,b,c)=>{return c.indexOf(a,b+1) < 0;}).sort((a,b)=>{return a-b;});
+				
+				console.log("Available provinces: " + $scope.aviProvinces);
+				console.log("Available years: " + $scope.aviYears);
+			})
+	}
 
 	// Refresh the resources list
 	$scope.refresh = function(){
+		var query = (getQuery(true).length > 1) ? getQuery(true) + "&" : getQuery(true);
 		$http
-		.get("/api/v1/academic-rankings-stats?apikey=" + $scope.apikey + "&offset=" + $scope.offset + "&limit=" + $scope.rpp)
+		.get("/api/v1/academic-rankings-stats" + query + "apikey=" + $scope.apikey)
 		.then(function(response) {
 			$scope.stats = response.data;
 		}, function(response){
@@ -47,11 +92,14 @@ angular
 	// Triger when need repage
 	$scope.rePage = function() {
 		console.log("Limit changed: " + $scope.rpp);
+		var query = (getQuery(false).length > 1) ? getQuery(false) + "&" : getQuery(false);
+		var searchResults = [];
 		$scope.pages.length = 0;
 		$http
-		.get("/api/v1/academic-rankings-stats?apikey=" + $scope.apikey + "")
+		.get("/api/v1/academic-rankings-stats" + query + "apikey=" + $scope.apikey + "")
 		.then(function(response){
-			$scope.total = response.data.length;
+			searchResults = response.data;
+			$scope.total = searchResults.length;			
 			console.log("Total resources: " + $scope.total);
 		}), function(response){
 			$scope.total = 0;
@@ -59,8 +107,8 @@ angular
 		var fin = ($scope.rpp == 0) ? 1 : Math.ceil($scope.total/$scope.rpp);
 		for (var i = 1; i <= fin; i++){
 			$scope.pages.push({np: i});
-		}
-
+		}		
+		
 		$scope.setPage(1);
 		$scope.refresh();
 	};
@@ -239,6 +287,9 @@ angular
 		$("#warningTitle").html(settings.title);
 		$("#warningText").html(settings.text);
 		$("#warningModal").modal();
-	}
+	}	
+
+	getAvailables();
 
 }]);
+
