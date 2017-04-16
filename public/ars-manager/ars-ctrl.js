@@ -13,15 +13,32 @@ angular
 	$scope.page = 1;
 	$scope.rpp = 0;
 	$scope.pages = [];
-	$scope.apikey ="";
+	$scope.apikey ="018d375e";
 
 
 	// Refresh the resources list
 	$scope.refresh = function(){
 		$http
-		.get("/api/v1/academic-rankings-stats?apikey=018d375e&offset=" + $scope.offset + "&limit=" + $scope.rpp)
+		.get("/api/v1/academic-rankings-stats?apikey=" + $scope.apikey + "&offset=" + $scope.offset + "&limit=" + $scope.rpp)
 		.then(function(response) {
 			$scope.stats = response.data;
+		}, function(response){
+			var settings = {};
+			switch (response.status){
+			case 403:
+				settings.title = "Error! Forbiden apikey.";
+				settings.text = "Can't get resources because an incorrect apikey was introduced.";
+				break;
+			case 401:
+				settings.title = "Unauthorized! No apikey provided.";
+				settings.text = "Can't get resources because no apikey was introduced.";
+				break;
+			default:
+				settings.title = "Error! Unknown";
+			settings.text = "The new resource could not be created for an unknomn error."
+			}
+			$scope.stats = [];
+			errorModalShow(settings);
 		});
 		$("#navPag" + $scope.page).addClass("active");
 	};
@@ -32,11 +49,13 @@ angular
 		console.log("Limit changed: " + $scope.rpp);
 		$scope.pages.length = 0;
 		$http
-		.get("/api/v1/academic-rankings-stats?apikey=018d375e")
+		.get("/api/v1/academic-rankings-stats?apikey=" + $scope.apikey + "")
 		.then(function(response){
 			$scope.total = response.data.length;
 			console.log("Total resources: " + $scope.total);
-		});
+		}), function(response){
+			$scope.total = 0;
+		};
 		var fin = ($scope.rpp == 0) ? 1 : Math.ceil($scope.total/$scope.rpp);
 		for (var i = 1; i <= fin; i++){
 			$scope.pages.push({np: i});
@@ -69,7 +88,7 @@ angular
 		$scope.newStat.world_position = Number($scope.newStat.world_position);
 		$scope.newStat.country_position = Number($scope.newStat.country_position);
 		$http
-		.post("/api/v1/academic-rankings-stats?apikey=018d375e", $scope.newStat)
+		.post("/api/v1/academic-rankings-stats?apikey=" + $scope.apikey + "", $scope.newStat)
 		.then(function(response){
 			var settings = {title: "Created", 
 					text: "The statistic of the " + $scope.newStat.university +
@@ -114,7 +133,7 @@ angular
 				"<p><strong>Are you sure you want to delete it?</strong></p>" }
 		$("#deleteBtn").click(function(){
 			$http
-			.delete("/api/v1/academic-rankings-stats/" + uni + "/" + year + "?apikey=018d375e")
+			.delete("/api/v1/academic-rankings-stats/" + uni + "/" + year + "?apikey=" + $scope.apikey + "")
 			.then(function(response){
 				var settings = {title: "Deleted", 
 						text: "The statistic of the " + uni +
@@ -132,7 +151,7 @@ angular
 	$scope.deleteAll = function(){
 		$("#deleteAllBtn").click(function(){
 			$http
-			.delete("/api/v1/academic-rankings-stats?apikey=018d375e")
+			.delete("/api/v1/academic-rankings-stats?apikey=" + $scope.apikey + "")
 			.then(function(response){
 				var settings = {title: "Database has been emptied !!", 
 						text: "All the resources has benn successfully deleted."};
@@ -158,7 +177,7 @@ angular
 		$scope.editingStat.country_position = Number($scope.editingStat.country_position);
 		console.log("Edited stat= " + JSON.stringify($scope.editingStat));
 		$http
-		.put("/api/v1/academic-rankings-stats/" + $scope.editingStat.university + "/" + $scope.editingStat.year + "?apikey=018d375e", $scope.editingStat)
+		.put("/api/v1/academic-rankings-stats/" + $scope.editingStat.university + "/" + $scope.editingStat.year + "?apikey=" + $scope.apikey + "", $scope.editingStat)
 		.then(function(response){
 			var settings = {title: "Edited", 
 					text: "The statistic of the " + $scope.editingStat.university +

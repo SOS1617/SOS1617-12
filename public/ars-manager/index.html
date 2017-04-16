@@ -26,8 +26,23 @@
 			<hr>
 		</div>
 	</header>
-	<div class="container panel">
-		<form class="form-inline">
+	<div class="container">
+		<div class="panel panel-default">
+		<div class="panel-body form-inline">
+		<label class="">
+			<p class="form-control-static">apikey: </p>
+			<input type="text" class="form-control" ng-model="apikey" ng-change="rePage()" size="8">
+		</label>
+		<button type="button" class="btn btn-danger pull-right" ng-click="deleteAll()">
+			Remove <strong>All</strong> resources
+		</button>
+		<button type="button" class="btn btn-success pull-right" style="margin-right: 10px;" 
+		onclick="$('#newPanel').removeClass('hidden');">
+			Add new resource
+		</button>
+		</div>
+		</div>
+				<form class="form-inline">
 			<p class="form-control-static">
 				<strong>Show</strong>
 			</p>
@@ -41,9 +56,7 @@
 			</select> results per page.
 			</label>
 		</form>
-		<button type="button" class="btn btn-danger pull-right" ng-click="deleteAll()">
-			Remove <strong>All</strong> resources
-		</button>
+		
 	</div>
 	<div class="container">
 		<table class=table>
@@ -79,7 +92,7 @@
 				<tr>
 					<td colspan="8">&nbsp</td>
 				</tr>
-				<tr>
+				<tr id="newPanel" class="hidden">
 					<td><h4>
 							<span class="label label-success">New:</span>
 						</h4></td>
