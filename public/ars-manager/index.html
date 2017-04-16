@@ -18,7 +18,7 @@
 <script type="text/javascript" src="ars-ctrl.js"></script>
 </head>
 <body ng-controller="ARSCtrl">
-	<header>
+	<header class="bg-primary">
 		<div class="container">
 			<h1>
 				<strong>Academic Rankings Stats Manager</strong>
@@ -44,11 +44,12 @@
 					resource</button>
 			</div>
 		</div>
-		<form class="form-inline">
-			<p class="form-control-static">
-				<strong>Show</strong>
-			</p>
-			<label> <select id="rpp-select" ng-model="rpp"
+		<form class="form-inline panel panel-default" style="padding:5px;">
+			<label>
+				<p class="form-control-static">
+					<strong>Show</strong>
+				</p>			 
+				<select id="rpp-select" ng-model="rpp"
 				class="form-control" ng-change="rePage();">
 					<option value="0" selected>All</option>
 					<option>5</option>
@@ -56,6 +57,37 @@
 					<option>20</option>
 					<option>50</option>
 			</select> results per page.
+			</label>
+			<label class="pull-right">
+				<p class="form-control-static">
+					<strong>&nbsp;&nbsp;Search for province: </strong>
+				</p>
+				<input list="provincesAvi" class="form-control" ng-model="provinceSearch"
+				ng-change="rePage()" size="8">
+				<datalist id="provincesAvi">
+					<option ng-repeat="prov in aviProvinces" value="{{prov}}">
+				</datalist>
+			</label>
+			<button type="submit" class="btn btn-primary btn-sm pull-right" 
+				ng-click="rePage()" style="margin-left: 5px; margin-right: 10px;">
+				GO
+			</button>
+			<label class="pull-right">
+				<p class="form-control-static">
+					<strong>&nbsp;&nbsp;to: </strong>
+				</p>
+				<input class="form-control" ng-model="yearTo"
+				size="6" value="2017" required>
+			</label>
+			<label class="pull-right">
+				<p class="form-control-static">
+					<strong>from: </strong>
+				</p>
+				<input class="form-control" ng-model="yearFrom"
+				size="6" value="2010" required>
+			</label>
+			<label class="pull-right">
+				<p class="form-control-static"><strong>Search between years</strong>&nbsp;</p>
 			</label>
 		</form>
 
@@ -90,9 +122,6 @@
 						class="glyphicon glyphicon-trash"
 						ng-click="deleteStatWarning(stat.university,stat.year)"></span></td>
 				</tr>
-				<tr>
-					<td colspan="8">&nbsp</td>
-				</tr>
 			</tbody>
 		</table>
 	</div>
@@ -108,7 +137,11 @@
 			</ul>
 		</nav>
 	</div>
-	<footer> </footer>
+	<footer>
+		<div class="container bg-primary">
+			<p class="pull-right">&copy;&nbsp;José Manuel Hernández</p>
+		</div>
+	</footer>
 
 	<!-- MODAL FOR ERRORS -->
 	<div id="errorModal" class="modal fade" tabindex="-1" role="alert">
