@@ -12,3 +12,7 @@ ul.pagination > li {
 .glyphicon-trash {
 	color: #ff0000;
 }
+
+footer {
+	padding: 10px;
+}
