@@ -264,8 +264,6 @@ module.exports.register_AR_api = function(app) {
                 
     });
     
-    
-
     //POST over a collection
     app.post(BASE_API_PATH + "/economics-stats", function(request, response) {
                 // Comprobación de APIKEY
