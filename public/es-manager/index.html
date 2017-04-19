@@ -9,6 +9,7 @@
             <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
             <script type="text/javascript" src="/es-manager/js/estats-manager-app.js"></script>
             <script type="text/javascript" src="/es-manager/js/es-ctrl.js"></script>
+            
 
       </head>
       <body>
@@ -41,6 +42,14 @@
                                     <td><input class="form-control" ng-model="newStat.employers_id"/></td>
                                     <td><button ng-click="addStat()" class="btn btn-primary">Add</button></td>
                               </tr>
+                              <tr>
+                                    <td><input class="form-control" ng-model="newStatU.province"/></td>
+                                    <td><input class="form-control" ng-model="newStatU.year"/></td>
+                                    <td><input class="form-control" ng-model="newStatU.expensive_peu"/></td>
+                                    <td><input class="form-control" ng-model="newStatU.expensive_id"/></td>
+                                    <td><input class="form-control" ng-model="newStatU.employers_id"/></td>
+                                    <td><button ng-click="updateStat()" class="btn btn-warning">Update</button></td>
+                              </tr>
                         </thead> 
                         <tbody>
                               <tr ng-repeat="stat in stats"> 
@@ -65,8 +74,8 @@
                               <td>
 				<select id="size-select" ng-model="size"
 				class="form-control" ng-change="changeSizeList();">
-					<option value="10" selected>10</option>
 					<option>5</option>
+					<option value="10" selected>10</option>
 					<option>15</option>
 			</select> results per page.
                         </tr>

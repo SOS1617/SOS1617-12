@@ -23,19 +23,25 @@ angular
                                     console.log("Numero de páginas: "+$scope.pages);
                               }
                         });
+                  $scope.newStat = null;
+                  $scope.newStatU = null;
+
             }
             
             var err = function errHandler(err){
                   if(err.status === 403){
-                        console.log("INFOWEB: Invalid Apikey");
+                        console.log("INFOWEB: Invalid Apikey");;
+                        $scope.stats = null;
+                        $scope.apikeyWarning  = "Valid apikey must be provided"; 
                   }
                   if(err.status === 401){
                         console.log("INFOWEB: Apikey unprovided")
-                  }
-                        
-                        console.log("Apikey INCORRECTA");
                         $scope.stats = null;
-                        $scope.apikeyWarning  = "Valid apikey must be provided";   
+                        $scope.apikeyWarning  = "An apikey must be provided"; 
+                  }
+                  if(err.status === 400){
+                        console.log("INFOWEB: Stat incorrecta")
+                  }
             }
             
             $scope.retrieveList = function(){
@@ -114,6 +120,19 @@ angular
                         .post($scope.url+"?apikey="+$scope.apikey,$scope.newStat)
                         .then(function(response){
                               console.log("INFO: E-Stat added to DB");
+                              refresh();
+                        },err)
+            };
+            
+              $scope.updateStat = function (){
+                  $scope.newStatU.year = parseInt($scope.newStatU.year);
+                  $scope.newStatU.expensive_peu = parseInt($scope.newStatU.expensive_peu);
+                  $scope.newStatU.expensive_id = parseInt($scope.newStatU.expensive_id);
+                  $scope.newStatU.employers_id = parseInt($scope.newStatU.employers_id);
+                  $http
+                        .put($scope.url+"/"+$scope.newStatU.province+"/"+$scope.newStatU.year+"?apikey="+$scope.apikey,$scope.newStatU)
+                        .then(function(response){
+                              console.log("INFO: E-Stat updated to DB");
                               refresh();
                         },err)
             };
