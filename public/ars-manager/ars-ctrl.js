@@ -39,17 +39,19 @@ angular
 	}
 	
 	function getAvailables(){
-		$scope.aviProvinces = [];
-		$scope.aviYears = [];
 		var searchResults = [];
 		$http.
 			get("/api/v1/academic-rankings-stats?apikey=" + $scope.apikey)
 			.then(function(response){
+				$scope.aviProvinces = [];
+				$scope.aviYears = [];
+				
 				searchResults = response.data;
 				
 				$scope.aviProvinces = searchResults.map((current)=>{
 					return current.province;
 				}).filter((a,b,c)=>{return c.indexOf(a,b+1) < 0;}).sort();
+				$scope.aviProvinces.unshift(" ");
 				
 				$scope.aviYears = searchResults.map((current)=>{
 					return current.year;
@@ -80,7 +82,7 @@ angular
 				break;
 			default:
 				settings.title = "Error! Unknown";
-			settings.text = "The new resource could not be created for an unknomn error."
+				settings.text = "The new resource could not be created for an unknomn error."
 			}
 			$scope.stats = [];
 			errorModalShow(settings);
@@ -101,13 +103,14 @@ angular
 			searchResults = response.data;
 			$scope.total = searchResults.length;			
 			console.log("Total resources: " + $scope.total);
+			var fin = ($scope.rpp == 0) ? 1 : Math.ceil($scope.total/$scope.rpp);
+			for (var i = 1; i <= fin; i++){
+				$scope.pages.push({np: i});
+			}
+			getAvailables();
 		}), function(response){
 			$scope.total = 0;
 		};
-		var fin = ($scope.rpp == 0) ? 1 : Math.ceil($scope.total/$scope.rpp);
-		for (var i = 1; i <= fin; i++){
-			$scope.pages.push({np: i});
-		}		
 		
 		$scope.setPage(1);
 		$scope.refresh();
@@ -288,8 +291,6 @@ angular
 		$("#warningText").html(settings.text);
 		$("#warningModal").modal();
 	}	
-
-	getAvailables();
 
 }]);
 

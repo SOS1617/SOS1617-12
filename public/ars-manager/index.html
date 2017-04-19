@@ -2,6 +2,7 @@
 <html ng-app="AcademicRankingsStatsManager">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Academic Rankings Stats Manager</title>
 <link rel="stylesheet"
 	href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -18,8 +19,8 @@
 <script type="text/javascript" src="ars-ctrl.js"></script>
 </head>
 <body ng-controller="ARSCtrl">
-	<header class="bg-primary">
-		<div class="container">
+	<header>
+		<div class="container-fluid">
 			<h1>
 				<strong>Academic Rankings Stats Manager</strong>
 			</h1>
@@ -28,69 +29,67 @@
 	</header>
 	<div class="container">
 		<div class="panel panel-default">
-			<div class="panel-body form-inline">
-				<label class="">
+			<div class="panel-body form-inline row">
+				<label class="col-xs-12 col-md-6">
 					<p class="form-control-static">Set apikey:</p> <input type="text"
 					class="form-control" ng-model="apikey" ng-change="rePage()"
 					size="8">
 				</label>
-				<button type="button" class="btn btn-danger pull-right"
-					ng-click="deleteAll()">
-					Remove <strong>All</strong> resources
-				</button>
-				<button type="button" class="btn btn-success pull-right"
-					style="margin-right: 10px;"
-					data-toggle="modal" data-target="#addModal">Add new
-					resource</button>
+				<div class="pull-right col-xs-12 col-md-6">
+					<button type="button" class="btn btn-danger pull-right"
+						ng-click="deleteAll()">
+						Remove <strong>All</strong> resources
+					</button>
+					<button type="button" class="btn btn-success pull-right"
+						style="margin-right: 10px;" data-toggle="modal"
+						data-target="#addModal">Add new resource</button>
+				</div>
 			</div>
 		</div>
-		<form class="form-inline panel panel-default" style="padding:5px;">
-			<label>
-				<p class="form-control-static">
-					<strong>Show</strong>
-				</p>			 
-				<select id="rpp-select" ng-model="rpp"
-				class="form-control" ng-change="rePage();">
-					<option value="0" selected>All</option>
-					<option>5</option>
-					<option>10</option>
-					<option>20</option>
-					<option>50</option>
-			</select> results per page.
-			</label>
-			<label class="pull-right">
-				<p class="form-control-static">
-					<strong>&nbsp;&nbsp;Search for province: </strong>
-				</p>
-				<input list="provincesAvi" class="form-control" ng-model="provinceSearch"
-				ng-change="rePage()" size="8">
-				<datalist id="provincesAvi">
-					<option ng-repeat="prov in aviProvinces" value="{{prov}}">
-				</datalist>
-			</label>
-			<button type="submit" class="btn btn-primary btn-sm pull-right" 
-				ng-click="rePage()" style="margin-left: 5px; margin-right: 10px;">
-				GO
-			</button>
-			<label class="pull-right">
-				<p class="form-control-static">
-					<strong>&nbsp;&nbsp;to: </strong>
-				</p>
-				<input class="form-control" ng-model="yearTo"
-				size="6" value="2017" required>
-			</label>
-			<label class="pull-right">
-				<p class="form-control-static">
-					<strong>from: </strong>
-				</p>
-				<input class="form-control" ng-model="yearFrom"
-				size="6" value="2010" required>
-			</label>
-			<label class="pull-right">
-				<p class="form-control-static"><strong>Search between years</strong>&nbsp;</p>
-			</label>
-		</form>
-
+		<div class="panel panel-default">
+			<div class="form-inline panel-body row" style="padding: 6px;">
+				<label class="col-xs-12 col-md-3">
+					<p class="form-control-static">
+						<strong>Show</strong>
+					</p> <select id="rpp-select" ng-model="rpp" class="form-control"
+					ng-change="rePage();">
+						<option value="0" selected>All</option>
+						<option>5</option>
+						<option>10</option>
+						<option>20</option>
+						<option>50</option>
+				</select> results per page.
+				</label> <label class="pull-right col-xs-12 col-md-3">
+					<p class="form-control-static">
+						<strong>&nbsp;&nbsp;Search province: </strong>
+					</p> <input list="provincesAvi" class="form-control"
+					ng-model="provinceSearch" ng-change="rePage()" size="8"
+					autocomplete> <datalist id="provincesAvi">
+						<option ng-repeat="prov in aviProvinces">{{prov}}</option>
+					</datalist>
+				</label>
+				<div class="col-xs-12 col-md-6">
+					<button type="submit" class="btn btn-primary btn-sm pull-right"
+						ng-click="rePage()" style="margin-left: 5px; margin-right: 10px;">
+						GO</button>
+					<label class="pull-right">
+						<p class="form-control-static">
+							<strong>&nbsp;&nbsp;to: </strong>
+						</p> <input class="form-control" ng-model="yearTo" size="6"
+						value="2017" required>
+					</label> <label class="pull-right">
+						<p class="form-control-static">
+							<strong>from: </strong>
+						</p> <input class="form-control" ng-model="yearFrom" size="6"
+						value="2010" required>
+					</label> <label class="pull-right">
+						<p class="form-control-static">
+							<strong>Search years</strong>&nbsp;
+						</p>
+					</label>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="container">
 		<table class=table>
@@ -113,10 +112,10 @@
 					<td class="text-center">{{stat.country_position}}</td>
 					<td class="text-center">{{stat.world_position}}</td>
 					<td data-toggle="tooltip" title="Click for edit"
-						data-placement="left">
-						<span class="glyphicon glyphicon-edit text-primary"
-						ng-click="startEdit(stat)"
-						data-toggle="modal" data-target="#editModal"></span></td>
+						data-placement="left"><span
+						class="glyphicon glyphicon-edit text-primary"
+						ng-click="startEdit(stat)" data-toggle="modal"
+						data-target="#editModal"></span></td>
 					<td data-toggle="tooltip" title="Delete the resource."
 						data-placement="right"><span
 						class="glyphicon glyphicon-trash"
@@ -138,7 +137,7 @@
 		</nav>
 	</div>
 	<footer>
-		<div class="container bg-primary">
+		<div class="container-fluid">
 			<p class="pull-right">&copy;&nbsp;José Manuel Hernández</p>
 		</div>
 	</footer>
@@ -240,9 +239,10 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- MODAL DIALOG FOR ADD A RESOURCE -->
-	<div id="addModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
+	<div id="addModal" class="modal fade" tabindex="-1" role="dialog"
+		data-backdrop="static">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -282,13 +282,12 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" ng-click="addStat()" data-dismiss="modal">
-						<span class="glyphicon glyphicon-ok"></span>
-						Add
+					<button class="btn btn-primary" ng-click="addStat()"
+						data-dismiss="modal">
+						<span class="glyphicon glyphicon-ok"></span> Add
 					</button>
 					<button class="btn btn-danger" data-dismiss="modal">
-						<span class="glyphicon glyphicon-remove"></span>
-						Cancel
+						<span class="glyphicon glyphicon-remove"></span> Cancel
 					</button>
 				</div>
 			</div>
@@ -296,7 +295,8 @@
 	</div>
 
 	<!-- MODAL DIALOG FOR EDIT A RESOURCE -->
-	<div id="editModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
+	<div id="editModal" class="modal fade" tabindex="-1" role="dialog"
+		data-backdrop="static">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
