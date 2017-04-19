@@ -90,6 +90,31 @@
 				</div>
 			</div>
 		</div>
+		<div class="panel panel-default">
+			<div class="form-inline panel-body row" style="padding: 6px;">
+				
+					<label class="col-md-9 col-xs-12">
+						<p class="form-control-static">
+						<strong>List stats from &nbsp;</strong>
+						</p>
+						<select class="form-control" ng-model="universityFilter" ng-change="rePage()">
+							<option value="0">All universities</option>
+							<option ng-repeat="uni in aviUnis">{{uni}}</option>
+						</select>
+					</label>
+					<label class="col-md-3 col-xs-12 pull-right">
+						<p class="form-control-static">
+						<strong>List stats from &nbsp;</strong>
+						</p>
+						<select class="form-control" ng-model="yearFilter" ng-change="rePage()">
+							<option value="0">All</option>
+							<option ng-repeat="yearF in aviYears">{{yearF}}</option>
+						</select>
+						&nbsp;year
+					</label>
+				
+			</div>
+		</div>
 	</div>
 	<div class="container">
 		<table class=table>

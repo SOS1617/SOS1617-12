@@ -38,6 +38,16 @@ angular
 		return "?" + query.join("&");
 	}
 	
+	function getFilters() {
+		var filters="";
+		if ($scope.universityFilter && $scope.universityFilter != 0){
+			filters = filters + "/" + $scope.universityFilter;
+		}
+		if ($scope.yearFilter && $scope.yearFilter != 0)
+			filters = filters + "/" + $scope.yearFilter;
+		return filters
+	}
+	
 	function getAvailables(){
 		var searchResults = [];
 		$http.
@@ -45,14 +55,18 @@ angular
 			.then(function(response){
 				$scope.aviProvinces = [];
 				$scope.aviYears = [];
+				$scope.aviUnis = [];
 				
 				searchResults = response.data;
 				
 				$scope.aviProvinces = searchResults.map((current)=>{
 					return current.province;
 				}).filter((a,b,c)=>{return c.indexOf(a,b+1) < 0;}).sort();
-				$scope.aviProvinces.unshift(" ");
-				
+
+				$scope.aviUnis = searchResults.map((current)=>{
+					return current.university;
+				}).filter((a,b,c)=>{return c.indexOf(a,b+1) < 0;}).sort();
+
 				$scope.aviYears = searchResults.map((current)=>{
 					return current.year;
 				}).filter((a,b,c)=>{return c.indexOf(a,b+1) < 0;}).sort((a,b)=>{return a-b;});
@@ -66,8 +80,9 @@ angular
 	$scope.refresh = function(){
 		var query = (getQuery(true).length > 1) ? getQuery(true) + "&" : getQuery(true);
 		$http
-		.get("/api/v1/academic-rankings-stats" + query + "apikey=" + $scope.apikey)
+		.get("/api/v1/academic-rankings-stats"+ getFilters() + query + "apikey=" + $scope.apikey)
 		.then(function(response) {
+			console.log(response)
 			$scope.stats = response.data;
 		}, function(response){
 			var settings = {};
@@ -98,7 +113,7 @@ angular
 		var searchResults = [];
 		$scope.pages.length = 0;
 		$http
-		.get("/api/v1/academic-rankings-stats" + query + "apikey=" + $scope.apikey + "")
+		.get("/api/v1/academic-rankings-stats" + getFilters() + query + "apikey=" + $scope.apikey + "")
 		.then(function(response){
 			searchResults = response.data;
 			$scope.total = searchResults.length;			
