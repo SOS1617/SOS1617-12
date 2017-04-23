@@ -1,0 +1,80 @@
+<div class="container-fluid">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Updating rankings</h3>
+			<div class="text-right form-inline">
+				<label>
+					<p class="form-control-static">Set apikey:</p> <input type="text"
+					class="form-control" ng-model="apikey" size="8">
+				</label>
+			</div>
+		</div>
+		<div class="panel-body">
+			<table class=table>
+				<thead>
+					<tr>
+						<th>University</th>
+						<th class="text-center">Year</th>
+						<th>Province</th>
+						<th class="text-center">Country position</th>
+						<th class="text-center">World position</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><input class="form-control" ng-model="editingStat.university" readonly></td>
+						<td class="text-center"><input class="form-control" ng-model="editingStat.year" readonly></td>
+						<td><input class="form-control" ng-model="editingStat.province" required></td>
+						<td class="text-center"><input class="form-control" ng-model="editingStat.country_position" required></td>
+						<td class="text-center"><input class="form-control" ng-model="editingStat.world_position" required></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="panel-footer text-right">
+			<button type="submit" class="btn btn-primary" ng-click="updateStat()">
+						<span class="glyphicon glyphicon-ok"></span> Done
+					</button>
+			<button type"cancel" class="btn btn-danger" ng-click="cancelUpdate()">
+						<span class="glyphicon glyphicon-remove"></span> Cancel
+					</button>
+		</div>
+
+	</div>
+</div>
+
+<!-- MODAL FOR SUCCESS -->
+<div id="successEditModal" class="modal fade" tabindex="-1" role="alert">
+	<div class="modal-dialog">
+		<div class="modal-content alert-success">
+			<div class="modal-header">
+				<button type="" class="close" data-dismiss="modal">
+						<span>&times</span>
+					</button>
+				<h3 id="successTitle" class="modal-title">Updated</h3>
+			</div>
+			<div class="modal-body">
+				<p id="successText">The statistic of the {{editingStat.university}} of the year {{editingStat.year}} has benn successfully modified.
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL FOR ERRORS -->
+<div id="errorModal" class="modal fade" tabindex="-1" role="alert">
+	<div class="modal-dialog">
+		<div class="modal-content alert-danger">
+			<div class="modal-header">
+				<button type="" class="close" data-dismiss="modal">
+						<span>&times</span>
+					</button>
+				<h3 id="errorTitle" class="modal-title">Error !!</h3>
+			</div>
+			<div class="modal-body">
+				<p id="errorText"></p>
+			</div>
+		</div>
+	</div>
+</div>
