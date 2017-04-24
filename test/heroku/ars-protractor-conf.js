@@ -1,6 +1,6 @@
 exports.config = {
     seleniumAddress : 'http://localhost:9515',
-    specs : ['arsT01-loadData.js'],
+    specs : ['T01-LoadResources.js', 'T02-AddResource.js'],
     capabilties: {
         'browserName' : 'phantomjs'
     }
