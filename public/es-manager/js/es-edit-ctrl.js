@@ -53,7 +53,13 @@ angular
                   }
                   if(err.status === 400){
                         console.log("INFOWEB: Stat incorrecta")
+                        $scope.statSuccess  = "Incorrect stat";
                   }
+                  if(err.status === 409){
+                        console.log("INFOWEB: Stat incorrecta")
+                        $scope.statSuccess  = "That stat already exist"; 
+                  }
+                  
             }
             
             $scope.updateStat = function (){
