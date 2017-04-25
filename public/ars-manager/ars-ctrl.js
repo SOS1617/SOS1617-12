@@ -89,7 +89,11 @@ angular
 			$http
 				.get("/api/v1/academic-rankings-stats" + getFilters() + query + "apikey=" + $scope.apikey)
 				.then(function(response) {
-					$scope.stats = response.data;
+					if (Array.isArray(response.data)) {
+						$scope.stats = response.data;
+					} else {
+					$scope.stats = [response.data];
+					}
 				}, function(response) {
 					var settings = {};
 					switch (response.status) {
@@ -117,13 +121,13 @@ angular
 			console.log("Limit changed: " + $scope.rpp);
 			var query = (getQuery(false).length > 1) ? getQuery(false) + "&" : getQuery(false);
 			var searchResults = [];
-			$scope.pages.length = 0;
-			$http
+				$http
 				.get("/api/v1/academic-rankings-stats" + getFilters() + query + "apikey=" + $scope.apikey + "")
 				.then(function(response) {
 					searchResults = response.data;
 					$scope.total = searchResults.length;
 					console.log("Total resources: " + $scope.total);
+					$scope.pages = [];
 					var fin = ($scope.rpp == 0) ? 1 : Math.ceil($scope.total / $scope.rpp);
 					for (var i = 1; i <= fin; i++) {
 						$scope.pages.push({
@@ -332,6 +336,8 @@ angular
 		
 		$(document).ready(function(){
 			$('#rpp-select').change();
+			$('#uni-select').change();
+			$('#year-select').change();
 		});
 
 	}]);
