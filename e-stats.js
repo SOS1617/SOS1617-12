@@ -81,11 +81,39 @@ module.exports.register_AR_api = function(app) {
                 "employers_id": 49973
             },
             {
-                "province": "Barcelona",
-                "year": 2008,
-                "expensive_peu": 541125,
+                "province": "Murcia",
+                "year": 2007,
+                "expensive_peu": 5541,
+                "expensive_id": 44422,
+                "employers_id": 822421
+            },
+            {
+                "province": "Malaga",
+                "year": 2009,
+                "expensive_peu": 56455,
                 "expensive_id": 41522,
                 "employers_id": 8521
+            },
+            {
+                "province": "Barcelona",
+                "year": 2002,
+                "expensive_peu": 5453455,
+                "expensive_id": 4134222,
+                "employers_id": 82342341
+            },
+            {
+                "province": "Tarragona",
+                "year": 2008,
+                "expensive_peu": 541125,
+                "expensive_id": 3100022,
+                "employers_id": 221
+            },
+            {
+                "province": "Lugo",
+                "year": 2010,
+                "expensive_peu": 12335,
+                "expensive_id": 443,
+                "employers_id": 6761
             }];
                 dbes.insert(initialStats);
                 response.sendStatus(201);

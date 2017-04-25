@@ -21,7 +21,11 @@ angular
                               $scope.pages = Math.floor(response.data.length/$scope.size);
                               if (response.data.length%$scope.size>0){
                                     $scope.pages = $scope.pages +1; 
-                                    console.log("Numero de páginas: "+$scope.pages);
+                              }
+                              $scope.arrayPages = new Array($scope.pages);
+                              for (var i = 0; i<($scope.arrayPages.length); i++) {
+                                    console.log($scope.arrayPages.length);
+                                    $scope.arrayPages[i] = i+1;
                               }
                         });
                   $scope.newStat = null;
@@ -200,6 +204,11 @@ angular
                                                 $scope.pages = Math.floor(response.data.length/$scope.size);
                                                 if (response.data.length%$scope.size>0){
                                                       $scope.pages = $scope.pages +1; 
+                                                }
+                                                $scope.arrayPages = new Array($scope.pages);
+                                                for (var i = 0; i<($scope.arrayPages.length); i++) {
+                                                      console.log($scope.arrayPages.length);
+                                                      $scope.arrayPages[i] = i+1;
                                                 }
                                                 console.log("Numero de páginas: "+$scope.pages);
                                                 console.log("division: "+Math.floor(response.data.length/$scope.size));

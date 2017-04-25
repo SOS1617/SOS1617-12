@@ -1,6 +1,6 @@
 angular
       .module("sos1617-12-app") // se invoca el modelo
-      .controller("ESCtrl",["$scope","$http",function($scope,$http){
+      .controller("ESCtrl",["$scope","$http","$location",function($scope,$http,$location){
             console.log("-Controller initialized-");
             $scope.url = "/api/v2/economics-stats";
             $scope.apikeyWarning = "";
@@ -10,6 +10,8 @@ angular
             $scope.size = 10;
             $scope.pages = 0;
             $scope.allData= null;
+            $scope.arrayPages= null;
+            $scope.statSuccess  = ""; 
             
             function refresh(){
                   $http
@@ -20,11 +22,17 @@ angular
                               $scope.pages = Math.floor(response.data.length/$scope.size);
                               if (response.data.length%$scope.size>0){
                                     $scope.pages = $scope.pages +1; 
-                                    console.log("Numero de páginas: "+$scope.pages);
+                              }
+                              $scope.arrayPages = new Array($scope.pages);
+                              for (var i = 0; i<($scope.arrayPages.length); i++) {
+                                    console.log($scope.arrayPages.length);
+                                    $scope.arrayPages[i] = i+1;
                               }
                         });
                   $scope.newStat = null;
                   $scope.newStatU = null;
+                  $scope.statSuccess  = ""; 
+
 
             }
             
@@ -42,6 +50,11 @@ angular
                   if(err.status === 400){
                         console.log("INFOWEB: Stat incorrecta")
                   }
+                  if(err.status === 409){
+                        console.log("INFOWEB: Stat incorrecta")
+                        $scope.statSuccess  = "That stat already exist"; 
+                  }
+                  
             }
             
             $scope.retrieveList = function(){
@@ -90,6 +103,7 @@ angular
                                     $scope.emptySearch = "No matches";
                                     $scope.apikeyWarning  = ""; 
                               }
+                        
                         }
                               
                   );
@@ -121,6 +135,8 @@ angular
                         .then(function(response){
                               console.log("INFO: E-Stat added to DB");
                               refresh();
+                              $scope.statSuccess  = "Stat added"; 
+
                         },err)
             };
             
@@ -178,6 +194,11 @@ angular
                                                 $scope.pages = Math.floor(response.data.length/$scope.size);
                                                 if (response.data.length%$scope.size>0){
                                                       $scope.pages = $scope.pages +1; 
+                                                }
+                                                $scope.arrayPages = new Array($scope.pages);
+                                                for (var i = 0; i<($scope.arrayPages.length); i++) {
+                                                      console.log($scope.arrayPages.length);
+                                                      $scope.arrayPages[i] = i+1;
                                                 }
                                                 console.log("Numero de páginas: "+$scope.pages);
                                                 console.log("division: "+Math.floor(response.data.length/$scope.size));
