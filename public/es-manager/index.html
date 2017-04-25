@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="ESManagerApp">
+<html ng-app="sos1617-12-app">
       <head>
             <title>My App</title>
             <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
@@ -7,80 +7,13 @@
             <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" />
             <script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
             <script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
-            <script type="text/javascript" src="js/estats-manager-app.js"></script>
+            <script type="text/javascript" src="../bower_components/angular-route/angular-route.min.js"></script>
+            <script type="text/javascript" src="sos1617-12-app.js"></script>
             <script type="text/javascript" src="js/es-ctrl.js"></script>
-            
-
+            <script type="text/javascript" src="js/es-edit-ctrl.js"></script>
       </head>
       <body>
-            <div class="container" ng-controller="ESCtrl">
-                  <table class="table">
-                        <thead>
-                              <tr>
-                                    <td><center><h1>Economics-stats</h1><br>
-                                    Apikey: <input ng-change="retrieveList()" ng-model="apikey" maxlength="9" size="9" /></center></td>
-                              </tr>
-                              <tr>
-                                    <td>Buscar: <input ng-change="searchByProvince()" class="form-control" placeholder="province..." ng-model="provinceToSearch"/></td>
-                                    
-                              </tr>
-                        </thead>
-                  <table class="table table-hover">
-                        <thead>
-                              <tr>
-                                    <td>Province: </td>
-                                    <td>Year: </td>
-                                    <td>Expensive PEU: </td>
-                                    <td>Expensive I+D: </td>
-                                    <td>Employers I+D: </td>
-                              </tr>
-                              <tr>
-                                    <td><input class="form-control" ng-model="newStat.province"/></td>
-                                    <td><input class="form-control" ng-model="newStat.year"/></td>
-                                    <td><input class="form-control" ng-model="newStat.expensive_peu"/></td>
-                                    <td><input class="form-control" ng-model="newStat.expensive_id"/></td>
-                                    <td><input class="form-control" ng-model="newStat.employers_id"/></td>
-                                    <td><button ng-click="addStat()" class="btn btn-primary">Add</button></td>
-                              </tr>
-                              <tr>
-                                    <td><input class="form-control" ng-model="newStatU.province"/></td>
-                                    <td><input class="form-control" ng-model="newStatU.year"/></td>
-                                    <td><input class="form-control" ng-model="newStatU.expensive_peu"/></td>
-                                    <td><input class="form-control" ng-model="newStatU.expensive_id"/></td>
-                                    <td><input class="form-control" ng-model="newStatU.employers_id"/></td>
-                                    <td><button ng-click="updateStat()" class="btn btn-warning">Update</button></td>
-                              </tr>
-                        </thead> 
-                        <tbody>
-                              <tr ng-repeat="stat in stats"> 
-                                    <td>{{stat.province}}</td>
-                                    <td>{{stat.year}}</td>
-                                    <td>{{stat.expensive_peu}}</td>
-                                    <td>{{stat.expensive_id}}</td>
-                                    <td>{{stat.employers_id}}</td>
-                                    <td><button ng-click="deleteStat(stat.province,stat.year)" class="btn btn-danger">Delete</button></td>
-                              </tr>
-                        </tbody>    
-                  </table>
-                  <table class="table">
-                        <tr>
-                              <td>                        
-                                    <ul class="pagination">
-                                            <button ng-disabled="currentPage == 1" ng-click="previousPage()">Previous</button>
-                                            <button ng-disabled="currentPage >= pages" ng-click="nextPage()">Next</button>
-                                            -  Página {{currentPage}}/{{pages}}
-                                    </ul>
-                              </td>
-                              <td>
-				<select id="size-select" ng-model="size"
-				class="form-control" ng-change="changeSizeList();">
-					<option>5</option>
-					<option value="10" selected>10</option>
-					<option>15</option>
-			</select> results per page.
-                        </tr>
-                  </table>
-                  <div><center><h2>{{apikeyWarning}}</h2><h2>{{emptySearch}}</h2><br><button ng-click="deleteStats()" class="btn btn-danger">Delete All Stats</button>  <button ng-click="loadInitialData()" class="btn btn-info">loadInitialData</button></center></div>
+            <div ng-view>
                   
             </div>
       </body>
