@@ -19,7 +19,6 @@ angular
 		$scope.minYear = null;
 		$scope.maxYear = null;
 		
-//		refresh();
 
 		function getQuery(withPag) {
 			var query = [];
