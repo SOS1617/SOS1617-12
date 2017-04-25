@@ -1,6 +1,6 @@
 var MongoClientAR = require('mongodb').MongoClient;
 var mdbesURLAR = "mongodb://adrviljur:adrviljur@ds139370.mlab.com:39370/sandboxdb-adrviljur";
-var BASE_API_PATH = "/api/v1";
+var BASE_API_PATH = "/api/v2";
 var dbes;
 
 module.exports.register_AR_api = function(app) {
@@ -100,9 +100,8 @@ module.exports.register_AR_api = function(app) {
     //GET a collection
     app.get(BASE_API_PATH + "/economics-stats", function(request, response) {
         console.log("INFO: New GET request to /economics-stats");
-        
         // Comprobación de APIKEY
-        if (request.query.apikey == null){
+        if (request.query.apikey == ""){
             response.sendStatus(401);
             console.log("INFO: APIKEY unprovided");
             return;
@@ -161,8 +160,7 @@ module.exports.register_AR_api = function(app) {
 
     //GET a single resource
     app.get(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
-                // Comprobación de APIKEY
-                if (request.query.apikey == null){
+                if (request.query.apikey === ""){
                     response.sendStatus(401);
                     console.log("INFO: APIKEY unprovided");
                     return;

@@ -1,6 +1,7 @@
 angular
       .module("sos1617-12-app") // se invoca el modelo
-      .controller("ESCtrl",["$scope","$http",function($scope,$http){
+      .controller("ESEditCtrl",["$scope","$http","$routeParams", "$location",
+        function($scope, $http, $routeParams, $location){
             console.log("-Controller initialized-");
             $scope.url = "/api/v2/economics-stats";
             $scope.apikeyWarning = "";
@@ -25,7 +26,14 @@ angular
                         });
                   $scope.newStat = null;
                   $scope.newStatU = null;
-
+                  
+                  $http
+                        .get($scope.url+"/" +$routeParams.province + "/" +
+                        $routeParams.year + "?apikey="+$scope.apikey)
+                        .then(function(response){
+                              $scope.updatedStat = response.data;
+                              console.log($scope.url+"/"+ $routeParams.province + "/" + $routeParams.year + "?apikey="+$scope.apikey);
+                        });
             }
             
             var err = function errHandler(err){
@@ -43,6 +51,20 @@ angular
                         console.log("INFOWEB: Stat incorrecta")
                   }
             }
+            
+            $scope.updateStat = function (){
+                  console.log($scope.updatedStat.year);
+                  $scope.updatedStat.year = parseInt($scope.updatedStat.year);
+                  $scope.updatedStat.expensive_peu = parseInt($scope.updatedStat.expensive_peu);
+                  $scope.updatedStat.expensive_id = parseInt($scope.updatedStat.expensive_id);
+                  $scope.updatedStat.employers_id = parseInt($scope.updatedStat.employers_id);
+                  $http
+                        .put($scope.url+"/"+$scope.updatedStat.province+"/"+$scope.updatedStat.year+"?apikey="+$scope.apikey,$scope.updatedStat)
+                        .then(function(response){
+                              console.log("INFO: E-Stat updated to DB");
+                              $location.path("/esman");
+                        },err)
+            };
             
             $scope.retrieveList = function(){
                   $http
