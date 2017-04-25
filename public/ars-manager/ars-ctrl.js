@@ -2,7 +2,7 @@
 /* global $ */
 
 angular
-	.module("AcademicRankingsStatsManager")
+	.module("sos1617-12-app")
 	.controller("ARSCtrl", ["$scope", "$http", function($scope, $http) {
 		
 		console.log("List and manager controller initialized.");

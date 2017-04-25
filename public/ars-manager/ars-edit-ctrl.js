@@ -1,7 +1,7 @@
 /*global angular*/
 
 angular
-    .module("AcademicRankingsStatsManager")
+    .module("sos1617-12-app")
     .controller("ARSEditCtrl", ["$scope", "$http", "$routeParams", "$location",
         function($scope, $http, $routeParams, $location) {
 
@@ -61,7 +61,7 @@ angular
             };
 
             $scope.cancelUpdate = function() {
-                $location.path("/");
+                $location.path("/arsman");
             };
 
             refresh();

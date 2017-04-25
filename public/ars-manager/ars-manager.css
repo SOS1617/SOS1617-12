@@ -5,7 +5,7 @@
 	cursor: pointer;
 }
 
-ul.pagination > li {
+.pagination > li {
 	cursor: pointer;
 }
 
@@ -13,7 +13,8 @@ ul.pagination > li {
 	color: #ff0000;
 }
 
-header, footer {
+header, footer, footer a:hover, footer a:visited, footer a, 
+header a, header a:hover, header a:visited {
 	padding: 5px;
 	color: #ffffff;
 	background-color: rgb(0,50,110);
