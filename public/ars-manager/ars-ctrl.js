@@ -32,7 +32,8 @@ angular
 				query.push("to=" + $scope.yearTo);
 			}
 			if ($scope.rpp > 0 && withPag) {
-				query.push("offset=" + $scope.offset + "&limit=" + $scope.rpp);
+				if (!($scope.universityFilter && $scope.universityFilter != 0) && !($scope.yearFilter && $scope.yearFilter != 0))
+					query.push("offset=" + $scope.offset + "&limit=" + $scope.rpp);
 			}
 			return "?" + query.join("&");
 		}
