@@ -21,9 +21,15 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "es-manager/es_edit.html",
             controller: "ESEditCtrl"
         })
+        .when("/esman/:success", {
+            templateUrl: "es-manager/es.html",
+            controller: "ESCtrl"
+        })
+        
         
         //Aqui los .when de Helio
         
         ;
     console.log("App initialized");
+
 });
