@@ -21,7 +21,7 @@ header a, header a:hover, header a:visited {
 }
 
 header {
-	margin-bottom: 5px;
+	margin-bottom: 0px;
 }
 
 footer {
@@ -38,7 +38,7 @@ footer {
 		padding: 10px;
 	}
 	header {
-		margin-bottom: 10px;
+		margin-bottom: 0px;
 	}
 	footer {
 		margin-top: 10px;
