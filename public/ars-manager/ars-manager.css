@@ -28,6 +28,11 @@ footer {
 	margin-top: 5px;
 }
 
+.manager-title {
+	color: rgb(0, 50, 110);
+	margin-top: 0;
+}
+
 @media (min-width: 768px) {
 	header, footer {
 		padding: 10px;
