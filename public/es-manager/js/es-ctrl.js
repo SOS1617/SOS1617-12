@@ -1,6 +1,6 @@
 angular
       .module("sos1617-12-app") // se invoca el modelo
-      .controller("ESCtrl",["$scope","$http","$location",function($scope,$http,$location){
+      .controller("ESCtrl",["$scope","$http","$location","$routeParams",function($scope,$http,$location,$routeParams){
             console.log("-Controller initialized-");
             $scope.url = "/api/v2/economics-stats";
             $scope.apikeyWarning = "";
@@ -28,11 +28,16 @@ angular
                                     console.log($scope.arrayPages.length);
                                     $scope.arrayPages[i] = i+1;
                               }
-                        });
+                              console.log($routeParams.success);
+                              
+                              if($routeParams.success === "statUpdated"){
+                                    $scope.statSuccess  = "Stat Updated"; 
+                                    $routeParams.success = "";
+                              }
+                              
+                        })
                   $scope.newStat = null;
                   $scope.newStatU = null;
-                  $scope.statSuccess  = ""; 
-
 
             }
             
@@ -66,9 +71,7 @@ angular
                                     console.log("La apikey es= "+$scope.apikey);
                                     console.log(response);
                                     $scope.apikeyWarning = "";
-                        },err
-                              
-                  );
+                        },err);
             };
             
             $scope.searchByProvince = function(){
@@ -114,6 +117,7 @@ angular
                   $http.
                         get($scope.url+"/loadInitialData")
                         .then(function () {
+                              $scope.statSuccess="Stats loaded";
                               refresh();
                         },err)
             };
@@ -122,6 +126,7 @@ angular
                   $http.
                         delete($scope.url+"?apikey="+$scope.apikey)
                         .then(function () {
+                              $scope.statSuccess="Stats deleted";
                               refresh();
                         },err)
             };
@@ -146,8 +151,24 @@ angular
                         .delete($scope.url+"/"+province+"/"+year+"?apikey="+$scope.apikey)
                         .then(function(response){
                               console.log("INFO: E-Stat deleted from DB");
+                              $scope.statSuccess="Stat deleted";
                               refresh();
                         },err)
+            };
+    
+            $scope.goingTo = function(page){
+                  $http
+                        .get($scope.url+"?apikey="+$scope.apikey+"&limit="+$scope.size+"&offset="+(((page+1)*$scope.size)-$scope.size))
+                        .then(function(response){
+                                    $scope.stats = response.data;
+                                    console.log($scope.url+"?apikey="+$scope.apikey+"&limit="+$scope.size+"&offset="+((page+1*$scope.size)-$scope.size));
+                                    $scope.apikeyWarning = "";
+                                    $scope.currentPage = page+1;
+                                    console.log($scope.currentPage);
+                                    
+                        },err
+                              
+                  );
             };
             
             $scope.nextPage = function(){

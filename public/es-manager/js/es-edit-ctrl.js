@@ -11,6 +11,8 @@ angular
             $scope.size = 10;
             $scope.pages = 0;
             $scope.allData= null;
+            $scope.statSuccess  = ""; 
+
             
             function refresh(){
                   $http
@@ -30,6 +32,7 @@ angular
                         });
                   $scope.newStat = null;
                   $scope.newStatU = null;
+
                   
                   $http
                         .get($scope.url+"/" +$routeParams.province + "/" +
@@ -62,6 +65,15 @@ angular
                   
             }
             
+            function sleep(milliseconds) {
+              var start = new Date().getTime();
+              for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds){
+                  break;
+                }
+              }
+            }
+          
             $scope.updateStat = function (){
                   console.log($scope.updatedStat.year);
                   $scope.updatedStat.year = parseInt($scope.updatedStat.year);
@@ -72,7 +84,7 @@ angular
                         .put($scope.url+"/"+$scope.updatedStat.province+"/"+$scope.updatedStat.year+"?apikey="+$scope.apikey,$scope.updatedStat)
                         .then(function(response){
                               console.log("INFO: E-Stat updated to DB");
-                              $location.path("/esman");
+                              $location.path("/esman/statUpdated");
                         },err)
             };
             
@@ -131,6 +143,7 @@ angular
                   $http.
                         get($scope.url+"/loadInitialData")
                         .then(function () {
+                              $scope.statSuccess  = "Stats loaded"; 
                               refresh();
                         },err)
             };
@@ -139,6 +152,7 @@ angular
                   $http.
                         delete($scope.url+"?apikey="+$scope.apikey)
                         .then(function () {
+                              $scope.statSuccess  = "Stats deleted"; 
                               refresh();
                         },err)
             };
@@ -152,6 +166,7 @@ angular
                         .post($scope.url+"?apikey="+$scope.apikey,$scope.newStat)
                         .then(function(response){
                               console.log("INFO: E-Stat added to DB");
+                              $scope.statSuccess  = "Stat loaded";
                               refresh();
                         },err)
             };
@@ -161,6 +176,7 @@ angular
                         .delete($scope.url+"/"+province+"/"+year+"?apikey="+$scope.apikey)
                         .then(function(response){
                               console.log("INFO: E-Stat deleted from DB");
+                              $scope.statSuccess  = "Stat deleted";
                               refresh();
                         },err)
             };
