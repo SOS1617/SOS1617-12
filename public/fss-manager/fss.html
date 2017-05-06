@@ -2,6 +2,11 @@
 <h4>Apikey: <input ng-change="retrieveList()" ng-model="apikey" /></h1>
 <div><h4>{{reqStatus}}</h4></div>
 <div><h4>{{apikeyWarning}}</h4></div>
+<div>Search: 
+<input placeholder="Province or Year" class="form-control"  ng-model="statQuery" />
+<button class="button btn-primary" ng-click="searchStat()">Search</button>
+<button class="button btn-secondary" ng-click="resetSearch()">Clear</button>
+</div>
     <table class="table">
         <thead>
             <tr>
