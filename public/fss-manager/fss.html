@@ -1,12 +1,16 @@
 <h2>FSS List</h2>
 <h4>Apikey: <input ng-change="retrieveList()" ng-model="apikey" /></h1>
-<div><h4>{{reqStatus}}</h4></div>
-<div><h4>{{apikeyWarning}}</h4></div>
-<div>Search: 
-<input placeholder="Province or Year" class="form-control"  ng-model="statQuery" />
-<button class="button btn-primary" ng-click="searchStat()">Search</button>
-<button class="button btn-secondary" ng-click="resetSearch()">Clear</button>
-</div>
+    <div>
+        <h4>{{reqStatus}}</h4>
+    </div>
+    <div>
+        <h4>{{apikeyWarning}}</h4>
+    </div>
+    <div>Search:
+        <input placeholder="Province or Year" class="form-control" ng-model="statQuery" />
+        <button class="button btn-primary" ng-click="searchStat()">Search</button>
+        <button class="button btn-secondary" ng-click="resetSearch()">Clear</button>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -32,7 +36,7 @@
                 <td>{{stat.province}}</td>
                 <td>{{stat.diffusion}}</td>
                 <td>{{stat.ranking}}</td>
-                <td><a href="#!/edit_fss/{{stat.university}}/{{stat.year}}"<button class="button btn-secondary" ng-click="updateStat(stat.university,stat.year)">Edit</button></td>
+                <td><a href="#!/edit_fss/{{stat.university}}/{{stat.year}}" <button class="button btn-secondary" ng-click="updateStat(stat.university,stat.year)">Edit</button></td>
                 <td><button class="button btn-danger" ng-click="deleteStat(stat.university,stat.year)">Delete</button></td>
             </tr>
         </tbody>

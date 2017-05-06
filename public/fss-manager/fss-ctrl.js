@@ -17,7 +17,7 @@ angular
                 });
 
         }
-        
+
 
         var err = function errHandler(err) {
             if (err.status === 403) {
@@ -51,7 +51,7 @@ angular
                     $scope.apikeyWarning = "";
                 }, err);
         };
-        
+
         //Function for reset search
         $scope.resetSearch = function() {
             $http
@@ -61,8 +61,8 @@ angular
                     console.log("La apikey es= " + $scope.apikey);
                     console.log(response);
                     $scope.apikeyWarning = "";
-                    $scope.reqStatus="Welcome";
-                    $scope.statQuery="";
+                    $scope.reqStatus = "Welcome";
+                    $scope.statQuery = "";
                 }, err);
         };
 
@@ -85,18 +85,62 @@ angular
                     .get($scope.url + "?province=" + $scope.statQuery + "&apikey=" + $scope.apikey)
                     .then(function(response) {
                         console.log("Searching stat with province" + $scope.statQuery);
-                        $scope.reqStatus="Stats with province "+$scope.statQuery;
+                        $scope.reqStatus = "Stats with province " + $scope.statQuery;
                         $scope.stats = response.data;
-                    }, err);
+                    }, function(err) {
+                        console.log("No matches");
+                        if (err.status === 403) {
+                            console.log("INFOWEB: Invalid Apikey");
+                            console.log("Apikey INCORRECTA");
+                            $scope.stats = null;
+                            $scope.apikeyWarning = "Valid apikey must be provided";
+                        }
+                        if (err.status === 401) {
+                            console.log("INFOWEB: Apikey unprovided");
+                            console.log("Apikey INCORRECTA");
+                            $scope.stats = null;
+                            $scope.apikeyWarning = "Valid apikey must be provided";
+
+                        }
+                        if (err.status === 404) {
+                            console.log("INFOWEB: No matches");
+                            $scope.stats = null;
+                            $scope.reqStatus = "No matches with province " + $scope.statQuery;
+                            $scope.apikeyWarning = "";
+                        }
+
+                    });
             }
-            else{
-               $http
+            else {
+                $http
                     .get($scope.url + "/" + $scope.statQuery + "?apikey=" + $scope.apikey)
                     .then(function(response) {
                         console.log("Searching stat with year" + $scope.statQuery);
-                        $scope.reqStatus="Stats with year "+$scope.statQuery;
+                        $scope.reqStatus = "Stats with year " + $scope.statQuery;
                         $scope.stats = response.data;
-                    }, err); 
+                    }, function(err) {
+                        console.log("No matches");
+                        if (err.status === 403) {
+                            console.log("INFOWEB: Invalid Apikey");
+                            console.log("Apikey INCORRECTA");
+                            $scope.stats = null;
+                            $scope.apikeyWarning = "Valid apikey must be provided";
+                        }
+                        if (err.status === 401) {
+                            console.log("INFOWEB: Apikey unprovided");
+                            console.log("Apikey INCORRECTA");
+                            $scope.stats = null;
+                            $scope.apikeyWarning = "Valid apikey must be provided";
+
+                        }
+                        if (err.status === 404) {
+                            console.log("INFOWEB: No matches");
+                            $scope.stats = null;
+                            $scope.reqStatus = "No matches with year " + $scope.statQuery;
+                            $scope.apikeyWarning = "";
+                        }
+
+                    });
             }
 
         };
