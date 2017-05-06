@@ -25,11 +25,14 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "es-manager/es.html",
             controller: "ESCtrl"
         })
-        
-        
-        //Aqui los .when de Helio
-        
-        ;
+        .when("/fssman", {
+            templateUrl: "fss-manager/fss.html",
+            controller: "FSSCtrl"
+        })
+        .when("/edit_fss/:university/:year", {
+            templateUrl: "fss-manager/fss_edit.html",
+            controller: "FSSEditCtrl"
+        });
     console.log("App initialized");
 
 });
