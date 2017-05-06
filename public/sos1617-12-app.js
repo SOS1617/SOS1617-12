@@ -29,6 +29,16 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
         
         //Aqui los .when de Helio
         
+        // Visualizaciones AR
+        .when("/analytics/ar/geo", {
+            templateUrl: "analytics/ar/ar_geochart.html",
+            controller: "ARSGeoCtrl"
+        })
+        .when("/analytics/ar/high", {
+            templateUrl: "analytics/ar/ar_highcharts.html",
+            controller: "ARSHighCharCtrl"
+        })
+        
         ;
     console.log("App initialized");
 

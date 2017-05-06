@@ -20,6 +20,9 @@ angular
             }
 
             $scope.updateStat = function() {
+                $scope.editingStat.year = Number($scope.editingStat.year);
+                $scope.editingStat.world_position = Number($scope.editingStat.world_position);
+                $scope.editingStat.country_position = Number($scope.editingStat.country_position);
                 $http
                     .put("/api/v1/academic-rankings-stats/" + $routeParams.university + "/" +
                         $routeParams.year + "?apikey=" + $scope.apikey,
