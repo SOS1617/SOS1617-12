@@ -1,0 +1,45 @@
+<h2>FSS List</h2>
+<h4>Apikey: <input ng-change="retrieveList()" ng-model="apikey" /></h1>
+    <div>
+        <h4>{{reqStatus}}</h4>
+    </div>
+    <div>
+        <h4>{{apikeyWarning}}</h4>
+    </div>
+    <div>Search:
+        <input placeholder="Province or Year" class="form-control" ng-model="statQuery" />
+        <button class="button btn-primary" ng-click="searchStat()">Search</button>
+        <button class="button btn-secondary" ng-click="resetSearch()">Clear</button>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>University</th>
+                <th>Year</th>
+                <th>Province</th>
+                <th>Diffusion</th>
+                <th>Ranking</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input class="form-control" ng-model="newStat.university" /></td>
+                <td><input class="form-control" ng-model="newStat.year" /></td>
+                <td><input class="form-control" ng-model="newStat.province" /></td>
+                <td><input class="form-control" ng-model="newStat.diffusion" /></td>
+                <td><input class="form-control" ng-model="newStat.ranking" /></td>
+                <td><button class="button btn-primary" ng-click="addStat()">Add</button></td>
+            </tr>
+            <tr ng-repeat="stat in stats">
+                <td>{{stat.university}}</td>
+                <td>{{stat.year}}</td>
+                <td>{{stat.province}}</td>
+                <td>{{stat.diffusion}}</td>
+                <td>{{stat.ranking}}</td>
+                <td><a href="#!/edit_fss/{{stat.university}}/{{stat.year}}" <button class="button btn-secondary" ng-click="updateStat(stat.university,stat.year)">Edit</button></td>
+                <td><button class="button btn-danger" ng-click="deleteStat(stat.university,stat.year)">Delete</button></td>
+            </tr>
+        </tbody>
+        <button ng-click="loadInitialData()" class="btn btn-info">loadInitialData</button>
+         <button ng-click="deleteAllStats()" class="btn btn-danger">Delete All Stats</button>
+    </table>

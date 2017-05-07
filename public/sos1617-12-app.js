@@ -25,9 +25,16 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "es-manager/es.html",
             controller: "ESCtrl"
         })
+
+        .when("/fssman", {
+            templateUrl: "fss-manager/fss.html",
+            controller: "FSSCtrl"
+        })
         
-        
-        //Aqui los .when de Helio
+        .when("/edit_fss/:university/:year", {
+            templateUrl: "fss-manager/fss_edit.html",
+            controller: "FSSEditCtrl"
+        })
         
         // Visualizaciones AR
         .when("/analytics/ar/geo", {
@@ -37,9 +44,8 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
         .when("/analytics/ar/high", {
             templateUrl: "analytics/ar/ar_highcharts.html",
             controller: "ARSHighCharCtrl"
-        })
-        
-        ;
+        });
+
     console.log("App initialized");
 
 });
