@@ -15,6 +15,7 @@ module("sos1617-12-app")
             }).sort();
 
             var series = [];
+            var colorIndex = 0;
 
             universities.forEach(function(uni) {
                 var uniSeries = {
@@ -25,25 +26,32 @@ module("sos1617-12-app")
                     return d.university === uni;
                 });
                 uniData.forEach(function(u) {
-                    uniSeries.data.push([u.year, u.world_position]);
+                    uniSeries.data.push([u.year, u.world_position, 16 - u.country_position]);
                 });
+                uniSeries.marker = {
+                    fillColor: {
+                        radialGradient: {
+                            cx: 0.4,
+                            cy: 0.3,
+                            r: 0.7
+                        },
+                        stops: [
+                            [0, 'rgba(255,255,255,0.5)'],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[colorIndex]).setOpacity(0.5).get('rgba')]
+                        ]
+                    }
+                };
                 series.push(uniSeries);
+                colorIndex++;
             });
 
             console.log(series);
 
-            // Highcharts.chart('container', {
-            //     plotOptions: {
-            //         series: {
-            //             pointStart: 2015
-            //         }
-            //     },
-            //     series: series
-            // });
 
             Highcharts.chart('container', {
                 chart: {
-                    type: 'scatter',
+                    type: 'bubble',
+                    plotBorderWidth: 1,
                     zoomType: 'xy'
                 },
                 title: {
@@ -53,7 +61,7 @@ module("sos1617-12-app")
                     text: 'Source: Shanghai rankings'
                 },
                 xAxis: {
-                    allowDecimals: false, 
+                    allowDecimals: false,
                     title: {
                         enabled: true,
                         text: 'Year'
@@ -63,18 +71,18 @@ module("sos1617-12-app")
                     showLastLabel: true
                 },
                 yAxis: {
-                    reversed: true, 
+                    reversed: true,
                     title: {
                         text: 'World position'
                     }
                 },
                 legend: {
                     layout: 'vertical',
-                    align: 'left',
+                    align: 'right',
                     verticalAlign: 'top',
-                    x: 100,
+                    x: -15,
                     y: 70,
-                    floating: true,
+                    floating: false,
                     backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
                     borderWidth: 1
                 },
