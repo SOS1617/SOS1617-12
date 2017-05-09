@@ -1,0 +1,22 @@
+{
+  "name": "angular-d3-hierarchy",
+  "version": "1.0.0",
+  "authors": [
+    "Matt Carter <m@ttcarter.com>"
+  ],
+  "description": "D3 hierarchical diagrams for AngularJS",
+  "main": "angular-d3-hierarchy.js",
+  "keywords": [
+    "angular",
+    "d3",
+    "diagram",
+    "graph",
+    "tree",
+    "hierarchy"
+  ],
+  "license": "MIT",
+  "homepage": "http://momsfriendlydevco.github.io/ng-mfdc",
+  "dependencies": {
+    "d3.chart.layout.hierarchy": "~0.3.4"
+  }
+}
