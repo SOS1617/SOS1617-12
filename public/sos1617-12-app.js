@@ -50,6 +50,19 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "analytics/ar/echarts.html",
             controller: "EchartsCtrl"
         })
+        //Visualizaciones ES
+        .when("/analytics/es/geo", {
+            templateUrl: "analytics/es/es_geochart.html",
+            controller: "ESGeoCtrl"
+        })
+        .when("/analytics/es/high", {
+            templateUrl: "analytics/es/es_highcharts.html",
+            controller: "ESHighCtrl"
+        })
+        .when("/analytics/es/d3", {
+            templateUrl: "analytics/es/es_d3.html",
+            controller: "ESd3Ctrl"
+        })
         
         ;
 
