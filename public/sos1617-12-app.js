@@ -44,7 +44,14 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
         .when("/analytics/ar/high", {
             templateUrl: "analytics/ar/ar_highcharts.html",
             controller: "ARSHighCharCtrl"
-        });
+        })
+        
+        .when("/analytics/ar/echarts", {
+            templateUrl: "analytics/ar/echarts.html",
+            controller: "EchartsCtrl"
+        })
+        
+        ;
 
     console.log("App initialized");
 
