@@ -64,6 +64,11 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             controller: "ESd3Ctrl"
         })
         
+        //visual
+        .when("/analytics", {
+            templateUrl: "analytics/visual.html",
+            controller: "VisualCtrl"
+        })
         ;
 
     console.log("App initialized");
