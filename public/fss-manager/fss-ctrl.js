@@ -9,14 +9,103 @@ angular
         $scope.apikeyWarning = "";
 
 
+
+        $scope.currentPage = 1;
+        $scope.totalPages = null; //arrayPages
+        $scope.numPages = 0; //pages
+        $scope.size = 10; //size
+        $scope.offset = 0;
+
+
         function refresh() {
             $http
                 .get($scope.url + "?apikey=" + $scope.apikey)
                 .then(function(response) {
                     $scope.stats = response.data;
+                    //Prueba paginacion
+                    $scope.numPages = Math.ceil(response.data.length / $scope.size);
+                    $scope.totalPages = new Array($scope.numPages);
+
                 });
 
         }
+
+        //paginacion
+
+        $scope.goToPage = function(page) {
+            $http
+                .get($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + (((page + 1) * $scope.size) - $scope.size))
+                .then(function(response) {
+                        $scope.stats = response.data;
+                        console.log($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + ((page + 1 * $scope.size) - $scope.size));
+                        $scope.apikeyWarning = "";
+                        $scope.currentPage = page + 1;
+                        console.log("Current page: " + $scope.currentPage);
+
+                    }, err
+
+                );
+        };
+
+        $scope.nextPage = function(){
+                  $http
+                        .get($scope.url+"?apikey="+$scope.apikey+"&limit="+$scope.size+"&offset="+((($scope.currentPage+1)*$scope.size)-$scope.size))
+                        .then(function(response){
+                                    $scope.stats = response.data;
+                                    console.log($scope.url+"?apikey="+$scope.apikey+"&limit="+$scope.size+"&offset="+(($scope.currentPage+1*$scope.size)-$scope.size));
+                                    $scope.apikeyWarning = "";
+                                    $scope.currentPage = $scope.currentPage+1;
+                                    console.log("Current page: "+$scope.currentPage);
+                                    
+                        },err
+                              
+                  );
+            };
+            
+            
+        $scope.previousPage = function(){
+                  $http
+                        .get($scope.url+"?apikey="+$scope.apikey+"&limit="+$scope.size+"&offset="+((($scope.currentPage-1)*$scope.size)-$scope.size))
+                        .then(function(response){
+                                    $scope.stats = response.data;
+                                    console.log($scope.url+"?apikey="+$scope.apikey+"&limit="+$scope.size+"&offset="+(($scope.currentPage+1*$scope.size)-$scope.size));
+                                    $scope.apikeyWarning = "";
+                                    $scope.currentPage = $scope.currentPage-1;
+                                    console.log("Current page: "+$scope.currentPage);
+
+                        },err
+                              
+                  );
+            };
+            
+         $scope.changeSizeList = function(){
+                  $http
+                        .get($scope.url+"?apikey="+$scope.apikey+"&limit="+$scope.size+"&offset="+($scope.currentPage*$scope.size-$scope.size))
+                        .then(function(response){
+                                    $scope.stats = response.data;
+                                    console.log("URL"+$scope.url+"?apikey="+$scope.apikey+"&limit="+$scope.size+"&offset="+($scope.currentPage*$scope.size-$scope.size));
+                                    console.log("Current Page: "+$scope.currentPage);
+                                    $scope.apikeyWarning = "";
+                                    $http
+                                          .get($scope.url+"?apikey="+$scope.apikey)
+                                          .then(function(response){
+                                                console.log("La apikey es= "+$scope.apikey);
+                                                $scope.numPages = Math.ceil(response.data.length / $scope.size);
+                                                $scope.totalPages = new Array($scope.numPages);
+                                                for (var i = 0; i<($scope.totalPages.length); i++) {
+                                                      console.log($scope.totalPages.length);
+                                                      $scope.totalPages[i] = i+1;
+                                                }
+                                                console.log("Numero de páginas: "+$scope.numPages);
+                                          });
+                        },err
+                              
+                  );
+            };
+
+
+
+
 
 
         var err = function errHandler(err) {
