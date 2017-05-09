@@ -1,7 +1,11 @@
 <h2>FSS Edit</h2>
 <h4>Apikey: <input ng-change="retrieveList()" ng-model="apikey" /></h1>
-<div><h4>{{reqStatus}}</h4></div>
-<div><h4>{{apikeyWarning}}</h4></div>
+    <div>
+        <h4>{{reqStatus}}</h4>
+    </div>
+    <div>
+        <h4>{{apikeyWarning}}</h4>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -22,5 +26,5 @@
                 <td><button class="button btn-primary" ng-click="updateStat()">Save</button></td>
                 <td><a href="/#!/fssman"><button class="button btn-secondary">Cancel</button></a></td>
             </tr>
-           
+
         </tbody>
