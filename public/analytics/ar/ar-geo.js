@@ -8,7 +8,8 @@ module("sos1617-12-app")
 
         $http.get("/api/v1/academic-rankings-stats/2016?apikey=" + $scope.apikey).then(function(response) {
             google.charts.load('current', {
-                'packages': ['geochart']
+                'packages': ['geochart'],
+                'mapsApiKey': 'AIzaSyBw35T2cBC1OECODgWlF25s81WRR6evB_A'
             });
             google.charts.setOnLoadCallback(drawRegionsMap);
 
