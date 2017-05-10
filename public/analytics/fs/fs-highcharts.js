@@ -9,43 +9,55 @@ module("sos1617-12-app")
         $http.get("/api/v1/free-software-stats?apikey=" + $scope.apikey).then(function(response) {
 
 
-            var expensive_peu = [];
-            var provinces = [];
+            var diffusion = [];
+            var stat = [];
             response.data.forEach(function(u) {
-                    provinces.push([u.province+"/"+u.year]);
-                    expensive_peu.push([u.expensive_peu]);
-                    
+                stat.push([u.year,u.university]);
+                diffusion.push([u.diffusion]);
+
             });
+
+
+
 
 
             Highcharts.chart('container', {
                 chart: {
-                    type: 'bar'
+                    type: 'column'
                 },
-                  title: {
-                        text: 'Title'
-                  },
+                title: {
+                    text: 'Free Software Diffusion'
+                },
                 xAxis: {
-                    categories: provinces
+                    categories: stat,
+                    crosshair: true
                 },
-                legend: {
-                    layout: 'vertical',
-                    floating: true,
-                    backgroundColor: '#FFFFFF',
-                    align: 'right',
-                    verticalAlign: 'top',
-                    y: 60,
-                    x: -60
-                },
-                tooltip: {
-                    formatter: function () {
-                        return "Expensive PEU: " + this.y;
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Diffusion'
                     }
                 },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+
                 series: [{
-                    data: expensive_peu
+
+                    data: diffusion
                 }]
             });
         });
 
-}]);
+    }]);

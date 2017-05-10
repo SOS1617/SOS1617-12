@@ -16,7 +16,8 @@
     "bootstrap": "^3.3.7",
     "echarts": "^3.5.4",
     "d3": "^4.8.0",
-    "angular-d3-hierarchy": "*"
+    "angular-d3-hierarchy": "*",
+    "chart.js": "^2.5.0"
   },
   "resolutions": {
     "d3": "~3.3.11"

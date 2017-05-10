@@ -8,17 +8,18 @@ module("sos1617-12-app")
 
         $http.get("/api/v1/free-software-stats?apikey=" + $scope.apikey).then(function(response) {
             google.charts.load('current', {
-                'packages': ['geochart']
+                'packages': ['geochart'],
+                'mapsApiKey': 'AIzaSyDWuVhSCLwYY3OcOFIKXONqiJROCqNzdXc'
             });
             google.charts.setOnLoadCallback(drawRegionsMap);
 
             function drawRegionsMap() {
                 var myData = [
-                    ['Province', 'Year', 'Diffusion']
+                    ['Province', 'University', 'Diffusion']
                 ];
 
                 response.data.forEach(function(d) {
-                    myData.push([d.province, d.year, d.diffusion]);
+                    myData.push([d.province, d.university, d.diffusion]);
                 });
 
                 console.log(myData);
