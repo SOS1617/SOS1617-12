@@ -12,7 +12,7 @@ module("sos1617-12-app")
             var diffusion = [];
             var stat = [];
             response.data.forEach(function(u) {
-                stat.push([u.year,u.university]);
+                stat.push([u.year, u.university]);
                 diffusion.push([u.diffusion]);
 
             });
