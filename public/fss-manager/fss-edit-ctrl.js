@@ -1,6 +1,6 @@
 angular
     .module("sos1617-12-app")
-    .controller("FSSEditCtrl", ["$scope", "$http", "$routeParams", "$location", function($scope, $http, $routeParams, $location) {
+    .controller("FSSEditCtrl", ["$scope", "$http", "$routeParams", "$location", "$timeout", function($scope, $http, $routeParams, $location, $timeout) {
         console.log("FSS controller initialized");
 
         $scope.url = "/api/v1/free-software-stats";
@@ -52,6 +52,7 @@ angular
                 }, err);
         };
 
+
         //PUT over a single resource
         $scope.updateStat = function() {
 
@@ -60,8 +61,9 @@ angular
                 .then(function(response) {
                     console.log("Stat upddated");
                     $scope.reqStatus = "Stat updated, redirecting";
-                    $location.path("/fssman");
-
+                    $timeout(function() {
+                        $location.path("/fssman");
+                    }, 3000);
                 }, err);
         };
 
