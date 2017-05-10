@@ -17,6 +17,12 @@ module("sos1617-12-app").controller("EchartsCtrl", ["$scope", "$http", function(
 
         var colorIndex = 0;
         var legendData = [];
+        
+        var maxCountryPosition = Math.max(...response.data.map(function(current) {
+            return current.country_position;
+        })) +1;
+        
+        console.log(maxCountryPosition);
 
         universities.forEach(function(uni) {
             legendData.push(uni);
@@ -24,7 +30,7 @@ module("sos1617-12-app").controller("EchartsCtrl", ["$scope", "$http", function(
                 name: uni,
                 type: 'scatter',
                 symbolSize: function(value) {
-                    return Math.round(value[2]/2);
+                    return Math.round(value[2]);
                 },
                 tooltip: {
                     trigger: 'axis',
@@ -52,7 +58,7 @@ module("sos1617-12-app").controller("EchartsCtrl", ["$scope", "$http", function(
             });
             uniData.forEach(function(u) {
                 var t = new Date(u.year,0,1);
-                uniSeries.data.push([t, u.world_position, 50 - u.country_position]);
+                uniSeries.data.push([t, u.world_position, maxCountryPosition - u.country_position]);
             });
             series.push(uniSeries);
             colorIndex++;
@@ -118,8 +124,8 @@ module("sos1617-12-app").controller("EchartsCtrl", ["$scope", "$http", function(
                 y: 70
             },
             dataRange: {
-                min: 0,
-                max: 50,
+                min: 1,
+                max: maxCountryPosition,
                 orient: 'horizontal',
                 y: 30,
                 x: 'center',
@@ -132,10 +138,10 @@ module("sos1617-12-app").controller("EchartsCtrl", ["$scope", "$http", function(
             },
             xAxis: [{
                 type: 'time',
-                min: new Date(2007,0,1),
+                min: new Date(2006,0,1),
                 max: new Date(2017,11,31),
                 scale: true,
-                splitNumber: 10
+                splitNumber: 12
             }],
             yAxis: [{
                 type: 'value'

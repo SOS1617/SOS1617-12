@@ -16,7 +16,7 @@ module("sos1617-12-app")
 
             var series = [];
             var colorIndex = 0;
-
+            
             universities.forEach(function(uni) {
                 var uniSeries = {
                     name: uni,
@@ -37,7 +37,7 @@ module("sos1617-12-app")
                         },
                         stops: [
                             [0, 'rgba(255,255,255,0.5)'],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[colorIndex]).setOpacity(0.5).get('rgba')]
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[colorIndex % 10]).setOpacity(0.5).get('rgba')]
                         ]
                     }
                 };
