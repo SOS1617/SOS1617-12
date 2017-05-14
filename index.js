@@ -6,13 +6,14 @@ var dateFormat = require('dateformat');
 var path = require("path");
 var bodyParser = require("body-parser");
 var helmet = require("helmet");
+var cors = require("cors");
 
 var port = (process.env.PORT || 8095);
 var BASE_API_PATH = "/api/v1";
 
 var app = express();
 
-app.use(bodyParser.json()); //use default json enconding/decoding
+app.use(bodyParser.json(),cors()); //use default json enconding/decoding
 app.use(helmet()); //improve security
 
 app.get(BASE_API_PATH + "/tests", (req, res) => {
