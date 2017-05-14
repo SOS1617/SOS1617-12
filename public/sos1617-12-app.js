@@ -63,11 +63,22 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "analytics/es/es_d3.html",
             controller: "ESd3Ctrl"
         })
-        
+        //Visualizaciones FS
+        .when("/analytics/fs/geo", {
+            templateUrl: "analytics/fs/fs_geochart.html",
+            controller: "FSGeoCtrl"
+        })
+        .when("/analytics/fs/high", {
+            templateUrl: "analytics/fs/fs_highcharts.html",
+            controller: "FSHighCtrl"
+        })
+        .when("/analytics/fs/chartjs", {
+            templateUrl: "analytics/fs/fs_chartjs.html",
+            controller: "FSChartjsCtrl"
+        })
         //visual
         .when("/analytics", {
-            templateUrl: "analytics/visual.html",
-            controller: "VisualCtrl"
+            templateUrl: "analytics/visual.html"
         })
         ;
 

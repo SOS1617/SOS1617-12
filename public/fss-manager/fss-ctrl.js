@@ -11,9 +11,9 @@ angular
 
 
         $scope.currentPage = 1;
-        $scope.totalPages = null; //arrayPages
-        $scope.numPages = 0; //pages
-        $scope.size = 10; //size
+        $scope.totalPages = null;
+        $scope.numPages = 0;
+        $scope.size = 10;
         $scope.offset = 0;
 
 
@@ -22,7 +22,6 @@ angular
                 .get($scope.url + "?apikey=" + $scope.apikey)
                 .then(function(response) {
                     $scope.stats = response.data;
-                    //Prueba paginacion
                     $scope.numPages = Math.ceil(response.data.length / $scope.size);
                     $scope.totalPages = new Array($scope.numPages);
 
@@ -30,7 +29,7 @@ angular
 
         }
 
-        //paginacion
+        //pagination
 
         $scope.goToPage = function(page) {
             $http
@@ -121,11 +120,11 @@ angular
             }
             if (err.status === 400) {
                 console.log("INFOWEB: 400 Bad request");
-                $scope.reqStatus = "Incorrect stat";
+                $scope.reqStatus = "Incorrect stats, please check the fields";
             }
             if (err.status === 409) {
                 console.log("INFOWEB: 409 Conflict");
-                $scope.reqStatus = "That stat already exist";
+                $scope.reqStatus = "That stat already exists";
             }
 
         };
@@ -161,7 +160,7 @@ angular
             get($scope.url + "/loadInitialData" + "?apikey=" + $scope.apikey)
                 .then(function() {
                     console.log("Initial stats loaded");
-                    $scope.reqStatus = "Initial Stats loaded";
+                    $scope.reqStatus = "Initial stats loaded";
                     refresh();
                 }, err);
         };
@@ -258,7 +257,7 @@ angular
                 .delete($scope.url + "/" + university + "/" + year + "?apikey=" + $scope.apikey)
                 .then(function(response) {
                     console.log("Deleting stat: " + university + "-" + year);
-                    $scope.reqStatus = "Delete stat";
+                    $scope.reqStatus = "Stat deleted";
                     refresh();
                 });
         };
@@ -270,7 +269,7 @@ angular
                 .delete($scope.url + "?apikey=" + $scope.apikey)
                 .then(function(response) {
                     console.log("Deleting all stats");
-                    $scope.reqStatus = "Delete all stats";
+                    $scope.reqStatus = "All stats was been deleted";
                     refresh();
                 });
         };

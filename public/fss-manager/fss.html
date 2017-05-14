@@ -33,8 +33,8 @@
             <tr ng-repeat="stat in stats">
                 <td>{{stat.university}}</td>
                 <td>{{stat.year}}</td>
-                <td>{{stat.province}}</td>
-                <td>{{stat.diffusion}}</td>
+<td>{{stat.province}}</td>
+                                <td>{{stat.diffusion}}</td>
                 <td>{{stat.ranking}}</td>
                 <td><a href="#!/edit_fss/{{stat.university}}/{{stat.year}}" <button class="button btn-secondary" ng-click="updateStat(stat.university,stat.year)">Edit</button></td>
                 <td><button class="button btn-danger" ng-click="deleteStat(stat.university,stat.year)">Delete</button></td>
