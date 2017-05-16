@@ -3,7 +3,7 @@ angular
     .controller("FSSEditCtrl", ["$scope", "$http", "$routeParams", "$location", "$timeout", function($scope, $http, $routeParams, $location, $timeout) {
         console.log("FSS controller initialized");
 
-        $scope.url = "/api/v1/free-software-stats";
+        $scope.url = "/api/v2/free-software-stats";
         $scope.apikey = "1234";
         $scope.reqStatus = "Edit stat";
         $scope.apikeyWarning = "";

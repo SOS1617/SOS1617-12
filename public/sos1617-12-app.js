@@ -76,9 +76,13 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "analytics/fs/fs_chartjs.html",
             controller: "FSChartjsCtrl"
         })
-        .when("/analytics/fs/remote", {
+        .when("/analytics/fs/remote/gdp", {
             templateUrl: "analytics/fs/fs_gdp_remote.html",
             controller: "FSRemoteCtrl"
+        })
+        .when("/analytics/fs/proxy/olive", {
+            templateUrl: "analytics/fs/fs_olive_proxy.html",
+            controller: "FSProxyCtrl"
         })
         
         //visual

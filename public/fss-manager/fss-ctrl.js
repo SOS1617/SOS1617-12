@@ -3,7 +3,7 @@ angular
     .controller("FSSCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("FSS controller initialized");
 
-        $scope.url = "/api/v1/free-software-stats";
+        $scope.url = "/api/v2/free-software-stats";
         $scope.apikey = "1234";
         $scope.reqStatus = "Welcome";
         $scope.apikeyWarning = "";

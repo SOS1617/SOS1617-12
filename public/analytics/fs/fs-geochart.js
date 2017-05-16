@@ -6,7 +6,7 @@ module("sos1617-12-app")
         console.log("GeoChart controller for FS initilized");
         $scope.apikey = "1234";
 
-        $http.get("/api/v1/free-software-stats?apikey=" + $scope.apikey).then(function(response) {
+        $http.get("/api/v2/free-software-stats?apikey=" + $scope.apikey).then(function(response) {
             google.charts.load('current', {
                 'packages': ['geochart'],
                 'mapsApiKey': 'AIzaSyDWuVhSCLwYY3OcOFIKXONqiJROCqNzdXc'
