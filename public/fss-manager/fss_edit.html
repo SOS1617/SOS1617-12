@@ -1,11 +1,18 @@
-<h2>FSS Edit</h2>
-<h4>Apikey: <input ng-change="retrieveList()" ng-model="apikey" /></h1>
+<div class="container-fluid">
+    <h3 class="manager-title"><strong>Free Software Stats Manager.</strong></h3>
+
+
     <div>
-        <h4>{{reqStatus}}</h4>
+        <h4>Apikey: </h3>
+            <input ng-change="retrieveList()" ng-model="apikey" /></h1>
+            <h4 class="text-danger">{{apikeyWarning}}</h4><br />
     </div>
+
+
     <div>
-        <h4>{{apikeyWarning}}</h4>
-    </div>
+        <h4><strong>{{reqStatus}}</strong></h4>
+    </div><br />
+    <div>
     <table class="table">
         <thead>
             <tr>
@@ -23,8 +30,12 @@
                 <td><input class="form-control" ng-model="updatedStat.province" /></td>
                 <td><input class="form-control" ng-model="updatedStat.diffusion" /></td>
                 <td><input class="form-control" ng-model="updatedStat.ranking" /></td>
-                <td><button class="button btn-primary" ng-click="updateStat()">Save</button></td>
-                <td><a href="/#!/fssman"><button class="button btn-secondary">Cancel</button></a></td>
+                <td><button type="button" class="btn btn-primary" ng-click="updateStat()">Save</button></td>
+                <td><a href="/#!/fssman">
+                    <button type="button" class="btn btn-default">Cancel</button>
+                    </a></td>
             </tr>
 
         </tbody>
+        </div>
+</div>

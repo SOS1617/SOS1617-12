@@ -2,18 +2,18 @@
 
 angular.
 module("sos1617-12-app")
-    .controller("FSHighCtrl", ["$scope", "$http", function($scope, $http) {
+    .controller("FSRemoteCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("HighChart controller for FS initilized");
-        $scope.apikey = "1234";
+        //$scope.apikey = "secret";
 
-        $http.get("/api/v1/free-software-stats?apikey=" + $scope.apikey).then(function(response) {
+        $http.get("https://sos1617-06.herokuapp.com/api/v1/gdp?apikey=secret").then(function(response) {
 
 
-            var diffusion = [];
+            var gdp = [];
             var stat = [];
             response.data.forEach(function(u) {
-                stat.push([u.year, u.university]);
-                diffusion.push([u.diffusion]);
+                stat.push([u.year, u.country]);
+                gdp.push([u.gdp]);
 
             });
 
@@ -51,7 +51,7 @@ module("sos1617-12-app")
 
                 series: [{
 
-                    data: diffusion
+                    data: gdp
                 }]
             });
         });

@@ -15,10 +15,12 @@ module("sos1617-12-app")
 
             function drawRegionsMap() {
                 var myData = [
+                    //['Province', 'University', 'Year', 'Diffusion']
                     ['Province', 'University', 'Diffusion']
                 ];
 
                 response.data.forEach(function(d) {
+                    //myData.push([d.province, d.university, d.year,d.diffusion]);
                     myData.push([d.province, d.university, d.diffusion]);
                 });
 
