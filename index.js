@@ -41,9 +41,6 @@ var ars = require('./ar-stats');
 ars.register_AR_api(app);
 
 
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.use("/", express.static(path.join(__dirname, "public")));

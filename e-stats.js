@@ -2,6 +2,7 @@ var MongoClientAR = require('mongodb').MongoClient;
 var mdbesURLAR = "mongodb://adrviljur:adrviljur@ds139370.mlab.com:39370/sandboxdb-adrviljur";
 var BASE_API_PATH = "/api/v2";
 var dbes;
+var request = require("request");
 
 module.exports.register_AR_api = function(app) {
 
@@ -24,6 +25,17 @@ module.exports.register_AR_api = function(app) {
             return true;
         }
     }
+
+    //GET External data by Proxy G08 - Gender Victim in Spain
+    var obj;
+    app.get("/serieExterna", (req, res) => {
+            
+         request('https://sos161712jhh-sandbox-sos161712jhh.c9users.io/serie', function (error, response, body) {
+                     obj = response.body;
+                     res.send(obj);
+                });
+    });
+    
 
     //Load Initial Data
     app.get(BASE_API_PATH + "/economics-stats/loadInitialData", function(request, response) {
