@@ -4,56 +4,88 @@ angular.
 module("sos1617-12-app")
     .controller("FSRemoteCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("HighChart controller for FS initilized");
-        //$scope.apikey = "secret";
+        $scope.apikey = "1234";
+        var values = [];
+        var stat =[];
 
         $http.get("https://sos1617-06.herokuapp.com/api/v1/gdp?apikey=secret").then(function(response) {
 
 
-            var gdp = [];
-            var stat = [];
+
             response.data.forEach(function(u) {
-                stat.push([u.year, u.country]);
-                gdp.push([u.gdp]);
+                stat.push([u.country + "/" + u.year]);
+                values.push([u.gdp_deflator]);
 
             });
 
-            Highcharts.chart('container', {
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: 'Free Software Diffusion'
-                },
-                xAxis: {
-                    categories: stat,
-                    crosshair: true
-                },
-                yAxis: {
-                    min: 0,
+            $http.get("/api/v2/free-software-stats?apikey=" + $scope.apikey).then(function(response) {
+
+                response.data.forEach(function(u) {
+                    stat.push([u.university + "/" + u.year]);
+                    values.push([u.diffusion]);
+
+                });
+                console.log("Values: " + values);
+
+                Highcharts.chart('container', {
+                    chart: {
+                        type: 'bar'
+                    },
                     title: {
-                        text: 'Diffusion'
-                    }
-                },
-                tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
-                    footerFormat: '</table>',
-                    shared: true,
-                    useHTML: true
-                },
-                plotOptions: {
-                    column: {
-                        pointPadding: 0.2,
-                        borderWidth: 0
-                    }
-                },
-
-                series: [{
-
-                    data: gdp
+                        text: 'FS diffusion and GDP deflactor'
+                    },
+                    
+                    xAxis: {
+                        categories: stat,
+                        title: {
+                            text: null
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Values',
+                            align: 'high'
+                        },
+                        labels: {
+                            overflow: 'justify'
+                        }
+                    },
+                    tooltip: {
+                        valueSuffix: ' is the value'
+                    },
+                    plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'top',
+                        x: -40,
+                        y: 80,
+                        floating: true,
+                        borderWidth: 1,
+                        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                        shadow: true
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{
+                    data: values
                 }]
+                });
             });
+
+
         });
+
+
+
+
 
     }]);

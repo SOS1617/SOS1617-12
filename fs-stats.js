@@ -1,10 +1,12 @@
 ///////////////////API FREE SOFTWARE STATS (www.portalprogramas.com)////////////
 
+//V2: proxy added and more initial resources
+
 var MongoClientFS = require('mongodb').MongoClient;
 
 var mdbfsURL = "mongodb://test:test@ds127988.mlab.com:27988/sandbox";
 
-var BASE_API_PATH = "/api/v1";
+var BASE_API_PATH = "/api/v2";
 
 var dbfs;
 
@@ -513,6 +515,35 @@ module.exports.register_fs_api = function(app) {
                 });
             }
         }
+    });
+
+    app.get("/proxy/olive", function(req, res) {
+
+        var http = require('http');
+        console.log("New request to proxy/olive");
+
+        var options = {
+            host: 'sos1617-04.herokuapp.com',
+            path: '/api/v2/price-stats?apikey=12345'
+        };
+
+        callback = function(response) {
+            var str = '';
+
+            //another chunk of data has been recieved, so append it to str
+            response.on('data', function(chunk) {
+                str += chunk;
+            });
+
+
+            //the whole response has been recieved, so we just print it out here
+            response.on('end', function() {
+                res.send(str);
+            });
+
+        };
+        http.request(options, callback).end();
+
     });
 
     console.log("Registered API free-software-stats");
