@@ -106,7 +106,93 @@ module("sos1617-12-app")
 
         });
 
+        $http.get('https://sos1617-05.herokuapp.com/api/v1/economic-situation-stats?apikey=cinco')
+            .then(function(response) {
+
+                var series2 = [];
+                var provinces;
+
+                var gdps = response.data.map(function(current) {
+                    return Number(current.gdp);
+                });
+
+                series2.push({
+                    'name': 'GDP',
+                    'data': gdps
+                });
+
+                $http.get("/api/v1/academic-rankings-stats/2016?apikey=" + $scope.apikey).then(function(response) {
+                    provinces = response.data.map(function(current) {
+                        return current.province;
+                    }).filter(function(a, b, c) {
+                        return c.indexOf(a, b + 1) < 0;
+                    });
+                    var rankings = response.data.map(function(current) {
+                        return current.world_position;
+                    });
+
+                    series2.push({
+                        'name': 'Rankings',
+                        'data': rankings
+                    });
 
 
+                    Highcharts.chart('container2', {
+                        chart: {
+                            type: 'bar'
+                        },
+                        title: {
+                            text: 'Economic situation and rankings'
+                        },
+                        subtitle: {
+                            text: 'Source: various'
+                        },
+                        xAxis: [{
+                            categories: provinces,
+                            reversed: false,
+                            labels: {
+                                step: 1
+                            }
+                        }, { // mirror axis on right side
+                            opposite: true,
+                            reversed: false,
+                            categories: provinces,
+                            linkedTo: 0,
+                            labels: {
+                                step: 1
+                            }
+                        }],
+                        yAxis: {
+                            title: {
+                                text: null
+                            },
+                            labels: {
+                                formatter: function() {
+                                    return (this.value);
+                                }
+                            }
+                        },
+
+                        plotOptions: {
+                            series: {
+                                stacking: 'normal'
+                            }
+                        },
+
+                        tooltip: {
+                            formatter: function() {
+                                return '<b>' + this.series.name + ', age ' + this.point.category + '</b><br/>' +
+                                    'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
+                            }
+                        },
+
+                        series: series2
+                    });
+                });
+
+
+
+
+            });
 
     }]);
