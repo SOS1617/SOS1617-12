@@ -94,6 +94,11 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             controller: "FSProxyCtrl"
         })
         
+        .when("/analytics/ar/integrations", {
+            templateUrl: "analytics/ar/integrations.html",
+            controller: "IntegrationsCtrl"
+        })
+        
         //visual
         .when("/analytics", {
             templateUrl: "analytics/visual.html"

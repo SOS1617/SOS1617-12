@@ -1,4 +1,5 @@
 var MongoClientAR = require('mongodb').MongoClient;
+var reqq = require("request");
 var mdbfsURLAR = "mongodb://sos1617-12:academic@ds137530.mlab.com:37530/academic-ranking-stats";
 var BASE_API_PATH = "/api/v1";
 var dbar;
@@ -23,7 +24,7 @@ module.exports.register_AR_api = function(app) {
 
     //Load Initial Data
     app.get(BASE_API_PATH + "/academic-rankings-stats/loadInitialData", function(request, response) {
-        
+
         /////////////// APIKEY CHECKING ////////////////////
         if (request.query.apikey) {
             if (!check_apikey(request.query.apikey)) {
@@ -38,7 +39,7 @@ module.exports.register_AR_api = function(app) {
             return;
         }
         //////////////////////////////////////////////////
-        
+
         dbar.find({}).toArray(function(err, stats) {
             console.log('INFO: Initialiting DB...');
 
@@ -80,37 +81,37 @@ module.exports.register_AR_api = function(app) {
                     "province": "Valencia",
                     "country_position": 12,
                     "world_position": 386
-                  }, {
+                }, {
                     "university": "Universidad de Valencia",
                     "year": 2015,
                     "province": "Valencia",
                     "country_position": 15,
                     "world_position": 405
-                  }, {
+                }, {
                     "university": "Universidad Pablo de Olavide",
                     "year": 2015,
                     "province": "Sevilla",
                     "country_position": 25,
                     "world_position": 502
-                  }, {
+                }, {
                     "university": "Universidad Pablo de Olavide",
                     "year": 2016,
                     "province": "Sevilla",
                     "country_position": 28,
                     "world_position": 515
-                  }, {
+                }, {
                     "university": "Universidad Complutense de Madrid",
                     "year": 2015,
                     "province": "Madrid",
                     "country_position": 4,
                     "world_position": 320
-                  }, {
+                }, {
                     "university": "Universidad Complutense de Madrid",
                     "year": 2016,
                     "province": "Madrid",
                     "country_position": 6,
                     "world_position": 342
-                  }];
+                }];
                 dbar.insert(initialStats);
                 response.sendStatus(201);
             }
@@ -138,7 +139,7 @@ module.exports.register_AR_api = function(app) {
             return;
         }
         //////////////////////////////////////////////////
-        
+
         qlimit = 0;
         qoffset = 0;
         var oquery = {};
@@ -197,7 +198,7 @@ module.exports.register_AR_api = function(app) {
             return;
         }
         //////////////////////////////////////////////////
-        
+
         var university = request.params.university;
         var year = Number(request.params.year);
         if (!university && !year) {
@@ -250,7 +251,7 @@ module.exports.register_AR_api = function(app) {
             return;
         }
         //////////////////////////////////////////////////
-        
+
         var param0 = request.params.param0;
         var query = request.query;
         console.log("INFO: New GET request to /academic-rankings-stats/" + param0);
@@ -687,6 +688,19 @@ module.exports.register_AR_api = function(app) {
                 }
             });
         }
+    });
+
+    app.use(BASE_API_PATH + "/pisa", function(request, response) {
+        request.pipe(
+            reqq("https://sos1617-03.herokuapp.com/api/v2/results/?apikey=apisupersecreta", (error, resp, body) => {
+                if (error) {
+                console.log('error:', error); // Print the error if one occurred 
+                response.sendStatus(503);
+                }
+                console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+                console.log('body:', body); // Print the HTML for the Goog
+            })).pipe(response);
+
     });
 
     console.log("Registered API academic-rankings-stats");
