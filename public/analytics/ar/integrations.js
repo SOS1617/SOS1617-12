@@ -128,7 +128,7 @@ module("sos1617-12-app")
                         return c.indexOf(a, b + 1) < 0;
                     });
                     var rankings = response.data.map(function(current) {
-                        return current.world_position;
+                        return  - current.world_position;
                     });
 
                     series2.push({
