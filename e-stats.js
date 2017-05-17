@@ -30,7 +30,7 @@ module.exports.register_AR_api = function(app) {
     var obj;
     app.get("/serieExterna", (req, res) => {
             
-         request('https://sos161712jhh-sandbox-sos161712jhh.c9users.io/serie', function (error, response, body) {
+         request('http://sos1617-08.herokuapp.com/api/v1/victims?apikey=hf5HF86KvZ', function (error, response, body) {
                      obj = response.body;
                      res.send(obj);
                 });
