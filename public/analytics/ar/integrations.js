@@ -25,10 +25,13 @@ module("sos1617-12-app")
                     }];
                 }
                 pisa = pisa.map(function(current) {
-                    return Number(current.math) + Number(current.reading) + Number(current.science);
+                    return (Number(current.math) +
+                        Number(current.reading) +
+                        Number(current.science)) / 3;
                 });
                 pisaPorAño.push(pisa[0]);
             }
+            console.log(pisaPorAño);
 
             $http.get("/api/v1/academic-rankings-stats?apikey=" + $scope.apikey).then(function(response) {
                 for (var a = 2007; a < 2017; a++) {
@@ -39,13 +42,13 @@ module("sos1617-12-app")
                     media = media.map(function(current) {
                         return current.world_position;
                     });
-                    media = media.reduce(function(b, c) {
+                    media = Math.round(media.reduce(function(b, c) {
                         return b + c;
-                    }, 0) / response.data.length;
+                    }, 0) / media.length);
 
                     mediasPorAño.push(media);
                 }
-
+                console.log(mediasPorAño);
 
                 series.push({
                     'name': 'Year average rankings',
@@ -72,19 +75,28 @@ module("sos1617-12-app")
                             enabled: false
                         }
                     },
-                    yAxis: {
+                    yAxis: [{
                         title: {
-                            text: ''
+                            text: 'Pisa results'
                         },
                         labels: {
                             formatter: function() {
                                 return this.value;
                             }
                         }
-                    },
+                    }, {
+                        title: {
+                            text: 'Positions average'
+                        },
+                        labels: {
+                            formatter: function() {
+                                return this.value;
+                            }
+                        },
+                        opposite: true
+                    }],
                     tooltip: {
                         split: true,
-                        valueSuffix: ' millions'
                     },
                     plotOptions: {
                         area: {
@@ -111,87 +123,101 @@ module("sos1617-12-app")
 
                 var series2 = [];
                 var provinces;
+                var gdps = response.data;
+                
+                $http.get("/api/v1/academic-rankings-stats/2015?apikey=" + $scope.apikey)
+                    .then(function(response) {
+                        provinces = response.data.map(function(current) {
+                            return current.province;
+                        }).filter(function(a, b, c) {
+                            return c.indexOf(a, b + 1) < 0;
+                        });
+                        console.log(provinces);
+                        var rankings = [];
+                        provinces.forEach(function(current){
+                            var universities = response.data.filter(function(cur){
+                                return cur.province == current;
+                            });
+                            var suma = 0;
+                            universities.map(function(uni){
+                                return uni.world_position;
+                            }).forEach(function(r){
+                                suma += r;
+                            });
+                            rankings.push(Math.round(suma / universities.length));
+                        });
 
-                var gdps = response.data.map(function(current) {
-                    return Number(current.gdp);
-                });
+                        series2.push({
+                            'name': 'Rankings',
+                            'data': rankings
+                        });
 
-                series2.push({
-                    'name': 'GDP',
-                    'data': gdps
-                });
+                        console.log(response.data);
 
-                $http.get("/api/v1/academic-rankings-stats/2016?apikey=" + $scope.apikey).then(function(response) {
-                    provinces = response.data.map(function(current) {
-                        return current.province;
-                    }).filter(function(a, b, c) {
-                        return c.indexOf(a, b + 1) < 0;
-                    });
-                    var rankings = response.data.map(function(current) {
-                        return  - current.world_position;
-                    });
+                        gdps = gdps.filter(function(current) {
+                            return ((provinces.indexOf(current.province) > 0) &&
+                            (current.year = 2015));
+                        }).map(function(current) {
+                            return  - Number(current.gdp);
+                        });
 
-                    series2.push({
-                        'name': 'Rankings',
-                        'data': rankings
-                    });
+                        series2.push({
+                            'name': 'GDP',
+                            'data': gdps
+                        });
 
-
-                    Highcharts.chart('container2', {
-                        chart: {
-                            type: 'bar'
-                        },
-                        title: {
-                            text: 'Economic situation and rankings'
-                        },
-                        subtitle: {
-                            text: 'Source: various'
-                        },
-                        xAxis: [{
-                            categories: provinces,
-                            reversed: false,
-                            labels: {
-                                step: 1
-                            }
-                        }, { // mirror axis on right side
-                            opposite: true,
-                            reversed: false,
-                            categories: provinces,
-                            linkedTo: 0,
-                            labels: {
-                                step: 1
-                            }
-                        }],
-                        yAxis: {
-                            title: {
-                                text: null
+                        Highcharts.chart('container2', {
+                            chart: {
+                                type: 'bar'
                             },
-                            labels: {
-                                formatter: function() {
-                                    return (this.value);
+                            title: {
+                                text: 'Economic situation and rankings'
+                            },
+                            subtitle: {
+                                text: 'Source: various'
+                            },
+                            xAxis: [{
+                                categories: provinces,
+                                reversed: false,
+                                labels: {
+                                    step: 1
                                 }
-                            }
-                        },
+                            }, { // mirror axis on right side
+                                opposite: true,
+                                reversed: false,
+                                categories: provinces,
+                                linkedTo: 0,
+                                labels: {
+                                    step: 1
+                                }
+                            }],
+                            yAxis: {
+                                title: {
+                                    text: null
+                                },
+                                labels: {
+                                    formatter: function() {
+                                        return Math.abs(this.value);
+                                    }
+                                }
+                            },
 
-                        plotOptions: {
-                            series: {
-                                stacking: 'normal'
-                            }
-                        },
+                            plotOptions: {
+                                series: {
+                                    stacking: 'normal'
+                                }
+                            },
 
-                        tooltip: {
-                            formatter: function() {
-                                return '<b>' + this.series.name + ', age ' + this.point.category + '</b><br/>' +
-                                    'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
-                            }
-                        },
+                            tooltip: {
+                                formatter: function() {
+                                    return '<b>' + this.series.name + " " + this.point.category + '</b><br/>' +
+                                        Highcharts.numberFormat(Math.abs(this.point.y), 0);
+                                }
+                            },
 
-                        series: series2
+                            series: series2
+                        });
                     });
-                });
-
-
-
 
             });
 
