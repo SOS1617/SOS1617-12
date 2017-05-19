@@ -8,8 +8,6 @@ angular
         $scope.reqStatus = "Welcome";
         $scope.apikeyWarning = "";
 
-
-
         $scope.currentPage = 1;
         $scope.totalPages = null;
         $scope.numPages = 0;
@@ -17,96 +15,34 @@ angular
         $scope.offset = 0;
 
 
+        // function refresh() {
+        //     $http
+        //         .get($scope.url + "?apikey=" + $scope.apikey)
+        //         .then(function(response) {
+        //             $scope.stats = response.data;
+        //             $scope.numPages = Math.ceil(response.data.length / $scope.size);
+        //             $scope.totalPages = new Array($scope.numPages);
+        //             console.log("Refresh yourself!");
+
+        //         });
+
+        // }
+        
         function refresh() {
             $http
-                .get($scope.url + "?apikey=" + $scope.apikey)
+                .get($scope.url + "?apikey=" + $scope.apikey+ "&limit=" + $scope.size + "&offset="+$scope.offset)
                 .then(function(response) {
                     $scope.stats = response.data;
                     $scope.numPages = Math.ceil(response.data.length / $scope.size);
                     $scope.totalPages = new Array($scope.numPages);
+                    console.log("Refresh yourself!");
+                    $scope.changeSizeList();
 
                 });
 
         }
 
-        //pagination
-
-        $scope.goToPage = function(page) {
-            $http
-                .get($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + (((page + 1) * $scope.size) - $scope.size))
-                .then(function(response) {
-                        $scope.stats = response.data;
-                        console.log($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + ((page + 1 * $scope.size) - $scope.size));
-                        $scope.apikeyWarning = "";
-                        $scope.currentPage = page + 1;
-                        console.log("Current page: " + $scope.currentPage);
-
-                    }, err
-
-                );
-        };
-
-        $scope.nextPage = function() {
-            $http
-                .get($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + ((($scope.currentPage + 1) * $scope.size) - $scope.size))
-                .then(function(response) {
-                        $scope.stats = response.data;
-                        console.log($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + (($scope.currentPage + 1 * $scope.size) - $scope.size));
-                        $scope.apikeyWarning = "";
-                        $scope.currentPage = $scope.currentPage + 1;
-                        console.log("Current page: " + $scope.currentPage);
-
-                    }, err
-
-                );
-        };
-
-
-        $scope.previousPage = function() {
-            $http
-                .get($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + ((($scope.currentPage - 1) * $scope.size) - $scope.size))
-                .then(function(response) {
-                        $scope.stats = response.data;
-                        console.log($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + (($scope.currentPage + 1 * $scope.size) - $scope.size));
-                        $scope.apikeyWarning = "";
-                        $scope.currentPage = $scope.currentPage - 1;
-                        console.log("Current page: " + $scope.currentPage);
-
-                    }, err
-
-                );
-        };
-
-        $scope.changeSizeList = function() {
-            $http
-                .get($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + ($scope.currentPage * $scope.size - $scope.size))
-                .then(function(response) {
-                        $scope.stats = response.data;
-                        console.log("URL" + $scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + ($scope.currentPage * $scope.size - $scope.size));
-                        console.log("Current Page: " + $scope.currentPage);
-                        $scope.apikeyWarning = "";
-                        $http
-                            .get($scope.url + "?apikey=" + $scope.apikey)
-                            .then(function(response) {
-                                console.log("La apikey es= " + $scope.apikey);
-                                $scope.numPages = Math.ceil(response.data.length / $scope.size);
-                                $scope.totalPages = new Array($scope.numPages);
-                                for (var i = 0; i < ($scope.totalPages.length); i++) {
-                                    console.log($scope.totalPages.length);
-                                    $scope.totalPages[i] = i + 1;
-                                }
-                                console.log("Numero de páginas: " + $scope.numPages);
-                            });
-                    }, err
-
-                );
-        };
-
-
-
-
-
-
+        
         var err = function errHandler(err) {
             if (err.status === 403) {
                 console.log("INFOWEB: Invalid Apikey");
@@ -134,32 +70,19 @@ angular
                 .get($scope.url + "?apikey=" + $scope.apikey)
                 .then(function(response) {
                     $scope.stats = response.data;
-                    console.log("La apikey es= " + $scope.apikey);
+                    console.log("INFOWEB, retrieveList");
                     console.log(response);
                     $scope.apikeyWarning = "";
                 }, err);
         };
 
-        //Function for reset search
-        $scope.resetSearch = function() {
-            $http
-                .get($scope.url + "?apikey=" + $scope.apikey)
-                .then(function(response) {
-                    $scope.stats = response.data;
-                    console.log("La apikey es= " + $scope.apikey);
-                    console.log(response);
-                    $scope.apikeyWarning = "";
-                    $scope.reqStatus = "Welcome";
-                    $scope.statQuery = "";
-                }, err);
-        };
 
         //loadInitialData
         $scope.loadInitialData = function() {
             $http.
             get($scope.url + "/loadInitialData" + "?apikey=" + $scope.apikey)
                 .then(function() {
-                    console.log("Initial stats loaded");
+                    console.log("INFOWEB: Initial stats loaded");
                     $scope.reqStatus = "Initial stats loaded";
                     refresh();
                 }, err);
@@ -172,26 +95,24 @@ angular
                 $http
                     .get($scope.url + "?province=" + $scope.statQuery + "&apikey=" + $scope.apikey)
                     .then(function(response) {
-                        console.log("Searching stat with province" + $scope.statQuery);
+                        console.log("INFOWEB: Search stat with province" + $scope.statQuery);
                         $scope.reqStatus = "Stats with province " + $scope.statQuery;
                         $scope.stats = response.data;
                     }, function(err) {
-                        console.log("No matches");
+                        console.log("INFOWEB: No matches");
                         if (err.status === 403) {
                             console.log("INFOWEB: Invalid Apikey");
-                            console.log("Apikey INCORRECTA");
                             $scope.stats = null;
                             $scope.apikeyWarning = "Valid apikey must be provided";
                         }
                         if (err.status === 401) {
                             console.log("INFOWEB: Apikey unprovided");
-                            console.log("Apikey INCORRECTA");
                             $scope.stats = null;
                             $scope.apikeyWarning = "Valid apikey must be provided";
 
                         }
                         if (err.status === 404) {
-                            console.log("INFOWEB: No matches");
+                            console.log("INFOWEB: There are not any stat with province "+$scope.statQuery);
                             $scope.stats = null;
                             $scope.reqStatus = "No matches with province " + $scope.statQuery;
                             $scope.apikeyWarning = "";
@@ -203,7 +124,7 @@ angular
                 $http
                     .get($scope.url + "/" + $scope.statQuery + "?apikey=" + $scope.apikey)
                     .then(function(response) {
-                        console.log("Searching stat with year" + $scope.statQuery);
+                        console.log("INFOWEB: Search stat with stat with year" + $scope.statQuery);
                         $scope.reqStatus = "Stats with year " + $scope.statQuery;
                         $scope.stats = response.data;
                     }, function(err) {
@@ -222,7 +143,7 @@ angular
 
                         }
                         if (err.status === 404) {
-                            console.log("INFOWEB: No matches");
+                            console.log("INFOWEB: There are not any stat with year "+$scope.statQuery);
                             $scope.stats = null;
                             $scope.reqStatus = "No matches with year " + $scope.statQuery;
                             $scope.apikeyWarning = "";
@@ -231,6 +152,20 @@ angular
                     });
             }
 
+        };
+        
+        //Function for reset search
+        $scope.resetSearch = function() {
+            $http
+                .get($scope.url + "?apikey=" + $scope.apikey)
+                .then(function(response) {
+                    $scope.stats = response.data;
+                    console.log("La apikey es= " + $scope.apikey);
+                    console.log(response);
+                    $scope.apikeyWarning = "";
+                    $scope.reqStatus = "Welcome";
+                    $scope.statQuery = "";
+                }, err);
         };
 
 
@@ -244,7 +179,7 @@ angular
             $http
                 .post($scope.url + "?apikey=" + $scope.apikey, $scope.newStat)
                 .then(function(response) {
-                    console.log("Stat added");
+                    console.log("INFOWEB: Stat added");
                     $scope.reqStatus = "Stat created";
                     refresh();
                 }, err);
@@ -256,7 +191,7 @@ angular
             $http
                 .delete($scope.url + "/" + university + "/" + year + "?apikey=" + $scope.apikey)
                 .then(function(response) {
-                    console.log("Deleting stat: " + university + "-" + year);
+                    console.log("INFOWEB: Deleting stat: " + university + "-" + year);
                     $scope.reqStatus = "Stat deleted";
                     refresh();
                 });
@@ -268,10 +203,83 @@ angular
             $http
                 .delete($scope.url + "?apikey=" + $scope.apikey)
                 .then(function(response) {
-                    console.log("Deleting all stats");
+                    console.log("INFOWEB: Deleting all stats");
                     $scope.reqStatus = "All stats was been deleted";
                     refresh();
                 });
+        };
+        
+        //pagination
+
+        $scope.goToPage = function(page) {
+            $http
+                .get($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + (((page + 1) * $scope.size) - $scope.size))
+                .then(function(response) {
+                        $scope.stats = response.data;
+                        console.log("INFOWEB: "+$scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + ((page + 1 * $scope.size) - $scope.size));
+                        $scope.apikeyWarning = "";
+                        $scope.currentPage = page + 1;
+                        console.log("INFOWEB: Current page: " + $scope.currentPage);
+
+                    }, err
+
+                );
+        };
+
+        $scope.nextPage = function() {
+            $http
+                .get($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + ((($scope.currentPage + 1) * $scope.size) - $scope.size))
+                .then(function(response) {
+                        $scope.stats = response.data;
+                        console.log("INFOWEB: "+$scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + (($scope.currentPage + 1 * $scope.size) - $scope.size));
+                        $scope.apikeyWarning = "";
+                        $scope.currentPage = $scope.currentPage + 1;
+                        console.log("INFOWEB: Current page: " + $scope.currentPage);
+
+                    }, err
+
+                );
+        };
+
+
+        $scope.previousPage = function() {
+            $http
+                .get($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + ((($scope.currentPage - 1) * $scope.size) - $scope.size))
+                .then(function(response) {
+                        $scope.stats = response.data;
+                        console.log("INFOWEB: "+$scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + (($scope.currentPage + 1 * $scope.size) - $scope.size));
+                        $scope.apikeyWarning = "";
+                        $scope.currentPage = $scope.currentPage - 1;
+                        console.log("INFOWEB: Current page: " + $scope.currentPage);
+
+                    }, err
+
+                );
+        };
+
+        $scope.changeSizeList = function() {
+            $http
+                .get($scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + ($scope.currentPage * $scope.size - $scope.size))
+                .then(function(response) {
+                        $scope.stats = response.data;
+                        console.log("INFOWEB: "+$scope.url + "?apikey=" + $scope.apikey + "&limit=" + $scope.size + "&offset=" + ($scope.currentPage * $scope.size - $scope.size));
+                        console.log("INFOWEB: Current Page: " + $scope.currentPage);
+                        $scope.apikeyWarning = "";
+                        $http
+                            .get($scope.url + "?apikey=" + $scope.apikey)
+                            .then(function(response) {
+                                console.log("INFOWEB: La apikey es= " + $scope.apikey);
+                                $scope.numPages = Math.ceil(response.data.length / $scope.size);
+                                $scope.totalPages = new Array($scope.numPages);
+                                for (var i = 0; i < ($scope.totalPages.length); i++) {
+                                    console.log($scope.totalPages.length);
+                                    $scope.totalPages[i] = i + 1;
+                                }
+                                console.log("INFOWEB: Numero de páginas: " + $scope.numPages);
+                            });
+                    }, err
+
+                );
         };
 
 
@@ -279,3 +287,5 @@ angular
         refresh();
 
     }]);
+    
+    

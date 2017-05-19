@@ -4,9 +4,10 @@ angular.
 module("sos1617-12-app")
     .controller("FSChartjsCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("FSChartjs controller for FS initilized");
+        $scope.url = "/api/v2/free-software-stats";
         $scope.apikey = "1234";
 
-        $http.get("/api/v2/free-software-stats?apikey=" + $scope.apikey).then(function(response) {
+        $http.get($scope.url+"?apikey=" + $scope.apikey).then(function(response) {
 
             var diffusion = [];
             var stat = [];

@@ -73,6 +73,48 @@ module.exports.register_fs_api = function(app) {
                         "province": "Sevilla",
                         "diffusion": 35.65,
                         "ranking": 7
+                    }, {
+                        "university": "Universidad de Granada",
+                        "year": 2015,
+                        "province": "Granada",
+                        "diffusion": 100.00,
+                        "ranking": 1
+                    }, {
+                        "university": "Universidad de Valencia",
+                        "year": 2016,
+                        "province": "Valencia",
+                        "diffusion": 5.54,
+                        "ranking": 48
+                    }, {
+                        "university": "Universidad de Valencia",
+                        "year": 2015,
+                        "province": "Valencia",
+                        "diffusion": 4.84,
+                        "ranking": 55
+                    }, {
+                        "university": "Universidad Pablo de Olavide",
+                        "year": 2015,
+                        "province": "Sevilla",
+                        "diffusion": 5.64,
+                        "ranking": 48
+                    }, {
+                        "university": "Universidad Pablo de Olavide",
+                        "year": 2016,
+                        "province": "Sevilla",
+                        "diffusion": 5.23,
+                        "ranking": 50
+                    }, {
+                        "university": "Universidad Complutense de Madrid",
+                        "year": 2015,
+                        "province": "Madrid",
+                        "diffusion": 15.75,
+                        "ranking": 20
+                    }, {
+                        "university": "Universidad Complutense de Madrid",
+                        "year": 2016,
+                        "province": "Madrid",
+                        "diffusion": 8.68,
+                        "ranking": 33
                     }];
                     dbfs.insert(initialStats);
                     response.sendStatus(201);
