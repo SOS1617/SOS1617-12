@@ -94,11 +94,16 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             controller: "FSProxyCtrl"
         })
         
-        .when("/analytics/ar/integrations", {
-            templateUrl: "analytics/ar/integrations.html",
-            controller: "IntegrationsCtrl"
+        .when("/analytics/ar/pisa_int", {
+            templateUrl: "analytics/ar/pisa_integration.html",
+            controller: "PisaIntCtrl"
         })
         
+        .when("/analytics/ar/ec_sit_int", {
+            templateUrl: "analytics/ar/ec_sit.html",
+            controller: "EcSitCtrl"
+        })
+
         //visual
         .when("/analytics", {
             templateUrl: "analytics/visual.html"
