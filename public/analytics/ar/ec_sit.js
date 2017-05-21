@@ -9,7 +9,7 @@ module("sos1617-12-app")
                 var series2 = [];
                 var provinces;
                 var gdps = response.data;
-                
+
                 $http.get("/api/v1/academic-rankings-stats/2015?apikey=" + $scope.apikey)
                     .then(function(response) {
                         provinces = response.data.map(function(current) {
@@ -18,14 +18,14 @@ module("sos1617-12-app")
                             return c.indexOf(a, b + 1) < 0;
                         });
                         var rankings = [];
-                        provinces.forEach(function(current){
-                            var universities = response.data.filter(function(cur){
+                        provinces.forEach(function(current) {
+                            var universities = response.data.filter(function(cur) {
                                 return cur.province == current;
                             });
                             var suma = 0;
-                            universities.map(function(uni){
+                            universities.map(function(uni) {
                                 return uni.world_position;
-                            }).forEach(function(r){
+                            }).forEach(function(r) {
                                 suma += r;
                             });
                             rankings.push(Math.round(suma / universities.length));
@@ -38,9 +38,9 @@ module("sos1617-12-app")
 
                         gdps = gdps.filter(function(current) {
                             return ((provinces.indexOf(current.province) > 0) &&
-                            (current.year = 2015));
+                                (current.year = 2015));
                         }).map(function(current) {
-                            return  - Number(current.gdp);
+                            return -Number(current.gdp);
                         });
 
                         series2.push({
@@ -103,4 +103,4 @@ module("sos1617-12-app")
 
             });
 
-}]);
+    }]);
