@@ -86,8 +86,6 @@ angular
 						return a - b;
 					});
 
-					console.log("Available provinces: " + $scope.aviProvinces);
-					console.log("Available years: " + $scope.aviYears);
 				});
 		}
 
@@ -144,7 +142,6 @@ angular
 		// Triger when need repage
 		$scope.rePage = function() {
 			controlsController();
-			console.log("Limit changed: " + $scope.rpp);
 			var query = (getQuery(false).length > 1) ? getQuery(false) + "&" : getQuery(false);
 			var searchResults = [];
 			$http
@@ -152,7 +149,6 @@ angular
 				.then(function(response) {
 					searchResults = response.data;
 					$scope.total = searchResults.length;
-					console.log("Total resources: " + $scope.total);
 					$scope.pages = [];
 					var fin = ($scope.rpp == 0) ? 1 : Math.ceil($scope.total / $scope.rpp);
 					for (var i = 1; i <= fin; i++) {
@@ -175,7 +171,6 @@ angular
 			if (p < 1 || p > $scope.pages.length)
 				return;
 			$scope.page = p;
-			console.log("Página: " + p);
 			$scope.offset = $scope.rpp * ($scope.page - 1);
 			refresh();
 		};
@@ -196,7 +191,6 @@ angular
 							" of the year " + $scope.newStat.year +
 							" has benn successfully added"
 					};
-					console.log("Stat added. " + response);
 					successModalShow(settings);
 					$scope.rePage();
 					$scope.newStat = {};
@@ -247,11 +241,9 @@ angular
 								" of the year " + year +
 								" has benn successfully deleted."
 						};
-						console.log("Stat deleted. ");
 						successModalShow(settings);
 						$scope.rePage();
 					});
-				console.log("Deleting stat: " + uni + " - " + year);
 			});
 			warningModalShow(settings);
 		};
@@ -266,11 +258,9 @@ angular
 							title: "Database has been emptied !!",
 							text: "All the resources has benn successfully deleted."
 						};
-						console.log("All stats deleted.");
 						successModalShow(settings);
 						$scope.rePage();
 					});
-				console.log("Deleting all stats.");
 			});
 			$("#warningAllModal").modal();
 		};
