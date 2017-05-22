@@ -4,13 +4,9 @@
 angular
 	.module("sos1617-12-app")
 	.controller("ARSCtrl", ["$scope", "$http", function($scope, $http) {
-		
+
 		console.log("List and manager controller initialized.");
 
-		$scope.page = 1;
-		$scope.rpp = 0;
-		$scope.pages = [];
-		$scope.apikey = "018d375e";
 
 		$scope.provinceSearch = null;
 		$scope.yearFrom = null;
@@ -18,7 +14,19 @@ angular
 
 		$scope.minYear = null;
 		$scope.maxYear = null;
-		
+
+		$(document).ready(function() {
+			$scope.page = 1;
+			$scope.rpp = 10;
+			$scope.pages = [];
+			$scope.apikey = "018d375e";
+			$('#rpp-select').val($scope.rpp);
+			$('#rpp-select').change();
+			$('#uni-select').change();
+			$('#year-select').change();
+		});
+
+
 
 		function getQuery(withPag) {
 			var query = [];
@@ -58,23 +66,23 @@ angular
 
 					searchResults = response.data;
 
-					$scope.aviProvinces = searchResults.map(function(current){
+					$scope.aviProvinces = searchResults.map(function(current) {
 						return current.province;
-					}).filter(function(a, b, c){
+					}).filter(function(a, b, c) {
 						return c.indexOf(a, b + 1) < 0;
 					}).sort();
 
-					$scope.aviUnis = searchResults.map(function(current){
+					$scope.aviUnis = searchResults.map(function(current) {
 						return current.university;
-					}).filter(function(a, b, c){
+					}).filter(function(a, b, c) {
 						return c.indexOf(a, b + 1) < 0;
 					}).sort();
 
-					$scope.aviYears = searchResults.map(function(current){
+					$scope.aviYears = searchResults.map(function(current) {
 						return current.year;
-					}).filter(function(a, b, c){
+					}).filter(function(a, b, c) {
 						return c.indexOf(a, b + 1) < 0;
-					}).sort(function(a, b){
+					}).sort(function(a, b) {
 						return a - b;
 					});
 
@@ -91,8 +99,9 @@ angular
 				.then(function(response) {
 					if (Array.isArray(response.data)) {
 						$scope.stats = response.data;
-					} else {
-					$scope.stats = [response.data];
+					}
+					else {
+						$scope.stats = [response.data];
 					}
 				}, function(response) {
 					var settings = {};
@@ -112,16 +121,33 @@ angular
 					$scope.stats = [];
 					errorModalShow(settings);
 				});
-//			$("#navPag" + $scope.page).addClass("active");
+			//			$("#navPag" + $scope.page).addClass("active");
 		}
-
+		
+		function controlsController(){
+			if ($scope.universityFilter != 0){
+				$scope.provinceSearch = null;
+				$('#provinceInput').attr('disabled', 'true');
+			} else $('#provinceInput').attr('disabled', null);
+			
+			if ($scope.yearFilter != 0){
+				$scope.yearFrom = null;
+				$scope.yearTo = null;
+				$('#fromInput').attr('disabled', 'true');
+				$('#toInput').attr('disabled', 'true');
+			} else { 
+				$('#fromInput').attr('disabled', null);
+				$('#toInput').attr('disabled', null);
+			}
+		}
 
 		// Triger when need repage
 		$scope.rePage = function() {
+			controlsController();
 			console.log("Limit changed: " + $scope.rpp);
 			var query = (getQuery(false).length > 1) ? getQuery(false) + "&" : getQuery(false);
 			var searchResults = [];
-				$http
+			$http
 				.get("/api/v1/academic-rankings-stats" + getFilters() + query + "apikey=" + $scope.apikey + "")
 				.then(function(response) {
 					searchResults = response.data;
@@ -146,17 +172,10 @@ angular
 
 		// Set current page
 		$scope.setPage = function(p) {
+			if (p < 1 || p > $scope.pages.length)
+				return;
 			$scope.page = p;
-			// if (p == 1)
-			// 	$("#navPagPrev").addClass("disabled");
-			// else
-			// 	$("#navPagPrev").removeClass("disabled");
-			// if (p == $scope.pages.length)
-			// 	$("#navPagNext").addClass("disabled");
-			// else
-			// 	$("#navPagNext").removeClass("disabled");
-			// $(".active").removeClass("active");
-			// $("#navPag" + $scope.page).addClass("active");
+			console.log("Página: " + p);
 			$scope.offset = $scope.rpp * ($scope.page - 1);
 			refresh();
 		};
@@ -217,7 +236,7 @@ angular
 					"<strong>" + uni + " " + year + "</strong>.<br>" + "This action can not be undone.</p>" +
 					"<p><strong>Are you sure you want to delete it?</strong></p>"
 			};
-			
+
 			$("#deleteBtn").click(function() {
 				$http
 					.delete("/api/v1/academic-rankings-stats/" + uni + "/" + year + "?apikey=" + $scope.apikey + "")
@@ -333,11 +352,5 @@ angular
 			$("#warningText").html(settings.text);
 			$("#warningModal").modal();
 		}
-		
-		$(document).ready(function(){
-			$('#rpp-select').change();
-			$('#uni-select').change();
-			$('#year-select').change();
-		});
 
 	}]);
