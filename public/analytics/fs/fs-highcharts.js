@@ -8,15 +8,17 @@ module("sos1617-12-app")
 
         $http.get("/api/v2/free-software-stats?apikey=" + $scope.apikey).then(function(response) {
 
-            var serie1 = [];
+            var serie = [];
             var serieAux = Object();
             var provinces = new Set();
             var serieDrilldown = [];
             var data = [];
-            response.data.forEach(function(u) {
+            response.data.forEach(function(u,index) {
+                
+                //console.log(index,serie);
                 if (!provinces.has(u.university)) {
                     provinces.add(u.university);
-                    serie1.push({
+                    serie.push({
                         name: u.university,
                         id: u.university,
                         data: new Array([u.year.toString(),
@@ -26,32 +28,38 @@ module("sos1617-12-app")
                 }
                 else {
 
-                    for (var i = 0; i < serie1.length; i++) {
-                        if (serie1[i].name === u.university) {
-                            serieAux = serie1[i];
+                    for (var i = 0; i < serie.length; i++) {
+                        if (serie[i].name === u.university) {
+                            serieAux = serie[i];
                             serieAux.data.push([u.year.toString(),
                                     u.diffusion
                                 ]
 
                             );
-                            serieDrilldown.push(serieAux);
+                            //serieDrilldown.push(serieAux);
                             console.log(serieAux);
                         }
                     }
                 }
             });
+            
+        
 
-            serieDrilldown.forEach(function(s) {
+            serie.forEach(function(s) {
+                var y = 0.0;
+                for (var i = 0; i < s.data.length; i++) {
+                    y += parseFloat(s.data[i][1]);
+                }
+                y = y / s.data.length;
                 data.push({
                     name: s.name,
-                    y: (s.data[0][1]+s.data[1][1])/2,
-                    
+                    y: y,
                     drilldown: s.name
                 });
             });
-
-            console.log(data);
-            console.log(serieDrilldown);
+            //console.log(serie);
+            //console.log(data);
+            //console.log(serieDrilldown);
 
 
 
@@ -124,7 +132,8 @@ module("sos1617-12-app")
                         // }]
                 }],
                 drilldown: {
-                    series: serieDrilldown
+                    //series: serieDrilldown
+                    series: serie
                 }
             });
 
