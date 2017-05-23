@@ -56,19 +56,19 @@ module.exports.register_fs_api = function(app) {
                     console.log('INFO: Empty DB, loading initial data');
 
                     var initialStats = [{
-                        "university": "Universidad De Sevilla",
+                        "university": "Universidad de Sevilla",
                         "year": 2016,
                         "province": "Sevilla",
                         "diffusion": 61.69,
                         "ranking": 4
                     }, {
-                        "university": "Universidad De Granada",
+                        "university": "Universidad de Granada",
                         "year": 2016,
                         "province": "Granada",
                         "diffusion": 93.4,
                         "ranking": 2
                     }, {
-                        "university": "Universidad De Sevilla",
+                        "university": "Universidad de Sevilla",
                         "year": 2015,
                         "province": "Sevilla",
                         "diffusion": 35.65,

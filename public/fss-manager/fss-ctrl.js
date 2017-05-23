@@ -35,7 +35,7 @@ angular
                     $scope.stats = response.data;
                     $scope.numPages = Math.ceil(response.data.length / $scope.size);
                     $scope.totalPages = new Array($scope.numPages);
-                    console.log("Refresh yourself!");
+                    console.log("Refresh!!");
                     $scope.changeSizeList();
 
                 });
@@ -160,7 +160,7 @@ angular
                 .get($scope.url + "?apikey=" + $scope.apikey)
                 .then(function(response) {
                     $scope.stats = response.data;
-                    console.log("La apikey es= " + $scope.apikey);
+                    //Arreglar paginacion en el reset
                     console.log(response);
                     $scope.apikeyWarning = "";
                     $scope.reqStatus = "Welcome";
