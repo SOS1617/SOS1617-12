@@ -4,6 +4,7 @@ angular.
 module("sos1617-12-app")
     .controller("FSProxyCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("HighChart controller for FS proxy initilized");
+        $scope.url = "/api/v3/free-software-stats";
         $scope.apikey = "1234";
         var olive = [];
         var diffusion = [];
@@ -15,13 +16,13 @@ module("sos1617-12-app")
 
 
             response.data.forEach(function(u) {
-                olive.push(parseFloat(u.priceextra)+parseFloat(u.priceextra)+parseFloat(u.pricevirgen));
+                olive.push(parseFloat(u.priceextra) + parseFloat(u.priceextra) + parseFloat(u.pricevirgen));
 
 
             });
 
 
-            $http.get("/api/v2/free-software-stats?apikey=" + $scope.apikey).then(function(response) {
+            $http.get($scope.url + "?apikey=" + $scope.apikey).then(function(response) {
 
                 response.data.forEach(function(u) {
                     diffusion.push(u.diffusion);

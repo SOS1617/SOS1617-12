@@ -4,6 +4,7 @@ angular.
 module("sos1617-12-app")
     .controller("FSRemoteCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("HighChart controller for FS initilized");
+        $scope.url = "/api/v3/free-software-stats";
         $scope.apikey = "1234";
         var values = [];
         var stat =[];
@@ -18,7 +19,7 @@ module("sos1617-12-app")
 
             });
 
-            $http.get("/api/v2/free-software-stats?apikey=" + $scope.apikey).then(function(response) {
+            $http.get($scope.url + "?apikey=" + $scope.apikey).then(function(response) {
 
                 response.data.forEach(function(u) {
                     stat.push([u.university + "/" + u.year]);

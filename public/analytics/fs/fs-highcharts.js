@@ -4,17 +4,16 @@ angular.
 module("sos1617-12-app")
     .controller("FSHighCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("HighChart controller for FS initilized");
+        $scope.url = "/api/v3/free-software-stats";
         $scope.apikey = "1234";
 
-        $http.get("/api/v2/free-software-stats?apikey=" + $scope.apikey).then(function(response) {
+        $http.get($scope.url + "?apikey=" + $scope.apikey).then(function(response) {
 
             var serie = [];
-            var serieAux = Object();
             var provinces = new Set();
-            var serieDrilldown = [];
             var data = [];
-            response.data.forEach(function(u,index) {
-                
+            response.data.forEach(function(u, index) {
+
                 //console.log(index,serie);
                 if (!provinces.has(u.university)) {
                     provinces.add(u.university);
@@ -30,20 +29,19 @@ module("sos1617-12-app")
 
                     for (var i = 0; i < serie.length; i++) {
                         if (serie[i].name === u.university) {
-                            serieAux = serie[i];
-                            serieAux.data.push([u.year.toString(),
+                            
+                            serie[i].data.push([u.year.toString(),
                                     u.diffusion
                                 ]
 
                             );
-                            //serieDrilldown.push(serieAux);
-                            console.log(serieAux);
+                    
                         }
                     }
                 }
             });
-            
-        
+
+
 
             serie.forEach(function(s) {
                 var y = 0.0;
@@ -59,8 +57,6 @@ module("sos1617-12-app")
             });
             //console.log(serie);
             //console.log(data);
-            //console.log(serieDrilldown);
-
 
 
             // Create the chart

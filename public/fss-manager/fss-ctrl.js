@@ -3,7 +3,7 @@ angular
     .controller("FSSCtrl", ["$scope", "$http", function($scope, $http) {
         console.log("FSS controller initialized");
 
-        $scope.url = "/api/v2/free-software-stats";
+        $scope.url = "/api/v3/free-software-stats";
         $scope.apikey = "1234";
         $scope.reqStatus = "Welcome";
         $scope.apikeyWarning = "";
@@ -70,7 +70,7 @@ angular
                 .get($scope.url + "?apikey=" + $scope.apikey)
                 .then(function(response) {
                     $scope.stats = response.data;
-                    console.log("INFOWEB, retrieveList");
+                    console.log("INFOWEB, retrieveList()");
                     console.log(response);
                     $scope.apikeyWarning = "";
                 }, err);
@@ -90,7 +90,6 @@ angular
 
         // GET a year or university
         $scope.searchStat = function() {
-            //$scope.statQuery = parseInt($scope.statQuery);
             if (isNaN($scope.statQuery)) {
                 $http
                     .get($scope.url + "?province=" + $scope.statQuery + "&apikey=" + $scope.apikey)
@@ -268,7 +267,6 @@ angular
                         $http
                             .get($scope.url + "?apikey=" + $scope.apikey)
                             .then(function(response) {
-                                console.log("INFOWEB: La apikey es= " + $scope.apikey);
                                 $scope.numPages = Math.ceil(response.data.length / $scope.size);
                                 $scope.totalPages = new Array($scope.numPages);
                                 for (var i = 0; i < ($scope.totalPages.length); i++) {
