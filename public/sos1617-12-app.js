@@ -26,18 +26,18 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             controller: "ESCtrl"
         })
 
-        .when("/fssman", {
-            templateUrl: "fss-manager/fss.html",
-            controller: "FSSCtrl"
-        })
-        
-        .when("/edit_fss/:university/:year", {
-            templateUrl: "fss-manager/fss_edit.html",
-            controller: "FSSEditCtrl"
-        })
-        
-        // Visualizaciones AR
-        .when("/analytics/ar/geo", {
+    .when("/fssman", {
+        templateUrl: "fss-manager/fss.html",
+        controller: "FSSCtrl"
+    })
+
+    .when("/edit_fss/:university/:year", {
+        templateUrl: "fss-manager/fss_edit.html",
+        controller: "FSSEditCtrl"
+    })
+
+    // Visualizaciones AR
+    .when("/analytics/ar/geo", {
             templateUrl: "analytics/ar/ar_geochart.html",
             controller: "ARSGeoCtrl"
         })
@@ -45,8 +45,8 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "analytics/ar/ar_highcharts.html",
             controller: "ARSHighCharCtrl"
         })
-        
-        .when("/analytics/ar/echarts", {
+
+    .when("/analytics/ar/echarts", {
             templateUrl: "analytics/ar/echarts.html",
             controller: "EchartsCtrl"
         })
@@ -67,8 +67,8 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "analytics/es/es_highchartsRemoteProxy.html",
             controller: "ESHighCtrlRemoteProxy"
         })
-        
-        .when("/analytics/es/d3", {
+
+    .when("/analytics/es/d3", {
             templateUrl: "analytics/es/es_d3.html",
             controller: "ESd3Ctrl"
         })
@@ -93,22 +93,27 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "analytics/fs/fs_olive_proxy.html",
             controller: "FSProxyCtrl"
         })
-        
-        .when("/analytics/ar/pisa_int", {
-            templateUrl: "analytics/ar/pisa_integration.html",
-            controller: "PisaIntCtrl"
-        })
-        
-        .when("/analytics/ar/ec_sit_int", {
-            templateUrl: "analytics/ar/ec_sit.html",
-            controller: "EcSitCtrl"
+        .when("/analytics/fs/integrations", {
+            templateUrl: "analytics/fs/fs_integrations.html",
+            controller: "FSIntegrationCtrl"
         })
 
-        //visual
-        .when("/analytics", {
-            templateUrl: "analytics/visual.html"
-        })
-        ;
+
+    .when("/analytics/ar/pisa_int", {
+        templateUrl: "analytics/ar/pisa_integration.html",
+        controller: "PisaIntCtrl"
+    })
+
+    .when("/analytics/ar/ec_sit_int", {
+        templateUrl: "analytics/ar/ec_sit.html",
+        controller: "EcSitCtrl"
+    })
+
+
+    //visual
+    .when("/analytics", {
+        templateUrl: "analytics/visual.html"
+    });
 
     console.log("App initialized");
 

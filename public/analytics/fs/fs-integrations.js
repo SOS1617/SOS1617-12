@@ -6,22 +6,34 @@ module("sos1617-12-app")
         console.log("Integrations controller for FS initilized");
 
         $scope.poem = "";
+        var listPoem = [];
 
-        $http.get('https://pafmon-walt-whitman-poems.p.mashape.com/poems/o-me-o-life', {
+
+        $http.get('https://pafmon-walt-whitman-poems.p.mashape.com/poems/', {
                 headers: {
                     "X-Mashape-Key": "Ct017yQKOzmshgTzaOjqqmKHCr5Pp1yMhB9jsnbmSsC5ReNvjh"
                 }
             })
             .then(function(response) {
 
-
-
-
-                $scope.poem = response.data;
+                listPoem = response.data;
+                //console.log(listPoem);
 
             });
 
 
+        $scope.getPoem = function() {
+            $http.get("https://pafmon-walt-whitman-poems.p.mashape.com/poems/" + listPoem[Math.floor(Math.random() * listPoem.length)], {
+                    headers: {
+                        "X-Mashape-Key": "Ct017yQKOzmshgTzaOjqqmKHCr5Pp1yMhB9jsnbmSsC5ReNvjh"
+                    }
+                })
+                .then(function(response) {
+
+                    $scope.poem = response.data;
+
+                });
+        };
 
 
     }]);
