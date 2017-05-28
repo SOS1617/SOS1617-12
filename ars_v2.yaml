@@ -1,0 +1,126 @@
+---
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Academic rankings stats
+  description: |-
+    RESTful API for the management and access to statistics on the position of the Spanish universities in diverse rankings <style>
+      .plansButton{
+          display: table;
+          margin-top: 15px;
+          padding: 10px;
+          background-color: #547f00;
+          border-radius: 3px;
+          color: #fff !important;
+          text-decoration: none;
+      }
+      .plansButton:hover{
+          box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+      }
+    </style> <a class="plansButton" href="../plans">Get your API key</a>
+  contact:
+    name: Group 12 of the subject "Systems Oriented to Services" of the course 2016/17 of the University of Seville
+    url: https://sos1617-12.herokuapp.com
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+host: sos1617-12.herokuapp.com
+paths:
+  "/api/v2/academic-rankings-stats":
+    get:
+      description: Returns all stats from the system that the user has access to
+      produces:
+      - application/json
+      responses:
+        '200':
+          description: contact response
+          schema:
+            type: array
+            items:
+              "$ref": "#/definitions/stat"
+        default:
+          description: unexpected error
+          schema:
+            "$ref": "#/definitions/errorModel"
+  "/api/v2/academic-rankings-stats/{param}":
+    get:
+      description: Returns all stats from a university or a year. 
+      produces:
+      - application/json
+      parameters:
+      - name: param
+        in: path
+        description: name of university or year to fetch
+        required: true
+        type: string
+      responses:
+        '200':
+          description: contact response
+          schema:
+            "$ref": "#/definitions/stat"
+        default:
+          description: unexpected error
+          schema:
+            "$ref": "#/definitions/errorModel"
+  "/api/v2/academic-rankings-stats/{university}/{year}":
+    get:
+      description: Returns an individual stat for an unversity and a year
+      produces:
+      - application/json
+      parameters:
+      - name: university
+        in: path
+        description: university to fetch
+        required: true
+        type: string
+      - name: year
+        in: path
+        description: year to fetch
+        required: true
+        type: string
+      responses:
+        '200':
+          description: contact response
+          schema:
+            "$ref": "#/definitions/stat"
+        default:
+          description: unexpected error
+          schema:
+            "$ref": "#/definitions/errorModel"
+definitions:
+  stat:
+    type: object
+    required:
+    - university
+    - year
+    - province
+    - world_position
+    - country_position
+    properties:
+      university:
+        type: string
+      year:
+        type: number
+      province:
+        type: string
+      world_position:
+        type: number
+      country_position:
+        type: number
+  errorModel:
+    type: object
+    required:
+    - code
+    - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
