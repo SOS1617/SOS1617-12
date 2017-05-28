@@ -1053,12 +1053,12 @@ module.exports.register_AR_api = function(app) {
                         response.sendStatus(500); // internal server error
                     }
                     else {
-                        if (statsBeforeInsertion[0]._id != updatedStat._id) {
-                            console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) +
-                                " has not equal id than updated stat, sending 400...");
-                            response.sendStatus(400); // bad request
-                            return;
-                        }
+                        // if (statsBeforeInsertion[0]._id != updatedStat._id) {
+                        //     console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) +
+                        //         " has not equal id than updated stat, sending 400...");
+                        //     response.sendStatus(400); // bad request
+                        //     return;
+                        // }
                         if (statsBeforeInsertion.length > 0) {
                             dbar.updateOne({
                                 "university": university,
