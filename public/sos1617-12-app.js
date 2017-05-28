@@ -113,8 +113,13 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
     //visual
     .when("/analytics", {
         templateUrl: "analytics/visual.html"
+    })
+
+    //governance
+    .when("/governance", {
+        templateUrl: "governance.html"
     });
 
     console.log("App initialized");
-
+    
 });
