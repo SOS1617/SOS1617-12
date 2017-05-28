@@ -37,9 +37,10 @@ fs.register_fs_api(app);
 ///////////////////API ACADEMIC RANKINGS STATS ////////////////////////////
 
 var ars = require('./ar-stats');
-
 ars.register_AR_api(app);
 
+var ars2 = require('./ar-stats-v2');
+ars2.register_AR_api_v2(app);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
