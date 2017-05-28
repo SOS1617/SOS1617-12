@@ -37,6 +37,12 @@ paths:
       description: Returns all stats from the system that the user has access to
       produces:
       - application/json
+      parameters:
+      - name: apikey
+        in: query
+        description: apikey for access
+        required: true
+        type: string
       responses:
         '200':
           description: contact response
@@ -54,6 +60,11 @@ paths:
       produces:
       - application/json
       parameters:
+      - name: apikey
+        in: query
+        description: apikey for access
+        required: true
+        type: string
       - name: param
         in: path
         description: name of university or year to fetch
@@ -74,6 +85,11 @@ paths:
       produces:
       - application/json
       parameters:
+      - name: apikey
+        in: query
+        description: apikey for access
+        required: true
+        type: string
       - name: university
         in: path
         description: university to fetch
