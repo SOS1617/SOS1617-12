@@ -118,8 +118,14 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
     //governance
     .when("/governance", {
         templateUrl: "governance.html"
+    })
+
+    //Scopus integration
+    .when("/scopus", {
+        templateUrl: "analytics/ar/scopus.html",
+        controller: "ScopusIntegrationCtrl"
     });
 
     console.log("App initialized");
-    
+
 });
