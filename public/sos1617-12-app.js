@@ -112,7 +112,7 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
 
     //visual
     .when("/integrations", {
-        templateUrl: "integrations/visual.html"
+        templateUrl: "/integrations/visual.html"
     })
     //analytics
     // .when("/analytics", {
