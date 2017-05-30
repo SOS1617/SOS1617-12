@@ -33,7 +33,7 @@ module("sos1617-12-app")
                         type: 'bar'
                     },
                     title: {
-                        text: 'FS diffusion and GDP deflactor'
+                        text: 'FS diffusion (Universities) and GDP deflactor (Countries)'
                     },
                     
                     xAxis: {

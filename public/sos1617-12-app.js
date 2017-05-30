@@ -37,83 +37,87 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
     })
 
     // Visualizaciones AR
-    .when("/analytics/ar/geo", {
-            templateUrl: "analytics/ar/ar_geochart.html",
+    .when("/integrations/ar/geo", {
+            templateUrl: "integrations/ar/ar_geochart.html",
             controller: "ARSGeoCtrl"
         })
-        .when("/analytics/ar/high", {
-            templateUrl: "analytics/ar/ar_highcharts.html",
+        .when("/integrations/ar/high", {
+            templateUrl: "integrations/ar/ar_highcharts.html",
             controller: "ARSHighCharCtrl"
         })
 
-    .when("/analytics/ar/echarts", {
-            templateUrl: "analytics/ar/echarts.html",
+    .when("/integrations/ar/echarts", {
+            templateUrl: "integrations/ar/echarts.html",
             controller: "EchartsCtrl"
         })
         //Visualizaciones ES
-        .when("/analytics/es/geo", {
-            templateUrl: "analytics/es/es_geochart.html",
+        .when("/integrations/es/geo", {
+            templateUrl: "integrations/es/es_geochart.html",
             controller: "ESGeoCtrl"
         })
-        .when("/analytics/es/high", {
-            templateUrl: "analytics/es/es_highcharts.html",
+        .when("/integrations/es/high", {
+            templateUrl: "integrations/es/es_highcharts.html",
             controller: "ESHighCtrl"
         })
-        .when("/analytics/es/highRemote", {
-            templateUrl: "analytics/es/es_highchartsRemote.html",
+        .when("/integrations/es/highRemote", {
+            templateUrl: "integrations/es/es_highchartsRemote.html",
             controller: "ESHighCtrlRemote"
         })
-        .when("/analytics/es/highRemoteProxy", {
-            templateUrl: "analytics/es/es_highchartsRemoteProxy.html",
+        .when("/integrations/es/highRemoteProxy", {
+            templateUrl: "integrations/es/es_highchartsRemoteProxy.html",
             controller: "ESHighCtrlRemoteProxy"
         })
 
-    .when("/analytics/es/d3", {
-            templateUrl: "analytics/es/es_d3.html",
+    .when("/integrations/es/d3", {
+            templateUrl: "integrations/es/es_d3.html",
             controller: "ESd3Ctrl"
         })
         //Visualizaciones FS
-        .when("/analytics/fs/geo", {
-            templateUrl: "analytics/fs/fs_geochart.html",
+        .when("/integrations/fs/geo", {
+            templateUrl: "integrations/fs/fs_geochart.html",
             controller: "FSGeoCtrl"
         })
-        .when("/analytics/fs/high", {
-            templateUrl: "analytics/fs/fs_highcharts.html",
+        .when("/integrations/fs/high", {
+            templateUrl: "integrations/fs/fs_highcharts.html",
             controller: "FSHighCtrl"
         })
-        .when("/analytics/fs/chartjs", {
-            templateUrl: "analytics/fs/fs_chartjs.html",
+        .when("/integrations/fs/chartjs", {
+            templateUrl: "integrations/fs/fs_chartjs.html",
             controller: "FSChartjsCtrl"
         })
-        .when("/analytics/fs/remote/gdp", {
-            templateUrl: "analytics/fs/fs_gdp_remote.html",
+        .when("/integrations/fs/remote/gdp", {
+            templateUrl: "integrations/fs/fs_gdp_remote.html",
             controller: "FSRemoteCtrl"
         })
-        .when("/analytics/fs/proxy/olive", {
-            templateUrl: "analytics/fs/fs_olive_proxy.html",
+        .when("/integrations/fs/proxy/olive", {
+            templateUrl: "integrations/fs/fs_olive_proxy.html",
             controller: "FSProxyCtrl"
         })
-        .when("/analytics/fs/integrations", {
-            templateUrl: "analytics/fs/fs_integrations.html",
+        .when("/integrations/fs/integrations", {
+            templateUrl: "integrations/fs/fs_integrations.html",
             controller: "FSIntegrationCtrl"
         })
 
 
-    .when("/analytics/ar/pisa_int", {
-        templateUrl: "analytics/ar/pisa_integration.html",
+    .when("/integrations/ar/pisa_int", {
+        templateUrl: "integrations/ar/pisa_integration.html",
         controller: "PisaIntCtrl"
     })
 
-    .when("/analytics/ar/ec_sit_int", {
-        templateUrl: "analytics/ar/ec_sit.html",
+    .when("/integrations/ar/ec_sit_int", {
+        templateUrl: "integrations/ar/ec_sit.html",
         controller: "EcSitCtrl"
     })
 
 
     //visual
-    .when("/analytics", {
-        templateUrl: "analytics/visual.html"
+    .when("/integrations", {
+        templateUrl: "integrations/visual.html"
     })
+    //analytics
+    // .when("/analytics", {
+    //     templateUrl: "analytics.html"
+    // })
 
     //governance
     .when("/governance", {

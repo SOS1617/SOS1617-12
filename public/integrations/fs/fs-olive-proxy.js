@@ -17,11 +17,11 @@ module("sos1617-12-app")
 
             response.data.forEach(function(u) {
                 olive.push(parseFloat(u.priceextra) + parseFloat(u.priceextra) + parseFloat(u.pricevirgen));
-                console.log(response.data);
+
 
 
             });
-
+            console.log(response.data);
 
             $http.get($scope.url + "?apikey=" + $scope.apikey).then(function(response) {
 
