@@ -477,7 +477,8 @@ module.exports.register_fs_api = function(app) {
 
                 var options = {
                     host: 'sos1617-04.herokuapp.com',
-                    path: '/api/v2/price-stats?apikey=12345'
+                    //path: '/api/v2/price-stats?apikey=12345'
+                    path: '/api/v3/price-stats'
                 };
 
                 callback = function(response) {
