@@ -67,8 +67,17 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
             templateUrl: "integrations/es/es_highchartsRemoteProxy.html",
             controller: "ESHighCtrlRemoteProxy"
         })
+        .when("/integrations/es/highRemoteSpotify", {
+            templateUrl: "integrations/es/es_highchartsRemoteSpotify.html",
+            controller: "ESHighCtrlRemoteSpotify"
+        })
+        .when("/integrations/es/mashapes", {
+            templateUrl: "integrations/es/es_mashapes.html",
+            controller: "ESHighCtrlmashapes"
+        })
 
-    .when("/integrations/es/d3", {
+
+        .when("/integrations/es/d3", {
             templateUrl: "integrations/es/es_d3.html",
             controller: "ESd3Ctrl"
         })

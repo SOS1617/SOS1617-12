@@ -120,10 +120,10 @@ module("sos1617-12-app")
                                                         type: 'pie'
                                                     },
                                                     title: {
-                                                        text: 'Browser market share, January, 2015 to May, 2015'
+                                                        text: 'Integration with beers'
                                                     },
                                                     subtitle: {
-                                                        text: 'Source: <a href="http://netmarketshare.com/">netmarketshare.com</a>'
+                                                        text: 'Integration with beers'
                                                     },
                                                     yAxis: {
                                                         title: {
@@ -140,7 +140,7 @@ module("sos1617-12-app")
                                                         valueSuffix: '%'
                                                     },
                                                     series: [{
-                                                        name: 'Browsers',
+                                                        name: 'Versions',
                                                         data: expensive_peu,
                                                         size: '60%',
                                                         dataLabels: {

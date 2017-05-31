@@ -1,0 +1,24 @@
+<center><div id="myChart" style="width: 800px"></div></center>
+<table class="table table-hover">
+      <thead>
+            <tr><td><h1>IP Where</h1></td></tr>
+            <tr>
+                  <td>IP: <input class="form-control" ng-model="ip"/></td>
+            </tr>
+            <tr><td>Region: {{region}}</td></tr>
+            <tr>
+                  <td><button id="addButton" ng-click="refreshIpWhere()" class="btn btn-primary">Send</button></td>
+                  
+            </tr>
+            <tr><td></td></tr>
+            <tr><td><h1>Email DNS Validator</h1></td></tr>
+            <tr>
+                  <td>Email: <input class="form-control" ng-model="email"/></td>
+            </tr>
+            <tr><td>Status: {{isValid}}</td></tr>
+            <tr>
+                  <td><button id="addButton" ng-click="refreshEmail()" class="btn btn-primary">Send</button></td>
+                  
+            </tr>
+      <thead>
+<table>
