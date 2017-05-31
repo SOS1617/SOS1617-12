@@ -141,6 +141,15 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
     .when("/poblacion", {
         templateUrl: "integrations/ar/poblacion.html",
         controller: "PoblacionCtrl"
+    })
+    
+    .when("/about", {
+        templateUrl: "about.html"
+    })    
+    
+    .when("/analytics", {
+        templateUrl: "/analytics/analytics.html", 
+        controller: "AnalyticCtrl"
     });
 
     console.log("App initialized");
