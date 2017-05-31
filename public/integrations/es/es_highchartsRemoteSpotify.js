@@ -7,6 +7,7 @@ module("sos1617-12-app")
         $scope.apikey = "123456789";
         var values = [];
         var stat =[];
+        $scope.groups = "64tNsm6TnZe2zpcMVMOoHL,5xUf6j4upBrXZPg6AI4MRK,6olE6TJLqED3rqDCT0FyPh,1w5Kfo2jwwIPruYS2UWh56";
 
 
 
@@ -79,8 +80,8 @@ module("sos1617-12-app")
                 zingchart.render({
                   id: "myChart",
                   data: myChart,
-                  height: 480,
-                  width: 400
+                  height: 680,
+                  width: 580
                 });
 
 
