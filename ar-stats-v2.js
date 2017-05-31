@@ -1121,5 +1121,19 @@ module.exports.register_AR_api_v2 = function(app) {
 
     });
 
+    app.use(BASE_API_PATH + "/poblacion/:year", function(request, response) {
+            var year = request.params.year;
+            var q = "?date=" + year + "0601:" + year + "0831";
+            console.log("INFO: New request to /poblacion/" + q);
+            request.pipe(
+                reqq("http://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/9687" + q, (error, resp, body) => {
+                    if (error) {
+                        console.log('error:', error); // Print the error if one occurred 
+                        response.sendStatus(503);
+                    }
+                    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+                })).pipe(response);
+    });
+
     console.log("Registered API academic-rankings-stats-v2");
 };

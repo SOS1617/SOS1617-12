@@ -135,8 +135,12 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
 
     //Scopus integration
     .when("/scopus", {
-        templateUrl: "analytics/ar/scopus.html",
+        templateUrl: "integrations/ar/scopus.html",
         controller: "ScopusIntegrationCtrl"
+    })
+    .when("/poblacion", {
+        templateUrl: "integrations/ar/poblacion.html",
+        controller: "PoblacionCtrl"
     });
 
     console.log("App initialized");
