@@ -95,16 +95,34 @@ module.exports.register_fs_api = function(app) {
                         "ranking": 50
                     }, {
                         "university": "Universidad Complutense de Madrid",
-                        "year": 2015,
+                        "year": 2008,
                         "province": "Madrid",
                         "diffusion": 15.75,
                         "ranking": 20
                     }, {
-                        "university": "Universidad Complutense de Madrid",
-                        "year": 2016,
-                        "province": "Madrid",
+                        "university": "Universidad de Granada",
+                        "year": 2008,
+                        "province": "Granada",
                         "diffusion": 8.68,
                         "ranking": 33
+                    }, {
+                        "university": "Universidad de Valencia",
+                        "year": 2008,
+                        "province": "Valencia",
+                        "diffusion": 15.75,
+                        "ranking": 20
+                    }, {
+                        "university": "Universidad del Pais Vasco",
+                        "year": 2008,
+                        "province": "Pais Vasco",
+                        "diffusion": 15.75,
+                        "ranking": 20
+                    }, {
+                        "university": "Universidad de Sevilla",
+                        "year": 2008,
+                        "province": "Sevilla",
+                        "diffusion": 15.75,
+                        "ranking": 20
                     }];
                     dbfs.insert(initialStats);
                     response.sendStatus(201);

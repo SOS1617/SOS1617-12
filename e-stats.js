@@ -50,77 +50,77 @@ module.exports.register_AR_api = function(app) {
                 "province": "Sevilla",
                 "year": 2009,
                 "expensive_peu": 1831040,
-                "expensive_id": 1726765,
+                "expensive_id": 17,
                 "employers_id": 24767
             },
             {
                 "province": "Sevilla",
                 "year": 2008,
                 "expensive_peu": 1831040,
-                "expensive_id": 1726765,
+                "expensive_id": 17,
                 "employers_id": 24767
             },
             {
                 "province": "Sevilla",
                 "year": 2007,
                 "expensive_peu": 1831040,
-                "expensive_id": 1726765,
+                "expensive_id": 11,
                 "employers_id": 24767
             },
             {
                 "province": "Sevilla",
                 "year": 2006,
                 "expensive_peu": 1831040,
-                "expensive_id": 1726765,
+                "expensive_id": 7,
                 "employers_id": 24767
             },
             {
                 "province": "Valencia",
                 "year": 2008,
                 "expensive_peu": 216369,
-                "expensive_id": 226156,
+                "expensive_id": 22,
                 "employers_id": 3577
             },
             {
                 "province": "Madrid",
                 "year": 2007,
                 "expensive_peu": 1646351,
-                "expensive_id": 3584130,
+                "expensive_id": 35,
                 "employers_id": 49973
             },
             {
                 "province": "Murcia",
                 "year": 2007,
                 "expensive_peu": 5541,
-                "expensive_id": 44422,
+                "expensive_id": 4,
                 "employers_id": 822421
             },
             {
                 "province": "Malaga",
                 "year": 2009,
                 "expensive_peu": 56455,
-                "expensive_id": 41522,
+                "expensive_id": 21,
                 "employers_id": 8521
             },
             {
                 "province": "Barcelona",
                 "year": 2002,
                 "expensive_peu": 5453455,
-                "expensive_id": 4134222,
+                "expensive_id": 43,
                 "employers_id": 82342341
             },
             {
                 "province": "Tarragona",
                 "year": 2008,
                 "expensive_peu": 541125,
-                "expensive_id": 3100022,
+                "expensive_id": 10,
                 "employers_id": 221
             },
             {
                 "province": "Lugo",
                 "year": 2010,
                 "expensive_peu": 12335,
-                "expensive_id": 443,
+                "expensive_id": 11,
                 "employers_id": 6761
             }];
                 dbes.insert(initialStats);

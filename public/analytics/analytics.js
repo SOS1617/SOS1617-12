@@ -67,11 +67,9 @@ module("sos1617-12-app").controller("AnalyticCtrl", ["$scope", "$http", function
                 var diffusions = [];
                 var rankings = [];
                 universities.forEach(function(university) {
-                    years.forEach(function(year) {
-
                         var province = null;
                         var ars_data = response2.data.filter(function(d) {
-                            return d.university == university && d.year == year;
+                            return d.university == university && d.year == 2008;
                         });
                         if (ars_data.length > 0) {
                             province = ars_data[0].province;
@@ -84,7 +82,7 @@ module("sos1617-12-app").controller("AnalyticCtrl", ["$scope", "$http", function
                         }
 
                         var fs_data = response.data.filter(function(d) {
-                            return d.university == university && d.year == year;
+                            return d.university == university && d.year == 2008;
                         });
                         if (fs_data.length > 0) {
                             if (!province) province = fs_data[0].province;
@@ -97,7 +95,7 @@ module("sos1617-12-app").controller("AnalyticCtrl", ["$scope", "$http", function
                         }
 
                         var es_data = response1.data.filter(function(d) {
-                            return d.year == year && d.province == province;
+                            return d.year == 2008 && d.province == province;
                         });
 
                         if (es_data.length > 0) {
@@ -110,9 +108,97 @@ module("sos1617-12-app").controller("AnalyticCtrl", ["$scope", "$http", function
                             employers_ids.push(0);
                         }
 
-                    });
+                    
                 });
 
+                console.log(universities.length);
+                console.log(world_positions.length);
+                console.log(expensive_ids.length);
+                console.log(rankings.length);
+                
+                var chart = Highcharts.chart('container', {
+                        chart: {
+                            type: 'column'
+                        },
+                    
+                        title: {
+                            text: 'Integration of all the APIs'
+                        },
+                    
+                        subtitle: {
+                            text: 'Year: 2008'
+                        },
+                    
+                        legend: {
+                            align: 'right',
+                            verticalAlign: 'middle',
+                            layout: 'vertical'
+                        },
+                    
+                        xAxis: {
+                            categories: universities,
+                            labels: {
+                                x: -10
+                            }
+                        },
+                    
+                        yAxis: {
+                            allowDecimals: false,
+                            title: {
+                                text: 'Amount'
+                            }
+                        },
+                    
+                        series: [{
+                            name: 'University World Position',
+                            data: world_positions
+                        }, {
+                            name: 'Expensive ID',
+                            data: expensive_ids
+                        }, {
+                            name: 'Ranking',
+                            data: rankings
+                        }],
+                    
+                        responsive: {
+                            rules: [{
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        align: 'center',
+                                        verticalAlign: 'bottom',
+                                        layout: 'horizontal'
+                                    },
+                                    yAxis: {
+                                        labels: {
+                                            align: 'left',
+                                            x: 0,
+                                            y: -5
+                                        },
+                                        title: {
+                                            text: null
+                                        }
+                                    },
+                                    subtitle: {
+                                        text: null
+                                    },
+                                    credits: {
+                                        enabled: false
+                                    }
+                                }
+                            }]
+                        }
+                    });
+                    
+                    $('#small').click(function () {
+                        chart.setSize(400, 300);
+                    });
+                    
+                    $('#large').click(function () {
+                        chart.setSize(600, 300);
+                    });
             });
 
         });
