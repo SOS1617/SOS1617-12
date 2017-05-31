@@ -80,8 +80,8 @@ module("sos1617-12-app")
                 zingchart.render({
                   id: "myChart",
                   data: myChart,
-                  height: 480,
-                  width: 400
+                  height: 680,
+                  width: 580
                 });
 
 
