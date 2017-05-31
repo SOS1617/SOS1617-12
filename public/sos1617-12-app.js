@@ -126,7 +126,7 @@ angular.module("sos1617-12-app", ["ngRoute"]).config(function($routeProvider) {
 
     //Scopus integration
     .when("/scopus", {
-        templateUrl: "analytics/ar/scopus.html",
+        templateUrl: "integrations/ar/scopus.html",
         controller: "ScopusIntegrationCtrl"
     });
 
