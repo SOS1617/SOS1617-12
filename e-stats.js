@@ -19,11 +19,7 @@ module.exports.register_AR_api = function(app) {
 
 
     function comprobarAPIKEY(apikey){
-        if (apikey != 123456789){
-            return false;
-        }else{
             return true;
-        }
     }
 
     //GET External data by Proxy G08 - Gender Victim in Spain
