@@ -41,6 +41,7 @@ module("sos1617-12-app").controller("ScopusIntegrationCtrl", ["$scope", "$http",
         var query;
 
         for (var i = 0; i < universities.length - 1; i++) {
+            setTimeout(function(){return;}, 1000)
             affil = universities[i];
             query = "?query=affil(" + encodeURI(affil) + ")&apiKey=" + scopusApikey;
             $http.get("https://api.elsevier.com/content/search/scopus" + query).then(function(response) {
@@ -55,13 +56,18 @@ module("sos1617-12-app").controller("ScopusIntegrationCtrl", ["$scope", "$http",
         affil = universities[i];
         query = "?query=affil(" + encodeURI(affil) + ")&apiKey=" + scopusApikey;
         $http.get("https://api.elsevier.com/content/search/scopus" + query).then(function(response) {
+            if (scopusPubs.some(function(sp){
+                return sp.pubs == undefined;
+            })){
+                setTimeout(function(){return;}, 5000)
+            }
             var uni = response.data["search-results"]["opensearch:Query"]["@searchTerms"];
             scopusPubs.push({
                 "university": uni.slice(6,uni.length -1),
                 "pubs": response.data["search-results"]["opensearch:totalResults"]
             });
-            console.log(scopusPubs);
             var publicationData = [];
+            console.log(scopusPubs);
             universities.forEach(function(u){
                 var npubs = scopusPubs.filter(function(scp){
                     return scp.university == u;
