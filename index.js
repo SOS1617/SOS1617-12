@@ -33,6 +33,10 @@ var fs = require("./fs-stats.js");
 
 fs.register_fs_api(app);
 
+var fs1 = require("./fs-stats-v1.js");
+
+fs1.register_fs_api_v1(app);
+
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////API ACADEMIC RANKINGS STATS ////////////////////////////
 
