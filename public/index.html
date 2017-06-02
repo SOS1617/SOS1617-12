@@ -1,49 +1,189 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="sos1617-12-app">
 
 <head>
-    <title>SOS1617-12</title>
-    <link crossorigin="anonymous" href="https://assets-cdn.github.com/assets/frameworks-19e26a1cefb5f1e92203a9468134dbf46b5a5308aeeeee09c96b32fec8c8b044.css" integrity="sha256-GeJqHO+18ekiA6lGgTTb9GtaUwiu7u4JyWsy/sjIsEQ=" media="all" rel="stylesheet" />
-    <link crossorigin="anonymous" href="https://assets-cdn.github.com/assets/github-6e46848b9151bfa04d623b47259e046f4f53d69ec2053c55cf72d88707c43dfc.css" integrity="sha256-bkaEi5FRv6BNYjtHJZ4Eb09T1p7CBTxVz3LYhwfEPfw=" media="all" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SOS1617-12 App</title>
+    <meta name="description" content="Analysis of the relationship between the level of investment in R & D and education, 
+    the spread of free software by universities and position of universities in the ranking of Shanghai. 
+    Project registered in the course of Service Oriented Systems (Sistemas Orientados a Servicios) (2016/2017) 
+    at Univeristy of Sevilla">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="ars-manager/ars-manager.css">
+    <link rel="stylesheet" href="/bower_components/vis/dist/vis.min.css" type="text/css" />
+    <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-route/angular-route.min.js"></script>
+    <!-- Charts scripts -->
+        <!-- Common charts -->
+    <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <!-- EChart -->
+
+    <script type="text/javascript" src="/integrations/ar/echarts.min.js"></script>
+
+
+    <!-- App scripts -->
+    <script type="text/javascript" src="sos1617-12-app.js"></script>
+    <script type="text/javascript" src="/ars-manager/ars-ctrl.js"></script>
+    <script type="text/javascript" src="/ars-manager/ars-edit-ctrl.js"></script>
+    <script type="text/javascript" src="/es-manager/js/es-ctrl.js"></script>
+    <script type="text/javascript" src="/es-manager/js/es-edit-ctrl.js"></script>
+    <script type="text/javascript" src="/fss-manager/fss-ctrl.js"></script>
+    <script type="text/javascript" src="/fss-manager/fss-edit-ctrl.js"></script>
+    
+    <!-- integrations Scripts -->
+    <script type="text/javascript" src="/integrations/ar/ar-geo.js"></script>
+    <script type="text/javascript" src="/integrations/ar/ar-highcharts.js"></script>
+    <script type="text/javascript" src="/integrations/ar/echarts.js"></script>
+    <script type="text/javascript" src="/integrations/ar/pisa_integration.js"></script>
+    <script type="text/javascript" src="/integrations/ar/ec_sit.js"></script>
+    
+    <script src='https://cdn.zingchart.com/zingchart.min.js'></script>
+    <script type="text/javascript" src="/integrations/es/es_geochart.js"></script>
+    <script type="text/javascript" src="/integrations/es/es_highcharts.js"></script>
+    <script type="text/javascript" src="/integrations/es/es_highchartsRemote.js"></script>
+    <script type="text/javascript" src="/integrations/es/es_highchartsRemoteProxy.js"></script>
+    <script type="text/javascript" src="/integrations/es/es_highchartsRemoteSpotify.js"></script>
+    <script type="text/javascript" src="/integrations/es/es_mashapes.js"></script>
+
+
+    
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script type="text/javascript" src="/integrations/es/es_d3.js"></script>
+    <script type="text/javascript" src="https://d3js.org/d3.v4.js"></script>
+
+<!--   <script type="text/javascript" src="/bower_components/d3.chart.layout.hierarchy/d3.chart.layout.hierarchy.min.js"></script> -->
+<!--    <script type="text/javascript" src="/bower_components/d3.chart/d3.chart.min.js"></script> -->
+
+    <script type="text/javascript" src="/integrations/fs/fs-geochart.js"></script>
+    <script type="text/javascript" src="/integrations/fs/fs-highcharts.js"></script>
+    <script type="text/javascript" src="/integrations/fs/fs-chartjs.js"></script>
+    <script type="text/javascript" src="/integrations/fs/fs-integrations.js"></script>
+    <script type="text/javascript" src="/bower_components/chart.js/dist/Chart.min.js"></script>
+    <script type="text/javascript" src="/integrations/fs/fs-gdp-remote.js"></script>
+    <script type="text/javascript" src="/integrations/fs/fs-olive-proxy.js"></script>
+
+    <!-- Integrationss Scripts -->
+    <script type="text/javascript" src="/integrations/ar/scopus_int.js"></script>
+    <script type="text/javascript" src="/integrations/ar/poblacion.js"></script>
+    <script type="text/javascript" src="/bower_components/vis/dist/vis-graph3d.min.js"></script>
+    <script type="text/javascript" src="/bower_components/vis/dist/vis.min.js"></script>
+    <script type="text/javascript" src="/analytics/analytics.js"></script>
+
+    
 </head>
 
 <body>
-    <div id="readme" class="readme boxed-group clearfix announce instapaper_body md">
-        <article class="markdown-body entry-content" itemprop="text">
-            <h1>
-                Investment in R & D, free software in the university and ranking of universities.
-            </h1>
-            <h4>Project registered in the course of <strong>Service Oriented Systems (Sistemas Orientados a Servicios)</strong> (2016/2017) at <a href="http://www.us.es">Univeristy of Sevilla</a></h4>
-            <dl>
-                <dt><strong>Project description</strong>:</dt>
-                <dd> Analysis of the relationship between the level of investment in R &amp; D and education, the spread of free software by universities and position of universities in the ranking of Shanghai.</dd>
-            </dl>
-            <hr>
-            <ul>
-                <li><a href="https://sos1617-12.herokuapp.com/api/v1/tests" target="_blank"><strong>Tests</strong></a></li>
-                <li><strong>Repository</strong>: <a href="https://github.com/SOS1617/SOS1617-12" target="_blank">SOS1617/SOS1617-12</a></li>
-                <li><strong>Team</strong>
-                    <ul>
-                        <li><a href="https://github.com/jomaher" target="_blank"><strong>José Manuel Hernández Hermida</strong></a></li>
-                        <dl>
-                            <dt><a href="https://sos1617-12.herokuapp.com/api/v1/academic-rankings-stats?apikey=018d375e" target="_blank"><strong>Data source:</strong></a></dt>
-                            <dd><strong>academic-rankings-stats</strong>: Positions in academic rankings of spanish universities.</dd>
-                        </dl>
-                        <li><a href="https://github.com/heliogm1" target="_blank"><strong>Heliodoro García Mora</strong></a></li>
-                        <dl>
-                            <dt><a href="https://sos1617-12.herokuapp.com/api/v1/free-software-stats?apikey=1234" target="_blank"><strong>Data source:</strong></a></dt>
-                            <dd><strong>free-software-stats</strong>: The spread of free software by spanish universities.</dd>
-                        </dl>
-                        <li><a href="https://github.com/adrianviljur" target="_blank"><strong>Adrian Vilaseco Jurado</strong></a></li>
-                        <dl>
-                            <dt><a href="https://sos1617-12.herokuapp.com/api/v1/economics-stats?apikey=123456789" target="_blank"><strong>Data source:</strong></a></dt>
-                            <dd><strong>academic-rankings-stats</strong>: Level of investment in R&amp;D and education in Spain by provinces.</dd>
-                        </dl>
-                    </ul>
-                </li>
-            </ul>
-        </article>
-    </div>
-</body>
+    <header>
+        <div class="container-fluid">
+            <h3>
+                <strong>Investment in R & D, free software in the university and ranking of universities.</strong>
+            </h3>
+            <h5>Project registered in the course of <strong>Service Oriented Systems (Sistemas Orientados a Servicios)</strong> (2016/2017) at <a href="http://www.us.es">Univeristy of Sevilla</a></h5>
+        </div>
+    </header>
+    <nav class="navbar navbar-default">
+        <div>
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li role="presentation"><a href="/"><strong>Home</strong></a></li>
+                    <li role="presentation" class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <strong>Data Sources</strong>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li role="presentation">
+                                <a href="https://sos1617-12.herokuapp.com/api/v1/academic-rankings-stats?apikey=018d375e" target="_blank">
+                                    Academic Rankings Stats &nbsp;
+                                    <span class="glyphicon glyphicon-new-window"></span>
+                                    </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="https://sos1617-12.herokuapp.com/api/v2/economics-stats?apikey=123456789" target="_blank">
+                                    Economics Stats &nbsp;
+                                    <span class="glyphicon glyphicon-new-window"></span>
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="https://sos1617-12.herokuapp.com/api/v3/free-software-stats" target="_blank">
+                                    Free Software Stats &nbsp;
+                                    <span class="glyphicon glyphicon-new-window"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li role="presentation" class"dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <strong>Data Managers</strong>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li role="presentation">
+                                <a href="#!/arsman">Academic Rankings Manager</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#!/esman">Economic Stats Manager</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#!/fssman">Free Software Stats Manager</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li role="presentation" class"dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <strong>Team</strong>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li role="presentation">
+                                <a href="https://github.com/adrianviljur" target="_blank">Adrián Villaseco Jurado &nbsp;
+                                    <span class="glyphicon glyphicon-new-window"></span>
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="https://github.com/heliogm1" target="_blank">Heliodoro García Mora &nbsp;
+                                    <span class="glyphicon glyphicon-new-window"></span>
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href="https://github.com/jomaher" target="_blank">José Manuel Hernández Hermida &nbsp;
+                                    <span class="glyphicon glyphicon-new-window"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li role="presentation"><a href="/#!/integrations"><strong>Integration</strong></a></li>
+                    <li role="presentation"><a href="/#!/governance"><strong>Governance</strong></a></li>
+                    <li role="presentation"><a href="/#!/analytics"><strong>Analytics</strong></a></li>
+                    <li role="presentation"><a href="/#!/about"><strong>About</strong></a></li>
+                </ul>
+            </div>
+    </nav>
 
-</html>
+    <div ng-view>
+    </div>
+    <footer>
+        <div class="container-fluid">
+            <p class="pull-right">&copy;&nbsp;
+                <a class="" href="http://opera.eii.us.es/sos/public/grupo/ver/id/107" target="_blank">
+                Group 12 of the course Service Oriented Systems (Sistemas Orientados a Servicios) (2016/2017)
+                </a></p>
+        </div>
+    </footer>
+</body>

@@ -6,13 +6,14 @@ var dateFormat = require('dateformat');
 var path = require("path");
 var bodyParser = require("body-parser");
 var helmet = require("helmet");
+var cors = require("cors");
 
 var port = (process.env.PORT || 8095);
 var BASE_API_PATH = "/api/v1";
 
 var app = express();
 
-app.use(bodyParser.json()); //use default json enconding/decoding
+app.use(bodyParser.json(),cors()); //use default json enconding/decoding
 app.use(helmet()); //improve security
 
 app.get(BASE_API_PATH + "/tests", (req, res) => {
@@ -32,16 +33,18 @@ var fs = require("./fs-stats.js");
 
 fs.register_fs_api(app);
 
+var fs1 = require("./fs-stats-v1.js");
+
+fs1.register_fs_api_v1(app);
+
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////API ACADEMIC RANKINGS STATS ////////////////////////////
 
 var ars = require('./ar-stats');
-
 ars.register_AR_api(app);
 
-
-
-
+var ars2 = require('./ar-stats-v2');
+ars2.register_AR_api_v2(app);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 

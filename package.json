@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "git add .; git commit -m 'Automatic deploy to Heroku'; git push https:\/\/git.heroku.com/sos1617-12.git +HEAD:master"
+    "deploy": "git add .; git commit -m 'Automatic deploy to Heroku'; git push https://git.heroku.com/sos1617-12.git +HEAD:master"
   },
   "repository": {
     "type": "git",
@@ -20,9 +20,13 @@
   "homepage": "https://github.com/SOS1617/SOS1617-12#readme",
   "dependencies": {
     "body-parser": "^1.17.1",
+    "cors": "^2.8.3",
     "dateformat": "^2.0.0",
     "express": "^4.15.2",
     "helmet": "^3.5.0",
-    "mongodb": "^2.2.25"
+    "mongodb": "^2.2.25",
+    "phantomjs": "^2.1.7",
+    "request": "^2.81.0",
+    "x-editable": "^1.5.1"
   }
 }

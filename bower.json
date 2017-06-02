@@ -1,0 +1,17 @@
+{
+  "name": "sos1617-12",
+  "description": "Express server for F02",
+  "main": "index.js",
+  "authors": [
+    "@jomaher"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/SOS1617/SOS1617-12",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,7 +1,8 @@
 var MongoClientAR = require('mongodb').MongoClient;
 var mdbesURLAR = "mongodb://adrviljur:adrviljur@ds139370.mlab.com:39370/sandboxdb-adrviljur";
-var BASE_API_PATH = "/api/v1";
+var BASE_API_PATH = "/api/v2";
 var dbes;
+var request = require("request");
 
 module.exports.register_AR_api = function(app) {
 
@@ -18,12 +19,19 @@ module.exports.register_AR_api = function(app) {
 
 
     function comprobarAPIKEY(apikey){
-        if (apikey != 123456789){
-            return false;
-        }else{
             return true;
-        }
     }
+
+    //GET External data by Proxy G08 - Gender Victim in Spain
+    var obj;
+    app.get("/serieExterna", (req, res) => {
+            
+         request('http://sos1617-08.herokuapp.com/api/v1/victims?apikey=hf5HF86KvZ', function (error, response, body) {
+                     obj = response.body;
+                     res.send(obj);
+                });
+    });
+    
 
     //Load Initial Data
     app.get(BASE_API_PATH + "/economics-stats/loadInitialData", function(request, response) {
@@ -42,50 +50,78 @@ module.exports.register_AR_api = function(app) {
                 "province": "Sevilla",
                 "year": 2009,
                 "expensive_peu": 1831040,
-                "expensive_id": 1726765,
+                "expensive_id": 17,
                 "employers_id": 24767
             },
             {
                 "province": "Sevilla",
                 "year": 2008,
                 "expensive_peu": 1831040,
-                "expensive_id": 1726765,
+                "expensive_id": 17,
                 "employers_id": 24767
             },
             {
                 "province": "Sevilla",
                 "year": 2007,
                 "expensive_peu": 1831040,
-                "expensive_id": 1726765,
+                "expensive_id": 11,
                 "employers_id": 24767
             },
             {
                 "province": "Sevilla",
                 "year": 2006,
                 "expensive_peu": 1831040,
-                "expensive_id": 1726765,
+                "expensive_id": 7,
                 "employers_id": 24767
             },
             {
                 "province": "Valencia",
                 "year": 2008,
                 "expensive_peu": 216369,
-                "expensive_id": 226156,
+                "expensive_id": 22,
                 "employers_id": 3577
             },
             {
                 "province": "Madrid",
                 "year": 2007,
                 "expensive_peu": 1646351,
-                "expensive_id": 3584130,
+                "expensive_id": 35,
                 "employers_id": 49973
             },
             {
+                "province": "Murcia",
+                "year": 2007,
+                "expensive_peu": 5541,
+                "expensive_id": 4,
+                "employers_id": 822421
+            },
+            {
+                "province": "Malaga",
+                "year": 2009,
+                "expensive_peu": 56455,
+                "expensive_id": 21,
+                "employers_id": 8521
+            },
+            {
                 "province": "Barcelona",
+                "year": 2002,
+                "expensive_peu": 5453455,
+                "expensive_id": 43,
+                "employers_id": 82342341
+            },
+            {
+                "province": "Tarragona",
                 "year": 2008,
                 "expensive_peu": 541125,
-                "expensive_id": 41522,
-                "employers_id": 8521
+                "expensive_id": 10,
+                "employers_id": 221
+            },
+            {
+                "province": "Lugo",
+                "year": 2010,
+                "expensive_peu": 12335,
+                "expensive_id": 11,
+                "employers_id": 6761
             }];
                 dbes.insert(initialStats);
                 response.sendStatus(201);
@@ -100,9 +136,8 @@ module.exports.register_AR_api = function(app) {
     //GET a collection
     app.get(BASE_API_PATH + "/economics-stats", function(request, response) {
         console.log("INFO: New GET request to /economics-stats");
-        
         // Comprobación de APIKEY
-        if (request.query.apikey == null){
+        if (request.query.apikey == ""){
             response.sendStatus(401);
             console.log("INFO: APIKEY unprovided");
             return;
@@ -161,8 +196,7 @@ module.exports.register_AR_api = function(app) {
 
     //GET a single resource
     app.get(BASE_API_PATH + "/economics-stats/:province/:year", function(request, response) {
-                // Comprobación de APIKEY
-                if (request.query.apikey == null){
+                if (request.query.apikey === ""){
                     response.sendStatus(401);
                     console.log("INFO: APIKEY unprovided");
                     return;
@@ -264,8 +298,6 @@ module.exports.register_AR_api = function(app) {
                 
     });
     
-    
-
     //POST over a collection
     app.post(BASE_API_PATH + "/economics-stats", function(request, response) {
                 // Comprobación de APIKEY

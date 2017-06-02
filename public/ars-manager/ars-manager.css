@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+
+.table > tbody > tr:hover {
+	background-color: #f2f2f2;
+	cursor: pointer;
+}
+
+.pagination > li {
+	cursor: pointer;
+}
+
+.glyphicon-trash {
+	color: #ff0000;
+}
+
+header, footer, footer a:hover, footer a:visited, footer a, 
+header a, header a:hover, header a:visited {
+	padding: 5px;
+	color: #ffffff;
+	background-color: rgb(0,50,110);
+}
+
+header {
+	margin-bottom: 0px;
+}
+
+footer {
+	margin-top: 5px;
+}
+
+.manager-title {
+	color: rgb(0, 50, 110);
+	margin-top: 0;
+}
+
+@media (min-width: 768px) {
+	header, footer {
+		padding: 10px;
+	}
+	header {
+		margin-bottom: 0px;
+	}
+	footer {
+		margin-top: 10px;
+	}
+}

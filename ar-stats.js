@@ -1,4 +1,5 @@
 var MongoClientAR = require('mongodb').MongoClient;
+var reqq = require("request");
 var mdbfsURLAR = "mongodb://sos1617-12:academic@ds137530.mlab.com:37530/academic-ranking-stats";
 var BASE_API_PATH = "/api/v1";
 var dbar;
@@ -23,7 +24,7 @@ module.exports.register_AR_api = function(app) {
 
     //Load Initial Data
     app.get(BASE_API_PATH + "/academic-rankings-stats/loadInitialData", function(request, response) {
-        
+
         /////////////// APIKEY CHECKING ////////////////////
         if (request.query.apikey) {
             if (!check_apikey(request.query.apikey)) {
@@ -38,7 +39,7 @@ module.exports.register_AR_api = function(app) {
             return;
         }
         //////////////////////////////////////////////////
-        
+
         dbar.find({}).toArray(function(err, stats) {
             console.log('INFO: Initialiting DB...');
 
@@ -51,29 +52,641 @@ module.exports.register_AR_api = function(app) {
                 console.log('INFO: Empty DB, loading initial data');
 
                 var initialStats = [{
-                    "university": "Universidad de Sevilla",
-                    "year": 2016,
-                    "province": "Sevilla",
+                    "year": 2014,
+                    "province": "Barcelona",
+                    "university": "Universidad politécnica de Cataluña",
                     "world_position": 401,
-                    "country_position": 15
+                    "country_position": 9
                 }, {
-                    "university": "Universidad de Granada",
-                    "year": 2016,
+                    "year": 2014,
+                    "province": "A Coruña",
+                    "university": "Universidad de Santiago Compostela",
+                    "world_position": 426,
+                    "country_position": 10
+                }, {
+                    "year": 2014,
+                    "province": "Vizcaya",
+                    "university": "Universidad del Pais Vasco",
+                    "world_position": 451,
+                    "country_position": 11
+                }, {
+                    "year": 2014,
+                    "province": "Zaragoza",
+                    "university": "Universidad de Zaragoza",
+                    "world_position": 478,
+                    "country_position": 12
+                }, {
+                    "year": 2015,
+                    "province": "Barcelona",
+                    "university": "Universidad de Barcelona",
+                    "world_position": 151,
+                    "country_position": 1
+                }, {
+                    "year": 2015,
+                    "province": "Barcelona",
+                    "university": "Universidad autónoma de Barcelona",
+                    "world_position": 201,
+                    "country_position": 2
+                }, {
+                    "year": 2015,
+                    "province": "Madrid",
+                    "university": "Universidad autónoma de Madrid",
+                    "world_position": 231,
+                    "country_position": 3
+                }, {
+                    "year": 2015,
+                    "province": "Madrid",
+                    "university": "Universidad complutense de Madrid",
+                    "world_position": 263,
+                    "country_position": 4
+                }, {
+                    "year": 2015,
+                    "province": "Barcelona",
+                    "university": "Universidad Pompeu Fabra",
+                    "world_position": 284,
+                    "country_position": 5
+                }, {
+                    "year": 2015,
+                    "province": "Valencia",
+                    "university": "Universidad politécnica de Valencia",
+                    "world_position": 301,
+                    "country_position": 6
+                }, {
+                    "year": 2015,
                     "province": "Granada",
-                    "world_position": 450,
-                    "country_position": 22
+                    "university": "Universidad de Granada",
+                    "world_position": 335,
+                    "country_position": 7
                 }, {
-                    "university": "Universidad de Sevilla",
+                    "year": 2015,
+                    "province": "Valencia",
+                    "university": "Universidad de Valencia",
+                    "world_position": 370,
+                    "country_position": 8
+                }, {
+                    "year": 2015,
+                    "province": "Barcelona",
+                    "university": "Universidad politécnica de Cataluña",
+                    "world_position": 401,
+                    "country_position": 9
+                }, {
+                    "year": 2015,
+                    "province": "A Coruña",
+                    "university": "Universidad de Santiago Compostela",
+                    "world_position": 419,
+                    "country_position": 10
+                }, {
                     "year": 2015,
                     "province": "Sevilla",
-                    "world_position": 405,
-                    "country_position": 18
+                    "university": "Universidad de Sevilla",
+                    "world_position": 443,
+                    "country_position": 11
                 }, {
-                    "university": "Universidad de Granada",
                     "year": 2015,
+                    "province": "Vizcaya",
+                    "university": "Universidad del Pais Vasco",
+                    "world_position": 466,
+                    "country_position": 12
+                }, {
+                    "year": 2015,
+                    "province": "Zaragoza",
+                    "university": "Universidad de Zaragoza",
+                    "world_position": 492,
+                    "country_position": 13
+                }, {
+                    "year": 2016,
+                    "province": "Barcelona",
+                    "university": "Universidad de Barcelona",
+                    "world_position": 151,
+                    "country_position": 1
+                }, {
+                    "year": 2016,
+                    "province": "Madrid",
+                    "university": "Universidad autónoma de Madrid",
+                    "world_position": 201,
+                    "country_position": 2
+                }, {
+                    "year": 2016,
                     "province": "Granada",
-                    "world_position": 436,
-                    "country_position": 19
+                    "university": "Universidad de Granada",
+                    "world_position": 258,
+                    "country_position": 3
+                }, {
+                    "year": 2016,
+                    "province": "Barcelona",
+                    "university": "Universidad autónoma de Barcelona",
+                    "world_position": 301,
+                    "country_position": 4
+                }, {
+                    "year": 2016,
+                    "province": "Madrid",
+                    "university": "Universidad complutense de Madrid",
+                    "world_position": 318,
+                    "country_position": 5
+                }, {
+                    "year": 2016,
+                    "province": "Barcelona",
+                    "university": "Universidad politécnica de Cataluña",
+                    "world_position": 336,
+                    "country_position": 6
+                }, {
+                    "year": 2016,
+                    "province": "Valencia",
+                    "university": "Universidad politécnica de Valencia",
+                    "world_position": 361,
+                    "country_position": 7
+                }, {
+                    "year": 2016,
+                    "province": "Barcelona",
+                    "university": "Universidad Pompeu Fabra",
+                    "world_position": 372,
+                    "country_position": 8
+                }, {
+                    "year": 2016,
+                    "province": "A Coruña",
+                    "university": "Universidad de Santiago Compostela",
+                    "world_position": 396,
+                    "country_position": 9
+                }, {
+                    "year": 2016,
+                    "province": "Vizcaya",
+                    "university": "Universidad del Pais Vasco",
+                    "world_position": 401,
+                    "country_position": 10
+                }, {
+                    "year": 2016,
+                    "province": "Valencia",
+                    "university": "Universidad de Valencia",
+                    "world_position": 453,
+                    "country_position": 11
+                }, {
+                    "year": 2016,
+                    "province": "Tarragona",
+                    "university": "Universidad Rovira i Virgili",
+                    "world_position": 498,
+                    "country_position": 12
+                }, {
+                    "year": 2007,
+                    "province": "Barcelona",
+                    "university": "Universidad de Barcelona",
+                    "world_position": 151,
+                    "country_position": 1
+                }, {
+                    "year": 2007,
+                    "province": "Madrid",
+                    "university": "Universidad autónoma de Madrid",
+                    "world_position": 203,
+                    "country_position": 2
+                }, {
+                    "year": 2007,
+                    "province": "Madrid",
+                    "university": "Universidad complutense de Madrid",
+                    "world_position": 237,
+                    "country_position": 3
+                }, {
+                    "year": 2007,
+                    "province": "Valencia",
+                    "university": "Universidad de Valencia",
+                    "world_position": 271,
+                    "country_position": 4
+                }, {
+                    "year": 2007,
+                    "province": "Barcelona",
+                    "university": "Universidad autónoma de Barcelona",
+                    "world_position": 305,
+                    "country_position": 5
+                }, {
+                    "year": 2007,
+                    "province": "Valencia",
+                    "university": "Universidad politécnica de Valencia",
+                    "world_position": 355,
+                    "country_position": 6
+                }, {
+                    "year": 2007,
+                    "province": "Granada",
+                    "university": "Universidad de Granada",
+                    "world_position": 403,
+                    "country_position": 7
+                }, {
+                    "year": 2007,
+                    "province": "Sevilla",
+                    "university": "Universidad de Sevilla",
+                    "world_position": 451,
+                    "country_position": 8
+                }, {
+                    "year": 2007,
+                    "province": "Zaragoza",
+                    "university": "Universidad de Zaragoza",
+                    "world_position": 500,
+                    "country_position": 9
+                }, {
+                    "year": 2008,
+                    "province": "Barcelona",
+                    "university": "Universidad de Barcelona",
+                    "world_position": 152,
+                    "country_position": 1
+                }, {
+                    "year": 2008,
+                    "province": "Madrid",
+                    "university": "Universidad autónoma de Madrid",
+                    "world_position": 201,
+                    "country_position": 2
+                }, {
+                    "year": 2008,
+                    "province": "Madrid",
+                    "university": "Universidad complutense de Madrid",
+                    "world_position": 251,
+                    "country_position": 3
+                }, {
+                    "year": 2008,
+                    "province": "Barcelona",
+                    "university": "Universidad autónoma de Barcelona",
+                    "world_position": 303,
+                    "country_position": 4
+                }, {
+                    "year": 2008,
+                    "province": "Valencia",
+                    "university": "Universidad politécnica de Valencia",
+                    "world_position": 351,
+                    "country_position": 5
+                }, {
+                    "year": 2008,
+                    "province": "Valencia",
+                    "university": "Universidad de Valencia",
+                    "world_position": 395,
+                    "country_position": 6
+                }, {
+                    "year": 2008,
+                    "province": "Granada",
+                    "university": "Universidad de Granada",
+                    "world_position": 402,
+                    "country_position": 7
+                }, {
+                    "year": 2008,
+                    "province": "Sevilla",
+                    "university": "Universidad de Sevilla",
+                    "world_position": 437,
+                    "country_position": 8
+                }, {
+                    "year": 2008,
+                    "province": "Zaragoza",
+                    "university": "Universidad de Zaragoza",
+                    "world_position": 475,
+                    "country_position": 9
+                }, {
+                    "year": 2009,
+                    "province": "Barcelona",
+                    "university": "Universidad de Barcelona",
+                    "world_position": 152,
+                    "country_position": 1
+                }, {
+                    "year": 2009,
+                    "province": "Madrid",
+                    "university": "Universidad autónoma de Madrid",
+                    "world_position": 201,
+                    "country_position": 2
+                }, {
+                    "year": 2009,
+                    "province": "Madrid",
+                    "university": "Universidad complutense de Madrid",
+                    "world_position": 249,
+                    "country_position": 3
+                }, {
+                    "year": 2009,
+                    "province": "Valencia",
+                    "university": "Universidad de Valencia",
+                    "world_position": 282,
+                    "country_position": 4
+                }, {
+                    "year": 2009,
+                    "province": "Barcelona",
+                    "university": "Universidad autónoma de Barcelona",
+                    "world_position": 303,
+                    "country_position": 5
+                }, {
+                    "year": 2009,
+                    "province": "Valencia",
+                    "university": "Universidad politécnica de Valencia",
+                    "world_position": 353,
+                    "country_position": 6
+                }, {
+                    "year": 2009,
+                    "province": "Granada",
+                    "university": "Universidad de Granada",
+                    "world_position": 402,
+                    "country_position": 7
+                }, {
+                    "year": 2009,
+                    "province": "Barcelona",
+                    "university": "Universidad Pompeu Fabra",
+                    "world_position": 427,
+                    "country_position": 8
+                }, {
+                    "year": 2009,
+                    "province": "A Coruña",
+                    "university": "Universidad de Santiago Compostela",
+                    "world_position": 456,
+                    "country_position": 9
+                }, {
+                    "year": 2009,
+                    "province": "Sevilla",
+                    "university": "Universidad de Sevilla",
+                    "world_position": 475,
+                    "country_position": 10
+                }, {
+                    "year": 2009,
+                    "province": "Zaragoza",
+                    "university": "Universidad de Zaragoza",
+                    "world_position": 500,
+                    "country_position": 11
+                }, {
+                    "year": 2010,
+                    "province": "Madrid",
+                    "university": "Universidad autónoma de Madrid",
+                    "world_position": 201,
+                    "country_position": 1
+                }, {
+                    "year": 2010,
+                    "province": "Madrid",
+                    "university": "Universidad complutense de Madrid",
+                    "world_position": 230,
+                    "country_position": 2
+                }, {
+                    "year": 2010,
+                    "province": "Barcelona",
+                    "university": "Universidad de Barcelona",
+                    "world_position": 260,
+                    "country_position": 3
+                }, {
+                    "year": 2010,
+                    "province": "Valencia",
+                    "university": "Universidad de Valencia",
+                    "world_position": 290,
+                    "country_position": 4
+                }, {
+                    "year": 2010,
+                    "province": "Barcelona",
+                    "university": "Universidad autónoma de Barcelona",
+                    "world_position": 301,
+                    "country_position": 5
+                }, {
+                    "year": 2010,
+                    "province": "Valencia",
+                    "university": "Universidad politécnica de Valencia",
+                    "world_position": 335,
+                    "country_position": 6
+                }, {
+                    "year": 2010,
+                    "province": "Barcelona",
+                    "university": "Universidad Pompeu Fabra",
+                    "world_position": 370,
+                    "country_position": 7
+                }, {
+                    "year": 2010,
+                    "province": "Granada",
+                    "university": "Universidad de Granada",
+                    "world_position": 401,
+                    "country_position": 8
+                }, {
+                    "year": 2010,
+                    "province": "A Coruña",
+                    "university": "Universidad de Santiago Compostela",
+                    "world_position": 456,
+                    "country_position": 9
+                }, {
+                    "year": 2010,
+                    "province": "Zaragoza",
+                    "university": "Universidad de Zaragoza",
+                    "world_position": 495,
+                    "country_position": 10
+                }, {
+                    "year": 2011,
+                    "province": "Madrid",
+                    "university": "Universidad autónoma de Madrid",
+                    "world_position": 201,
+                    "country_position": 1
+                }, {
+                    "year": 2011,
+                    "province": "Madrid",
+                    "university": "Universidad complutense de Madrid",
+                    "world_position": 232,
+                    "country_position": 2
+                }, {
+                    "year": 2011,
+                    "province": "Barcelona",
+                    "university": "Universidad de Barcelona",
+                    "world_position": 261,
+                    "country_position": 3
+                }, {
+                    "year": 2011,
+                    "province": "Valencia",
+                    "university": "Universidad de Valencia",
+                    "world_position": 290,
+                    "country_position": 4
+                }, {
+                    "year": 2011,
+                    "province": "Barcelona",
+                    "university": "Universidad autónoma de Barcelona",
+                    "world_position": 301,
+                    "country_position": 5
+                }, {
+                    "year": 2011,
+                    "province": "Valencia",
+                    "university": "Universidad politécnica de Valencia",
+                    "world_position": 352,
+                    "country_position": 6
+                }, {
+                    "year": 2011,
+                    "province": "Granada",
+                    "university": "Universidad de Granada",
+                    "world_position": 401,
+                    "country_position": 7
+                }, {
+                    "year": 2011,
+                    "province": "Barcelona",
+                    "university": "Universidad Pompeu Fabra",
+                    "world_position": 422,
+                    "country_position": 8
+                }, {
+                    "year": 2011,
+                    "province": "A Coruña",
+                    "university": "Universidad de Santiago Compostela",
+                    "world_position": 445,
+                    "country_position": 9
+                }, {
+                    "year": 2011,
+                    "province": "Pontevedra",
+                    "university": "Universidad de Vigo",
+                    "world_position": 468,
+                    "country_position": 10
+                }, {
+                    "year": 2011,
+                    "province": "Zaragoza",
+                    "university": "Universidad de Zaragoza",
+                    "world_position": 495,
+                    "country_position": 11
+                }, {
+                    "year": 2012,
+                    "province": "Madrid",
+                    "university": "Universidad autónoma de Madrid",
+                    "world_position": 201,
+                    "country_position": 1
+                }, {
+                    "year": 2012,
+                    "province": "Madrid",
+                    "university": "Universidad complutense de Madrid",
+                    "world_position": 235,
+                    "country_position": 2
+                }, {
+                    "year": 2012,
+                    "province": "Barcelona",
+                    "university": "Universidad de Barcelona",
+                    "world_position": 269,
+                    "country_position": 3
+                }, {
+                    "year": 2012,
+                    "province": "Barcelona",
+                    "university": "Universidad autónoma de Barcelona",
+                    "world_position": 301,
+                    "country_position": 4
+                }, {
+                    "year": 2012,
+                    "province": "Valencia",
+                    "university": "Universidad politécnica de Valencia",
+                    "world_position": 324,
+                    "country_position": 5
+                }, {
+                    "year": 2012,
+                    "province": "Vizcaya",
+                    "university": "Universidad del Pais Vasco",
+                    "world_position": 348,
+                    "country_position": 6
+                }, {
+                    "year": 2012,
+                    "province": "Valencia",
+                    "university": "Universidad de Valencia",
+                    "world_position": 372,
+                    "country_position": 7
+                }, {
+                    "year": 2012,
+                    "province": "Granada",
+                    "university": "Universidad de Granada",
+                    "world_position": 401,
+                    "country_position": 8
+                }, {
+                    "year": 2012,
+                    "province": "Barcelona",
+                    "university": "Universidad Pompeu Fabra",
+                    "world_position": 426,
+                    "country_position": 9
+                }, {
+                    "year": 2012,
+                    "province": "Pontevedra",
+                    "university": "Universidad de Vigo",
+                    "world_position": 452,
+                    "country_position": 10
+                }, {
+                    "year": 2012,
+                    "province": "Zaragoza",
+                    "university": "Universidad de Zaragoza",
+                    "world_position": 485,
+                    "country_position": 11
+                }, {
+                    "year": 2013,
+                    "province": "Barcelona",
+                    "university": "Universidad autónoma de Barcelona",
+                    "world_position": 201,
+                    "country_position": 1
+                }, {
+                    "year": 2013,
+                    "province": "Madrid",
+                    "university": "Universidad autónoma de Madrid",
+                    "world_position": 224,
+                    "country_position": 2
+                }, {
+                    "year": 2013,
+                    "province": "Madrid",
+                    "university": "Universidad complutense de Madrid",
+                    "world_position": 248,
+                    "country_position": 3
+                }, {
+                    "year": 2013,
+                    "province": "Barcelona",
+                    "university": "Universidad de Barcelona",
+                    "world_position": 272,
+                    "country_position": 4
+                }, {
+                    "year": 2013,
+                    "province": "Valencia",
+                    "university": "Universidad politécnica de Valencia",
+                    "world_position": 301,
+                    "country_position": 5
+                }, {
+                    "year": 2013,
+                    "province": "Granada",
+                    "university": "Universidad de Granada",
+                    "world_position": 339,
+                    "country_position": 6
+                }, {
+                    "year": 2013,
+                    "province": "Barcelona",
+                    "university": "Universidad Pompeu Fabra",
+                    "world_position": 372,
+                    "country_position": 7
+                }, {
+                    "year": 2013,
+                    "province": "Valencia",
+                    "university": "Universidad de Valencia",
+                    "world_position": 396,
+                    "country_position": 8
+                }, {
+                    "year": 2013,
+                    "province": "Vizcaya",
+                    "university": "Universidad del Pais Vasco",
+                    "world_position": 401,
+                    "country_position": 9
+                }, {
+                    "year": 2013,
+                    "province": "Zaragoza",
+                    "university": "Universidad de Zaragoza",
+                    "world_position": 461,
+                    "country_position": 10
+                }, {
+                    "year": 2014,
+                    "province": "Barcelona",
+                    "university": "Universidad de Barcelona",
+                    "world_position": 151,
+                    "country_position": 1
+                }, {
+                    "year": 2014,
+                    "province": "Barcelona",
+                    "university": "Universidad autónoma de Barcelona",
+                    "world_position": 201,
+                    "country_position": 2
+                }, {
+                    "year": 2014,
+                    "province": "Madrid",
+                    "university": "Universidad autónoma de Madrid",
+                    "world_position": 247,
+                    "country_position": 3
+                }, {
+                    "year": 2014,
+                    "province": "Valencia",
+                    "university": "Universidad de Valencia",
+                    "world_position": 276,
+                    "country_position": 4
+                }, {
+                    "year": 2014,
+                    "province": "Madrid",
+                    "university": "Universidad complutense de Madrid",
+                    "world_position": 301,
+                    "country_position": 5
+                }, {
+                    "year": 2014,
+                    "province": "Valencia",
+                    "university": "Universidad politécnica de Valencia",
+                    "world_position": 323,
+                    "country_position": 6
                 }];
                 dbar.insert(initialStats);
                 response.sendStatus(201);
@@ -102,7 +715,7 @@ module.exports.register_AR_api = function(app) {
             return;
         }
         //////////////////////////////////////////////////
-        
+
         qlimit = 0;
         qoffset = 0;
         var oquery = {};
@@ -161,7 +774,7 @@ module.exports.register_AR_api = function(app) {
             return;
         }
         //////////////////////////////////////////////////
-        
+
         var university = request.params.university;
         var year = Number(request.params.year);
         if (!university && !year) {
@@ -214,7 +827,7 @@ module.exports.register_AR_api = function(app) {
             return;
         }
         //////////////////////////////////////////////////
-        
+
         var param0 = request.params.param0;
         var query = request.query;
         console.log("INFO: New GET request to /academic-rankings-stats/" + param0);
@@ -440,11 +1053,12 @@ module.exports.register_AR_api = function(app) {
                         response.sendStatus(500); // internal server error
                     }
                     else {
-                        if (statsBeforeInsertion._id !== updatedStat._id) {
-                            console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) +
-                                " has not equal id than aupdated stat, sending 400...");
-                            response.sendStatus(400); // bad request
-                        }
+                        // if (statsBeforeInsertion[0]._id != updatedStat._id) {
+                        //     console.log("WARNING: The stat " + JSON.stringify(updatedStat, 2, null) +
+                        //         " has not equal id than updated stat, sending 400...");
+                        //     response.sendStatus(400); // bad request
+                        //     return;
+                        // }
                         if (statsBeforeInsertion.length > 0) {
                             dbar.updateOne({
                                 "university": university,
@@ -652,5 +1266,33 @@ module.exports.register_AR_api = function(app) {
         }
     });
 
-    console.log("Registered API academic-rankings-stats");
+    app.use(BASE_API_PATH + "/pisa", function(request, response) {
+        request.pipe(
+            reqq("https://sos1617-03.herokuapp.com/api/v2/results/?apikey=apisupersecreta", (error, resp, body) => {
+                if (error) {
+                    console.log('error:', error); // Print the error if one occurred 
+                    response.sendStatus(503);
+                }
+                console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+                console.log('body:', body); // Print the HTML for the Goog
+            })).pipe(response);
+
+    });
+
+    app.use(BASE_API_PATH + "/poblacion/:year", function(request, response) {
+            var year = request.params.year;
+            var q = "?date=" + year + "0601:" + year + "0831";
+            console.log("INFO: New request to /poblacion/" + q);
+            request.pipe(
+                reqq("http://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/9687" + q, (error, resp, body) => {
+                    if (error) {
+                        console.log('error:', error); // Print the error if one occurred 
+                        response.sendStatus(503);
+                    }
+                    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received 
+                })).pipe(response);
+    });
+
+
+console.log("Registered API academic-rankings-stats");
 };

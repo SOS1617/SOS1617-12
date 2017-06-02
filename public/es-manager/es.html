@@ -1,0 +1,65 @@
+<div class="container">
+<table class="table">
+      <thead>
+            <tr>
+                  <td><center><h1>Economics-stats</h1><br>
+                  Apikey: <input ng-change="retrieveList()" ng-model="apikey" maxlength="9" size="9" /></center></td>
+            </tr>
+            <tr>
+                  <td>Buscar: <input ng-change="searchByProvince()" class="form-control" placeholder="province..." ng-model="provinceToSearch"/></td>
+            </tr>
+      </thead>
+</table>
+<center><h1>{{statSuccess}}</h1></center>
+<table class="table table-hover">
+      <thead>
+            <tr>
+                  <td>Province: </td>
+                  <td>Year: </td>
+                  <td>Expensive PEU: </td>
+                  <td>Expensive I+D: </td>
+                  <td>Employers I+D: </td>
+            </tr>
+            <tr>
+                  <td><input class="form-control" ng-model="newStat.province"/></td>
+                  <td><input class="form-control" ng-model="newStat.year"/></td>
+                  <td><input class="form-control" ng-model="newStat.expensive_peu"/></td>
+                  <td><input class="form-control" ng-model="newStat.expensive_id"/></td>
+                  <td><input class="form-control" ng-model="newStat.employers_id"/></td>
+                  <td><button id="addButton" ng-click="addStat()" class="btn btn-primary">Add</button></td>
+            </tr>
+      </thead> 
+      <tbody>
+            <tr ng-repeat="stat in stats"> 
+                  <td>{{stat.province}}</td>
+                  <td>{{stat.year}}</td>
+                  <td>{{stat.expensive_peu}}</td>
+                  <td>{{stat.expensive_id}}</td>
+                  <td>{{stat.employers_id}}</td>
+                  <td><a href="#!/edit_es/{{stat.province}}/{{stat.year}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                  <td><span ng-click="deleteStat(stat.province,stat.year)" class="glyphicon glyphicon-trash"></span></td>
+            </tr>
+      </tbody>    
+</table>
+<table class="table">
+      <tr>
+            <td>                        
+                  <ul class="pagination">
+                          <button ng-disabled="currentPage == 1" ng-click="previousPage()">Previous</button>
+                          <button ng-click="goingTo($index)" ng-repeat="page in arrayPages">{{page}}</button>
+                          <button ng-disabled="currentPage >= pages" ng-click="nextPage()">Next</button>
+                          -  Página {{currentPage}}/{{pages}}
+                  </ul>
+            </td>
+            <td>
+	<select id="size-select" ng-model="size"
+	class="form-control" ng-change="changeSizeList();">
+		<option>5</option>
+		<option value="10" selected>10</option>
+		<option>15</option>
+</select> results per page.
+      </tr>
+</table>
+<div><center><h2>{{apikeyWarning}}</h2><h2>{{emptySearch}}</h2><br><button ng-click="deleteStats()" class="btn btn-danger">Delete All Stats</button>  <button ng-click="loadInitialData()" class="btn btn-info">loadInitialData</button></center></div>
+
+</div>

@@ -1,0 +1,26 @@
+{
+  "name": "public",
+  "homepage": "",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.4",
+    "bootstrap": "^3.3.7",
+    "echarts": "^3.5.4",
+    "d3": "^4.8.0",
+    "angular-d3-hierarchy": "*",
+    "chart.js": "^2.5.0",
+    "vis": "^4.20.0"
+  },
+  "resolutions": {
+    "d3": "~3.3.11"
+  }
+}

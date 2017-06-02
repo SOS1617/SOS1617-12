@@ -1,0 +1,103 @@
+<div class="container-fluid">
+    <h1 class="manager-title">Entertaiment Mashape Apis (Have Fun!)</h1>
+    <div>
+        <h3>01. Walt Whitman Poems</h3>
+        <button type="button" class="btn btn-primary" ng-click="getPoem()">Get Poem</button>
+
+        <h4 class="manager-title"><strong>Tittle: </strong>{{poem.title}}</h3>
+            <pre>{{poem.text}}</pre>
+    </div>
+
+    <div>
+        <h3>02. Random Movie Quote</h3>
+        <button type="button" class="btn btn-primary" ng-click="getQuote()">Get Random Quote</button>
+
+        <h4 class="manager-title"><strong>Movie: </strong>{{quote.author}}</h3>
+            <pre>{{quote.quote}}</pre>
+    </div>
+
+    <div>
+        <h3>03. Love Calculator</h3>
+        <input placeholder="First Name" class="form-control" ng-model="fname" />
+        <input placeholder="Second Name" class="form-control" ng-model="sname" />
+        <button type="button" class="btn btn-info" ng-click="getLove()">Get Love %</button>
+
+        <h4>Love percentage: {{love.percentage}}%: {{love.result}}</h4>
+    </div>
+
+    <div>
+        <h3>04. Robohash Image Generator</h3>
+        <input placeholder="Enter any text" class="form-control" ng-model="roboText" />
+        <button type="button" class="btn btn-info" ng-click="getRobot()">Get Robot</button>
+        <img src={{robot.imageUrl}}>
+    </div>
+
+    <div>
+        <h3>05. Poetry DB</h3>
+        <button type="button" class="btn btn-primary" ng-click="getWSPoem()">Get W.Shakespeare Poem</button>
+
+        <h4 class="manager-title"><strong>Tittle: </strong>{{wsPoem.title}}</h3>
+            <ul>
+                <li ng-repeat="line in wsPoem.lines  track by $index">{{wsPoem.lines[$index]}}</li>
+            </ul>
+    </div>
+
+
+    <div>
+        <h3>06. WikiHow</h3>
+        <input placeholder="Number of steps" class="form-control" ng-model="steps" />
+        <button type="button" class="btn btn-info" ng-click="getSteps()">Get Steps</button>
+        <ul>
+            <li ng-repeat="step in howTo track by $index">{{$index+1}}: {{howTo[$index+1]}}</li>
+        </ul>
+    </div>
+
+    <div>
+        <h3>07. Fancy Text</h3>
+        <input placeholder="Text" class="form-control" ng-model="text" />
+        <button type="button" class="btn btn-info" ng-click="getFancyText()">Get Fancy tex</button>
+        <h3><strong>{{fancyText.fancytext}}</strong></h4>
+    </div>
+
+    <div>
+        <h3>08. Chuck Norris</h3>
+        <button type="button" class="btn btn-primary" ng-click="getNorris()">Get Random Joke</button>
+        <!--<img src={{norris.icon_url}}>-->
+        <pre>{{norris.value}}</pre>
+    </div>
+
+
+    <div>
+        <h3>09. Tronald Dump</h3>
+        <button type="button" class="btn btn-primary" ng-click="getTronald()">Get Random Quote</button>
+        <pre>{{tronald.value}}</pre>
+    </div>
+
+
+    <div>
+        <h3>10. Latest Browsers Versions</h3>
+        <button type="button" class="btn btn-info" ng-click="getBrowser()">Get Browsers Versions</button>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Chrome</th>
+                    <th>Firefox</th>
+                    <th>Edge</th>
+                    <th>Safari</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{browser.versions.chrome}}</td>
+                    <td>{{browser.versions.firefox}}</td>
+                    <td>{{browser.versions.edge}}</td>
+                    <td>{{browser.versions.safari}}</td>
+
+                </tr>
+            </tbody>
+    </div>
+
+
+
+
+</div>
